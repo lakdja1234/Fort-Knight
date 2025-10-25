@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bmwhid2ntfoue"]
+
+[node name="배경화면" type="ParallaxBackground"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
