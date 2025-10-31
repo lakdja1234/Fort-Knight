@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://cu0pyimcljt1u"]
+
+[ext_resource type="Script" uid="uid://dcmih4iwygvbp" path="res://스테이지2/explosion.gd" id="1_m5xho"]
+[ext_resource type="Texture2D" uid="uid://bloer1h7xfplx" path="res://캐릭터/tank_explosion2.png" id="2_kmxf7"]
+[ext_resource type="Texture2D" uid="uid://depin075hhxco" path="res://캐릭터/tank_explosion3.png" id="3_l04k4"]
+[ext_resource type="Texture2D" uid="uid://dg6hntdh7sot8" path="res://캐릭터/tank_explosion4.png" id="4_cf70p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3xjsk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kmxf7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_l04k4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cf70p")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gjpps"]
+radius = 35.014282
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_m5xho")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3xjsk")
+frame = 2
+frame_progress = 1.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_gjpps")

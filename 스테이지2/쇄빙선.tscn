@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://baj1om8s8mxju"]
+
+[ext_resource type="Script" uid="uid://bspyxkrsell0d" path="res://스테이지2/쇄빙선.gd" id="1_a0gi5"]
+[ext_resource type="Texture2D" uid="uid://dmmamr5c8sdat" path="res://캐릭터/쇄빙선-Photoroom.png" id="1_akxky"]
+[ext_resource type="Script" uid="uid://b77v4l88eee7d" path="res://스테이지2/온열장치.gd" id="2_3g1fb"]
+[ext_resource type="Texture2D" uid="uid://dpes6b57ixr5p" path="res://스테이지2/온열(꺼짐)-Photoroom.png" id="2_a65gr"]
+[ext_resource type="Texture2D" uid="uid://dhkma8wjhq68n" path="res://스테이지2/온열-Photoroom.png" id="2_h2aor"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h2aor"]
+radius = 58.00862
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a65gr"]
+radius = 59.008472
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h2aor"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_akxky")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="쇄빙선" type="CharacterBody2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_a0gi5")
+
+[node name="온열장치_앞" type="Area2D" parent="."]
+position = Vector2(-409.33334, 24.666668)
+scale = Vector2(0.06666668, 0.06666668)
+script = ExtResource("2_3g1fb")
+texture_off = ExtResource("2_a65gr")
+
+[node name="Sprite2D" type="Sprite2D" parent="온열장치_앞"]
+scale = Vector2(0.9999998, 0.9999998)
+texture = ExtResource("2_h2aor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="온열장치_앞"]
+position = Vector2(0, 5)
+scale = Vector2(4.9999986, 4.9999986)
+shape = SubResource("CircleShape2D_h2aor")
+
+[node name="온열장치_뒤" type="Area2D" parent="."]
+position = Vector2(-438.56284, 26.428051)
+scale = Vector2(1.97531e-05, 1.97531e-05)
+script = ExtResource("2_3g1fb")
+texture_off = ExtResource("2_a65gr")
+
+[node name="Sprite2D" type="Sprite2D" parent="온열장치_뒤"]
+position = Vector2(21358478, -9707914)
+scale = Vector2(3374.9978, 3374.9978)
+texture = ExtResource("2_h2aor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="온열장치_뒤"]
+position = Vector2(21358478, -9707914)
+scale = Vector2(16874.988, 16874.988)
+shape = SubResource("CircleShape2D_a65gr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.99999994, 0.99999994)
+sprite_frames = SubResource("SpriteFrames_h2aor")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-30.00001, 1.3333359)
+scale = Vector2(0.9999999, 0.9999999)
+polygon = PackedVector2Array(-438.66675, 37.66667, -365.66672, 146.66669, 459.66678, 157.00002, 502.00012, 55.666676, 98.00003, 11.666667, 29.000017, -177.00005, -103.66667, -2.3333364)
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(-162.33333, -73.333336)
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[node name="HomingMissileTimer" type="Timer" parent="."]
+wait_time = 4.0
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
