@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-const ProjectileScene = preload("res://포탄.tscn")
-const WarningScene = preload("res://warning_indicator.tscn")
+const ProjectileScene = preload("res://스테이지2/포탄.tscn")
+const WarningScene = preload("res://스테이지2/warning_indicator.tscn")
 
 var player: CharacterBody2D = null
 const PROJECTILE_SPEED = 600.0

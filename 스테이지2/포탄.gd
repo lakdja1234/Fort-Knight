@@ -5,9 +5,9 @@ extends RigidBody2D
 # 폭발 반경 변수 추가 (인스펙터에서 조절 가능)
 @export var explosion_radius: float = 300.0 # 기본 반경 50 픽셀
 # 폭발 씬을 미리 로드
-const ExplosionScene = preload("res://explosion.tscn")
+const ExplosionScene = preload("res://스테이지2/explosion.tscn")
 # WarningIndicator 씬 로드
-const WarningScene = preload("res://warning_indicator.tscn")
+const WarningScene = preload("res://스테이지2/warning_indicator.tscn")
 
 func _ready():
 	# 이 노드를 "projectiles" 그룹에 추가합니다.
