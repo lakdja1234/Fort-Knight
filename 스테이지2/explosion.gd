@@ -52,4 +52,4 @@ func apply_area_damage():
 		# 대상에게 'take_damage' 함수가 있는지 확인하고 호출
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
-			print(body.name + "에게 폭발 데미지 " + str(damage) + " 적용!")
+			# print(body.name + "에게 폭발 데미지 " + str(damage) + " 적용!")

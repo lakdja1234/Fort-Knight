@@ -27,4 +27,4 @@ sprite_frames = SubResource("SpriteFrames_1ad07")
 shape = SubResource("CircleShape2D_ncq5b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.3, 0.3)
+zoom = Vector2(0.1, 0.1)

@@ -17,7 +17,7 @@ func _ready():
 
 # ✅ 1. 외부에서 반경 값을 받아 크기를 조절하는 함수 추가
 func set_radius(radius: float):
-	print("set_radius 호출됨! 전달받은 radius:", radius) # <-- 디버깅용 print 추가
+	# print("set_radius 호출됨! 전달받은 radius:", radius)
 	if base_size <= 0:
 		printerr("경고 표시의 base_size는 0보다 커야 합니다!")
 		return

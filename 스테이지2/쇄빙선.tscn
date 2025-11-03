@@ -27,10 +27,11 @@ animations = [{
 scale = Vector2(3, 3)
 script = ExtResource("1_a0gi5")
 
-[node name="온열장치_앞" type="Area2D" parent="."]
+[node name="온열장치_앞" type="Area2D" parent="." groups=["heaters"]]
 position = Vector2(-409.33334, 24.666668)
 scale = Vector2(0.06666668, 0.06666668)
 script = ExtResource("2_3g1fb")
+debug_action_name = "debug_damage_heatsink_1"
 texture_off = ExtResource("2_a65gr")
 
 [node name="Sprite2D" type="Sprite2D" parent="온열장치_앞"]
@@ -42,10 +43,11 @@ position = Vector2(0, 5)
 scale = Vector2(4.9999986, 4.9999986)
 shape = SubResource("CircleShape2D_h2aor")
 
-[node name="온열장치_뒤" type="Area2D" parent="."]
+[node name="온열장치_뒤" type="Area2D" parent="." groups=["heaters"]]
 position = Vector2(-438.56284, 26.428051)
 scale = Vector2(1.97531e-05, 1.97531e-05)
 script = ExtResource("2_3g1fb")
+debug_action_name = "debug_damage_heatsink_2"
 texture_off = ExtResource("2_a65gr")
 
 [node name="Sprite2D" type="Sprite2D" parent="온열장치_뒤"]
@@ -65,10 +67,13 @@ sprite_frames = SubResource("SpriteFrames_h2aor")
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(-30.00001, 1.3333359)
 scale = Vector2(0.9999999, 0.9999999)
-polygon = PackedVector2Array(-438.66675, 37.66667, -365.66672, 146.66669, 459.66678, 157.00002, 502.00012, 55.666676, 98.00003, 11.666667, 29.000017, -177.00005, -103.66667, -2.3333364)
+polygon = PackedVector2Array(-438.66675, 37.66667, -441.3334, 149.33336, 459.66678, 157.00002, 502.00012, 55.666676, 98.00003, 11.666667, 29.000017, -177.00005, -103.66667, -2.3333364)
 
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(-162.33333, -73.333336)
+
+[node name="HomingMuzzle" type="Marker2D" parent="."]
+position = Vector2(-248, -20)
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 4.0
@@ -76,5 +81,12 @@ autostart = true
 
 [node name="HomingMissileTimer" type="Timer" parent="."]
 wait_time = 4.0
+autostart = true
 
+[node name="OverheatDamageTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="heat_sink_destroyed" from="온열장치_앞" to="." method="_on_heat_sink_destroyed"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="HomingMissileTimer" to="." method="_on_homing_missile_timer_timeout"]
+[connection signal="timeout" from="OverheatDamageTimer" to="." method="_on_overheat_damage_timer_timeout"]
