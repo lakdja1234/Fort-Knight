@@ -103,10 +103,9 @@ func _on_body_entered(body: Node):
 	# --- ✅ 로직 수정 끝 ---
 		
 	call_deferred("create_explosion")
-<<<<<<< Updated upstream:스테이지2/homing_missile.gd
-=======
+
 	# queue_free()는 create_explosion 함수 내부에서 처리
->>>>>>> Stashed changes:homing_missile.gd
+
 
 
 func create_explosion():

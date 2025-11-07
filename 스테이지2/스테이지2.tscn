@@ -6,12 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://013k5t8auqat" path="res://스테이지2/sand.png" id="3_r81n0"]
 [ext_resource type="Script" uid="uid://vqvurpqtxk0f" path="res://스테이지2/tile_map.gd" id="4_0f3da"]
 [ext_resource type="PackedScene" uid="uid://b3pvmx7jf58ma" path="res://캐릭터/Player.tscn" id="4_krlra"]
-<<<<<<< Updated upstream
-[ext_resource type="PackedScene" uid="uid://bf8bw4agvcrxp" path="res://스테이지2/Heater.tscn" id="6_r81n0"]
-=======
+
 [ext_resource type="PackedScene" uid="uid://bf8bw4agvcrxp" path="res://Heater.tscn" id="6_r81n0"]
 [ext_resource type="PackedScene" uid="uid://bmwhid2ntfoue" path="res://배경화면/배경화면.tscn" id="7_krlra"]
->>>>>>> Stashed changes
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dhuxn"]
 texture = ExtResource("2_0f3da")
@@ -147,11 +144,8 @@ sources/5 = SubResource("TileSetAtlasSource_03b5r")
 
 [node name="스테이지2" type="Node2D"]
 
-<<<<<<< Updated upstream
-[node name="배경화면" parent="." instance=ExtResource("1_krlra")]
-=======
 [node name="스테이지2_배경화면" parent="." instance=ExtResource("7_krlra")]
->>>>>>> Stashed changes
+
 
 [node name="쇄빙선" parent="." instance=ExtResource("1_t4bt1")]
 position = Vector2(2753, 144)
