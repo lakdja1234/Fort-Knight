@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmwhid2ntfoue"]
+
+[ext_resource type="Texture2D" uid="uid://dohnm7kkevjtm" path="res://Gemini_Generated_Image_redo96redo96redo.png" id="1_p63s2"]
+
+[node name="배경화면" type="ParallaxBackground"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+position = Vector2(176.49997, -267)
+scale = Vector2(6.875976, 1.7656251)
+texture = ExtResource("1_p63s2")
