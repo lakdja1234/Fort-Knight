@@ -104,8 +104,7 @@ func _on_body_entered(body: Node):
 			
 	# --- ✅ 로직 수정 끝 ---
 		
-	create_explosion()
-	# queue_free()는 create_explosion 함수 내부에서 처리
+	call_deferred("create_explosion")
 
 
 func create_explosion():
@@ -116,7 +115,7 @@ func create_explosion():
 	if explosion.has_method("set_radius"):
 		explosion.set_radius(explosion_radius)
 
-	queue_free()
+	call_deferred("queue_free")
 
 
 # --- 외부에서 크기를 설정하는 함수 추가 ---

@@ -38,24 +38,12 @@ var player: CharacterBody2D = null
 
 
 func _ready():
-	# (기존 _ready 함수 내용과 동일 - 수정 불필요)
-	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	player = get_tree().get_first_node_in_group("player")
-	homing_missile_timer.timeout.connect(_on_homing_missile_timer_timeout)
 	overheat_timer.timeout.connect(_on_overheat_timer_timeout)
 	var heaters = get_tree().get_nodes_in_group("heaters")
 	total_heat_sinks = heaters.size()
 	if total_heat_sinks == 0:
 		printerr("경고: 'heaters' 그룹에 온열장치가 없습니다!")
-	for heater in heaters:
-		if heater.has_signal("heat_sink_destroyed"):
-			heater.heat_sink_destroyed.connect(_on_heat_sink_destroyed)
-		else:
-			printerr("오류:", heater.name, "에 heat_sink_destroyed 시그널이 없습니다.")
-		if heater.has_signal("spawn_wall_requested"):
-			heater.spawn_wall_requested.connect(_on_spawn_wall_requested)
-		else:
-			printerr("오류:", heater.name, "에 spawn_wall_requested 시그널이 없습니다.")	
 	print("보스 준비 완료. 총 온열장치 개수:", total_heat_sinks)
 	
 

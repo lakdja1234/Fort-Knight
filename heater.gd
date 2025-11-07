@@ -14,9 +14,6 @@ func _ready():
 	# "map_heaters" 그룹에 자신을 추가
 	add_to_group("map_heaters")
 	
-	# WarmAura의 시그널 연결
-	warm_aura.body_entered.connect(_on_warm_aura_body_entered)
-	warm_aura.body_exited.connect(_on_warm_aura_body_exited)
 	
 	# 시작 상태는 '꺼짐'
 	turn_off()

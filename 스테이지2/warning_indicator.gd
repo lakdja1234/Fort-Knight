@@ -9,8 +9,6 @@ extends Node2D
 @export var base_size: float = 1024.0
 
 func _ready():
-	# Timer의 timeout 시그널을 _on_timer_timeout 함수에 연결
-	timer.timeout.connect(_on_timer_timeout)
 	
 	# 시작 시 투명도 설정 (예: 50% 반투명)
 	visual_node.modulate.a = 0.5
