@@ -44,14 +44,11 @@ func _ready():
 	total_heat_sinks = heaters.size()
 	if total_heat_sinks == 0:
 		printerr("경고: 'heaters' 그룹에 온열장치가 없습니다!")
-<<<<<<< Updated upstream
-=======
 	for heater in heaters:
 		if heater.has_signal("spawn_wall_requested"):
 			heater.spawn_wall_requested.connect(_on_spawn_wall_requested)
 		else:
 			printerr("오류:", heater.name, "에 spawn_wall_requested 시그널이 없습니다.")	
->>>>>>> Stashed changes
 	print("보스 준비 완료. 총 온열장치 개수:", total_heat_sinks)
 	
 
