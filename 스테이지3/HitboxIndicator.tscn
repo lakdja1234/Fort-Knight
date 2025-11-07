@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3j4k3l3j4k3"]
+
+[ext_resource type="Script" path="res://hitbox_indicator.gd" id="1_1"]
+[ext_resource type="Texture2D" uid="uid://cigu7x2g8f8g" path="res://Img/경고real-Photoroom.png" id="2_1"]
+
+[node name="HitboxIndicator" type="Area2D"]
+script = ExtResource("1_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1) # Red color for warning
+texture = ExtResource("2_1")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5 # WARNING_DURATION과 동일하게 설정
+one_shot = true
+autostart = true
