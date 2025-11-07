@@ -21,14 +21,6 @@ signal spawn_wall_requested
 # 이 Area2D의 Sprite2D 노드 경로 (에디터에서 설정)
 @onready var sprite: Sprite2D = $Sprite2D
 
-# ✅ 2. _process 함수로 디버그 입력 확인 (이전 _input 함수 대체)
-func _process(_delta):
-	# debug_action_name이 비어있지 않고, 해당 키가 눌렸는지 확인
-	if debug_action_name != "" and Input.is_action_just_pressed(debug_action_name):
-		if not is_destroyed:
-			print("--- (디버그 키 '%s' 입력) %s에 데미지 34 적용 ---" % [debug_action_name, name])
-			take_damage(34) # 예시: 34 데미지
-			
 			
 func _ready():
 	# ✅ 1. "heaters" 그룹에 자신을 추가
