@@ -70,8 +70,6 @@ func _physics_process(_delta):
 
 func _on_body_entered(body: Node):
 	
-	# --- ✅ 3. 수정된 충돌 로직 ---
-	
 	# 1. '방어벽'인지 확인
 	if body.is_in_group("wall"):
 		# 1a. 발사 주체가 'player' 그룹일 때만 데미지
@@ -105,6 +103,10 @@ func _on_body_entered(body: Node):
 	# --- ✅ 로직 수정 끝 ---
 		
 	call_deferred("create_explosion")
+<<<<<<< Updated upstream:스테이지2/homing_missile.gd
+=======
+	# queue_free()는 create_explosion 함수 내부에서 처리
+>>>>>>> Stashed changes:homing_missile.gd
 
 
 func create_explosion():

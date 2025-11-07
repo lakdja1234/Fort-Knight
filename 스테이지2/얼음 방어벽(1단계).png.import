@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddkx1v5vayv7o"
-path="res://.godot/imported/얼음 방어벽(3단계).png-f3f7383905b3f3187b7ff81fd70113de.ctex"
+uid="uid://bpem77djorkfn"
+path="res://.godot/imported/얼음 방어벽(1단계).png-c7cf3fbb7485d7f3f0a9b8c226e359da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://얼음 방어벽(3단계).png"
-dest_files=["res://.godot/imported/얼음 방어벽(3단계).png-f3f7383905b3f3187b7ff81fd70113de.ctex"]
+source_file="res://스테이지2/얼음 방어벽(1단계).png"
+dest_files=["res://.godot/imported/얼음 방어벽(1단계).png-c7cf3fbb7485d7f3f0a9b8c226e359da.ctex"]
 
 [params]
 

@@ -53,8 +53,6 @@ func set_projectile_scale(new_scale: Vector2):
 
 func _on_body_entered(body: Node):
 	
-	# --- ✅ 3. 수정된 충돌 로직 ---
-	
 	# 1. '방어벽'인지 확인
 	if body.is_in_group("wall"):
 		# 1a. 발사 주체가 'player' 그룹일 때만 데미지
@@ -86,7 +84,7 @@ func _on_body_entered(body: Node):
 			body.take_damage(damage) # 데미지 줌
 			
 		
-	create_explosion()
+	call_deferred("create_explosion")
 	# queue_free()는 create_explosion 함수 내부에서 처리
 
 ## 폭발 생성 함수 (body_entered 내부에서 호출)
@@ -105,7 +103,7 @@ func create_explosion():
 		explosion.set_radius(explosion_radius)
 
 	# 5. 포탄 자신은 소멸
-	queue_free()
+	call_deferred("queue_free")
 
 # ⚠️ 경고 생성 함수 (이 함수를 보스 스크립트 등이 호출하게 변경)
 func create_warning(target_pos: Vector2):

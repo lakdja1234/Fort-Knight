@@ -14,7 +14,10 @@ func _ready():
 	# "map_heaters" 그룹에 자신을 추가
 	add_to_group("map_heaters")
 	
+<<<<<<< Updated upstream:스테이지2/heater.gd
 	
+=======
+>>>>>>> Stashed changes:heater.gd
 	# 시작 상태는 '꺼짐'
 	turn_off()
 

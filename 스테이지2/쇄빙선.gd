@@ -10,8 +10,8 @@ var heat_sinks_destroyed = 0
 # --- 1. 발사체 정보 통합 ---
 const ProjectileScene = preload("res://스테이지2/포탄.tscn")
 const WarningScene = preload("res://스테이지2/warning_indicator.tscn")
-const HomingMissileScene = preload("res://homing_missile.tscn")
-const IceWallScene = preload("res://IceWall.tscn")
+const HomingMissileScene = preload("res://스테이지2/homing_missile.tscn")
+const IceWallScene = preload("res://스테이지2/iceWall.tscn")
 
 # 기본 공격 설정
 const BASIC_ATTACK_SPEED = 600.0
@@ -44,6 +44,14 @@ func _ready():
 	total_heat_sinks = heaters.size()
 	if total_heat_sinks == 0:
 		printerr("경고: 'heaters' 그룹에 온열장치가 없습니다!")
+<<<<<<< Updated upstream
+=======
+	for heater in heaters:
+		if heater.has_signal("spawn_wall_requested"):
+			heater.spawn_wall_requested.connect(_on_spawn_wall_requested)
+		else:
+			printerr("오류:", heater.name, "에 spawn_wall_requested 시그널이 없습니다.")	
+>>>>>>> Stashed changes
 	print("보스 준비 완료. 총 온열장치 개수:", total_heat_sinks)
 	
 

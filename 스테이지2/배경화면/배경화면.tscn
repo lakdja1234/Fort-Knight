@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmwhid2ntfoue"]
 
-[ext_resource type="Texture2D" uid="uid://ch4fc5146dvfn" path="res://Gemini_Generated_Image_redo96redo96redo.png" id="1_p63s2"]
+[ext_resource type="Texture2D" uid="uid://ch4fc5146dvfn" path="res://스테이지2/배경화면/Gemini_Generated_Image_redo96redo96redo.png" id="1_q8av4"]
 
 [node name="배경화면" type="ParallaxBackground"]
 
@@ -9,4 +9,4 @@
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
 position = Vector2(98.75003, -49.49997)
 scale = Vector2(6.5209956, 1.4423828)
-texture = ExtResource("1_p63s2")
+texture = ExtResource("1_q8av4")

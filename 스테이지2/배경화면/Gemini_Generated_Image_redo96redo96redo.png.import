@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyhocu162sq1s"
-path="res://.godot/imported/유도미사일.png-7ec91bdc319f82bcb4a350826a530e14.ctex"
+uid="uid://ch4fc5146dvfn"
+path="res://.godot/imported/Gemini_Generated_Image_redo96redo96redo.png-998ba02a2b0096a289b2c4a3663ee9e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://유도미사일.png"
-dest_files=["res://.godot/imported/유도미사일.png-7ec91bdc319f82bcb4a350826a530e14.ctex"]
+source_file="res://스테이지2/배경화면/Gemini_Generated_Image_redo96redo96redo.png"
+dest_files=["res://.godot/imported/Gemini_Generated_Image_redo96redo96redo.png-998ba02a2b0096a289b2c4a3663ee9e2.ctex"]
 
 [params]
 

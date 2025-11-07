@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bf8bw4agvcrxp"]
 
-[ext_resource type="Script" uid="uid://b4pmiw2gvbvyj" path="res://heater.gd" id="1_2yqpf"]
+[ext_resource type="Script" uid="uid://b4pmiw2gvbvyj" path="res://스테이지2/heater.gd" id="1_2yqpf"]
 [ext_resource type="Texture2D" uid="uid://dhkma8wjhq68n" path="res://스테이지2/온열-Photoroom.png" id="2_qkkn4"]
 [ext_resource type="Texture2D" uid="uid://dpes6b57ixr5p" path="res://스테이지2/온열(꺼짐)-Photoroom.png" id="3_r35o7"]
-[ext_resource type="Script" uid="uid://cae7qpypped5s" path="res://RangeVisual.gd" id="4_qkkn4"]
+[ext_resource type="Script" uid="uid://cae7qpypped5s" path="res://스테이지2/RangeVisual.gd" id="4_qkkn4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0mw7"]
 radius = 293.6818

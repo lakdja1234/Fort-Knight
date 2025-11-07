@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://bqahoo3bxy5gt"]
 
-[ext_resource type="Script" uid="uid://bguqisqlt650r" path="res://iceWall.gd" id="1_67nk5"]
-[ext_resource type="Texture2D" uid="uid://bpem77djorkfn" path="res://얼음 방어벽(1단계).png" id="2_b1mnt"]
-[ext_resource type="Texture2D" uid="uid://b55434yeumfvf" path="res://얼음 방어벽(2단계).png" id="3_1rmq6"]
-[ext_resource type="Texture2D" uid="uid://ddkx1v5vayv7o" path="res://얼음 방어벽(3단계).png" id="4_ymejr"]
-[ext_resource type="Texture2D" uid="uid://yng3iky7gegf" path="res://얼음 방어벽(4단계).png" id="5_3mlpa"]
+[ext_resource type="Script" uid="uid://bguqisqlt650r" path="res://스테이지2/iceWall.gd" id="1_67nk5"]
+[ext_resource type="Texture2D" uid="uid://bpem77djorkfn" path="res://스테이지2/얼음 방어벽(1단계).png" id="2_b1mnt"]
+[ext_resource type="Texture2D" uid="uid://b55434yeumfvf" path="res://스테이지2/얼음 방어벽(2단계).png" id="3_1rmq6"]
+[ext_resource type="Texture2D" uid="uid://ddkx1v5vayv7o" path="res://스테이지2/얼음 방어벽(3단계).png" id="4_ymejr"]
+[ext_resource type="Texture2D" uid="uid://yng3iky7gegf" path="res://스테이지2/얼음 방어벽(4단계).png" id="5_3mlpa"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_67nk5"]
 
