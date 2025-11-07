@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://c5cpcr1vn7hmy"]
+
+[ext_resource type="Script" uid="uid://bxis6yc67vvkq" path="res://Scenes/character_body_2d.gd" id="1_d5nm4"]
+[ext_resource type="Texture2D" uid="uid://bukhtr1t363nh" path="res://1stageboss.png" id="1_mv7mu"]
+[ext_resource type="PackedScene" uid="uid://u7kau5oe7and" path="res://Scenes/bullet.tscn" id="2_os032"]
+[ext_resource type="Texture2D" uid="uid://btmck14teqboj" path="res://bossttack.png" id="2_ygbg5"]
+[ext_resource type="PackedScene" uid="uid://ot0wlnpbe54q" path="res://Scenes/warning_indicator.tscn" id="3_7r65e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mv7mu"]
+size = Vector2(1128.2646, 672.35364)
+
+[sub_resource type="Animation" id="Animation_os032"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boss:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.033333335),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_mv7mu")]
+}
+
+[sub_resource type="Animation" id="Animation_d5nm4"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boss:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("1_mv7mu"), ExtResource("2_ygbg5"), ExtResource("1_mv7mu")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7r65e"]
+_data = {
+&"RESET": SubResource("Animation_os032"),
+&"attack": SubResource("Animation_d5nm4")
+}
+
+[node name="boss" type="Node2D"]
+
+[node name="bosstank" type="CharacterBody2D" parent="."]
+script = ExtResource("1_d5nm4")
+basic_bullet_scene = ExtResource("2_os032")
+warning_scene = ExtResource("3_7r65e")
+
+[node name="boss" type="Sprite2D" parent="bosstank"]
+scale = Vector2(0.21714762, 0.21714762)
+texture = ExtResource("1_mv7mu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bosstank"]
+position = Vector2(0.5, -3)
+scale = Vector2(0.21714762, 0.21714762)
+shape = SubResource("RectangleShape2D_mv7mu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="bosstank"]
+libraries = {
+&"": SubResource("AnimationLibrary_7r65e")
+}
+
+[node name="MuzzlePosition" type="Marker2D" parent="bosstank"]
+position = Vector2(-110, -47)
+
+[node name="AttackTimer" type="Timer" parent="bosstank"]
+wait_time = 7.0
+
+[node name="BurstTimer" type="Timer" parent="bosstank"]
