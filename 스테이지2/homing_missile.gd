@@ -3,7 +3,7 @@ extends RigidBody2D
 # --- 폭발 관련 변수 ---
 const ExplosionScene = preload("res://스테이지2/explosion.tscn")
 @export var damage: int = 15
-@export var explosion_radius: float = 200.0
+@export var explosion_radius: float = 150.0
 
 # --- 미사일 능력치 ---
 @export var speed: float = 600.0
@@ -69,6 +69,8 @@ func _physics_process(_delta):
 		
 
 func _on_body_entered(body: Node):
+	if body == shooter:
+		return
 	
 	# 1. '방어벽'인지 확인
 	if body.is_in_group("wall"):

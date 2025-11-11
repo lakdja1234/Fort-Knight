@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bcm8vy4livc0e"
-path="res://.godot/imported/CaveBG.png-dfded62bcb0eb4243d5899ce1be2eb98.ctex"
+path="res://.godot/imported/CaveBG.png-5535c2aeceef7a7376c8553f4898b24a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/mapImages/CaveBG.png"
-dest_files=["res://.godot/imported/CaveBG.png-dfded62bcb0eb4243d5899ce1be2eb98.ctex"]
+source_file="res://스테이지3/Img/mapImages/CaveBG.png"
+dest_files=["res://.godot/imported/CaveBG.png-5535c2aeceef7a7376c8553f4898b24a.ctex"]
 
 [params]
 

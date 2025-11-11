@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vtwj1vhdfswa"
-path="res://.godot/imported/background.png-3be5170936041863c98eb4d3f1d64703.ctex"
+path="res://.godot/imported/background.png-f7e80e0d5af92eb2b1fc7a7f76ba0ae3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/background.png"
-dest_files=["res://.godot/imported/background.png-3be5170936041863c98eb4d3f1d64703.ctex"]
+source_file="res://스테이지3/Img/background.png"
+dest_files=["res://.godot/imported/background.png-f7e80e0d5af92eb2b1fc7a7f76ba0ae3.ctex"]
 
 [params]
 

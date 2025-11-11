@@ -18,15 +18,18 @@ func _ready():
 	elif sprite.sprite_frames.has_animation("idle"):
 		sprite.play("idle")
 
+var is_destroyed = false
+
 # 4. 포탄이 호출할 데미지 함수
-func take_damage(amount: int):
-	if hp <= 0: # 이미 파괴 중이면 무시
+func take_damage(_amount: int):
+	if hp <= 0 or is_destroyed: # 이미 파괴 중이면 무시
 		return
 		
-	hp -= amount
+	hp -= 1
 	print("방어벽 HP:", hp)
 	
 	if hp <= 0:
+		is_destroyed = true
 		# (선택 사항) 파괴 애니메이션 재생
 		if sprite.sprite_frames.has_animation("destroy"):
 			sprite.play("destroy")

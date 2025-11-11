@@ -50,6 +50,23 @@ func _ready():
 		else:
 			printerr("오류:", heater.name, "에 spawn_wall_requested 시그널이 없습니다.")	
 	print("보스 준비 완료. 총 온열장치 개수:", total_heat_sinks)
+
+	# --- 온열장치와의 물리 충돌 방지 로직 ---
+	# 'heaters' 그룹에 있는 노드(온열장치)를 찾습니다.
+	var heaters_to_ignore = get_tree().get_nodes_in_group("heaters")
+	if not heaters_to_ignore.is_empty():
+		# 첫 번째 온열장치의 collision layer를 가져옵니다.
+		var heater_layer = heaters_to_ignore[0].get_collision_layer()
+		
+		# 현재 보스의 collision mask에서 온열장치의 layer를 제외합니다.
+		# (비트 연산: AND와 NOT을 사용하여 특정 비트를 끕니다)
+		set_collision_mask(get_collision_mask() & ~heater_layer)
+		print("보스: 온열장치와의 물리 충돌을 비활성화했습니다.")
+
+	# 유도 미사일 타이머는 시작 시 비활성화
+	homing_missile_timer.stop()
+
+
 	
 
 func _physics_process(delta):
@@ -143,8 +160,14 @@ func _calculate_target_position() -> Vector2:
 	var space_state = get_world_2d().direct_space_state
 	var ray_start = Vector2(base_target_position.x, -2000)
 	var ray_end = Vector2(base_target_position.x, 2000)
+	
+	# --- 온열장치를 레이캐스트에서 제외 ---
+	var heaters_to_exclude = get_tree().get_nodes_in_group("map_heaters")
 	var query = PhysicsRayQueryParameters2D.create(ray_start, ray_end)
 	query.collision_mask = 1
+	query.exclude = heaters_to_exclude # 제외할 노드 목록 설정
+	# --- 제외 로직 끝 ---
+
 	var result = space_state.intersect_ray(query)
 
 	if result:
@@ -170,6 +193,7 @@ func _spawn_warning_indicator(spawn_pos: Vector2, radius: float) -> Node:
 	# "position" 대신 "spawn_pos" 사용
 	var adjusted_warning_position = spawn_pos - Vector2(0, warning_height / 7.0)
 	warning.global_position = adjusted_warning_position
+	print("DEBUG: Warning Indicator Global Position: ", warning.global_position)
 
 	# 크기 설정
 	if warning.has_method("set_radius"):
@@ -231,10 +255,18 @@ func _fire_generic_projectile(
 		printerr("오류: Projectile 씬에 set_projectile_scale 함수가 없습니다!")
 
 
+
+
+
 # --- 온열장치가 파괴될 때마다 호출될 함수 ---
 func _on_heat_sink_destroyed():
 	heat_sinks_destroyed += 1
 	print("보스: 온열장치 파괴 감지! (%d / %d)" % [heat_sinks_destroyed, total_heat_sinks])
+
+	# 첫 번째 온열장치가 파괴되면 유도 미사일 패턴 활성화
+	if heat_sinks_destroyed == 1:
+		print("보스: 첫 온열장치 파괴! 유도 미사일 패턴을 시작합니다.")
+		homing_missile_timer.start()
 	
 	# 모든 온열장치가 파괴되었는지 확인
 	if heat_sinks_destroyed >= total_heat_sinks:

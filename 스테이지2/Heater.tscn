@@ -11,7 +11,7 @@ radius = 293.6818
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jo7i"]
 radius = 2265.1985
 
-[node name="Heater" type="StaticBody2D"]
+[node name="Heater" type="StaticBody2D" groups=["map_heaters"]]
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_2yqpf")
 texture_on = ExtResource("2_qkkn4")
@@ -24,6 +24,7 @@ texture = ExtResource("3_r35o7")
 shape = SubResource("CircleShape2D_n0mw7")
 
 [node name="WarmAura" type="Area2D" parent="."]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WarmAura"]
 shape = SubResource("CircleShape2D_0jo7i")

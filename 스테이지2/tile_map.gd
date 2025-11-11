@@ -36,6 +36,13 @@ func melt_ice_in_area(epicenter: Vector2, radius: float):
 			if tile_world_pos.distance_squared_to(to_local(epicenter)) <= radius_squared:
 				_melt_individual_tile(tile_coords)
 
+	# --- 주변 온열장치 켜는 로직 추가 ---
+	var heaters = get_tree().get_nodes_in_group("map_heaters")
+	for heater in heaters:
+		if heater.global_position.distance_to(epicenter) <= radius:
+			if heater.has_method("turn_on"):
+				heater.turn_on()
+
 # 4. '녹이기' 함수 (타이머 생성 로직 제거)
 func _melt_individual_tile(coords: Vector2i):
 	# 이미 녹아있는 타일인지 확인 (중복 방지)
@@ -72,18 +79,54 @@ func _on_refreeze_wind_timeout():
 	
 	# --- 모든 온열장치를 찾는 로직 추가 ---
 	# "heaters" 그룹에 속한 모든 노드를 가져옴
-	var heaters = get_tree().get_nodes_in_group("heaters")
+	var heaters = get_tree().get_nodes_in_group("map_heaters")
 	
 	for heater in heaters:
 		if heater.has_method("turn_off"):
 			heater.turn_off() # 모든 온열장치 끄기
 
-# 플레이어가 호출할 함수 (is_ice 확인용)
-func is_tile_ice(world_position: Vector2) -> bool:
+# 플레이어가 호출할 함수. 타일의 상태를 문자열로 반환합니다.
+func get_tile_freeze_type(world_position: Vector2) -> String:
 	var tile_coords = local_to_map(to_local(world_position))
-	var tile_data = get_cell_tile_data(tile_coords)
 	
-	if tile_data and tile_data.get_custom_data("is_ice") == true:
-		return true
-	else:
-		return false
+	# 1. 타일 데이터가 없으면 "NORMAL"
+	var tile_data = get_cell_tile_data(tile_coords)
+	if not tile_data:
+		return "NORMAL"
+		
+	# 2. 커스텀 데이터에 is_ice == true 이면 "ICE"
+	if tile_data.get_custom_data("is_ice") == true:
+		return "ICE"
+		
+	# 3. 녹은 타일 목록(melted_tiles)에 포함되어 있으면 "MELTED"
+	if melted_tiles.has(tile_coords):
+		return "MELTED"
+		
+	# 4. 그 외에는 모두 "NORMAL"
+	return "NORMAL"
+
+# 플레이어 노드를 직접 받아 발밑 타일 타입을 반환하는 새 함수
+func get_player_floor_type(player: CharacterBody2D) -> String:
+	# 플레이어로부터 CollisionShape2D 노드를 가져옴
+	var collision_shape = player.get_node_or_null("CollisionShape2D")
+	if not is_instance_valid(collision_shape):
+		return "NORMAL"
+
+	var floor_check_position = Vector2.ZERO
+	var player_global_pos = player.global_position
+	
+	# 플레이어의 충돌체 모양에 따라 발밑 위치 계산
+	if collision_shape.shape is CircleShape2D:
+		var radius = collision_shape.shape.radius
+		var shape_bottom_y = collision_shape.global_position.y + radius
+		floor_check_position = Vector2(player_global_pos.x, shape_bottom_y + 30)
+	elif collision_shape.shape is RectangleShape2D:
+		var half_height = collision_shape.shape.size.y / 2.0
+		var shape_bottom_y = collision_shape.global_position.y + half_height
+		floor_check_position = Vector2(player_global_pos.x, shape_bottom_y + 30)
+	
+	if floor_check_position == Vector2.ZERO:
+		return "NORMAL"
+		
+	# 계산된 위치를 사용하여 기존 함수 호출
+	return get_tile_freeze_type(floor_check_position)

@@ -11,7 +11,7 @@ func _ready():
 	$Sprite2D.light_mask = 1
 	$AnimationPlayer.play("blink")
 	if explosion_scene == null:
-		explosion_scene = load("res://explosion.tscn")
+		explosion_scene = load("res://스테이지2/explosion.tscn")
 
 func explode():
 	if explosion_scene:

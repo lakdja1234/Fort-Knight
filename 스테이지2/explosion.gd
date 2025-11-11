@@ -1,7 +1,7 @@
 extends Node2D
 
-# 인스펙터에서 폭발 피해량을 설정할 수 있도록 export
-@export var damage: int = 10 # 폭발 데미지
+# 포탄으로부터 데미지 값을 전달받을 변수
+var damage: int = 10 # 기본 데미지 10
 
 # 노드 참조 (씬 구조에 맞게 경로 수정 필요)
 @onready var animation_player: AnimatedSprite2D = $AnimatedSprite2D # AnimatedSprite2D 사용 시
@@ -14,9 +14,11 @@ extends Node2D
 
 func _ready():
 	# 1. 폭발 애니메이션/파티클 시작
-	animation_player.play("default") # AnimatedSprite2D 사용 시
+	animation_player.play("default")
 
-	# 2. 폭발 범위 내 객체들에게 데미지 주기
+	# 2. 물리 프레임을 한 번 기다린 후, 폭발 범위 내 객체들에게 데미지 주기
+	# 이를 통해 물리 엔진이 충돌을 감지할 시간을 확보합니다.
+	await get_tree().physics_frame
 	apply_area_damage()
 
 	# 3. 애니메이션/파티클 재생이 끝나면 스스로 소멸

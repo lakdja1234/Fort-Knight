@@ -38,14 +38,17 @@ func turn_off():
 	print("맵 온열장치: 꺼짐!")
 	is_on = false
 	sprite.texture = texture_off
+
+	# 플레이어가 범위를 벗어났다고 먼저 알림
+	for body in warm_aura.get_overlapping_bodies():
+		_on_warm_aura_body_exited(body)
+
+	# 그 다음에 모니터링을 끔
 	warm_aura.monitoring = false
 
 	# 범위 표시 끄기
 	if is_instance_valid(range_visual):
 		range_visual.hide_range()
-
-	for body in warm_aura.get_overlapping_bodies():
-		_on_warm_aura_body_exited(body)
 
 # --- Aura 시그널 함수 ---
 

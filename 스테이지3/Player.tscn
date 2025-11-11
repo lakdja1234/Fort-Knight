@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://pxqgegm6a54e"]
+[gd_scene load_steps=9 format=3 uid="uid://pxqgegm6a54e"]
 
-[ext_resource type="Script" uid="uid://dlns1ix5ixjpe" path="res://player.gd" id="1_kne1u"]
-[ext_resource type="Texture2D" uid="uid://ckuybkhj76utn" path="res://Img/tankImages/tanks_tankGreen_body3.png" id="2_e80uo"]
-[ext_resource type="Texture2D" uid="uid://dcir4ux0jsoml" path="res://Img/tankImages/tanks_turret2.png" id="3_cxr5p"]
+[ext_resource type="Script" uid="uid://dlns1ix5ixjpe" path="res://스테이지3/player.gd" id="1_kne1u"]
+[ext_resource type="Texture2D" uid="uid://ckuybkhj76utn" path="res://스테이지3/Img/tankImages/tanks_tankGreen_body3.png" id="2_e80uo"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="2_gk222"]
+[ext_resource type="Texture2D" uid="uid://dcir4ux0jsoml" path="res://스테이지3/Img/tankImages/tanks_turret2.png" id="3_cxr5p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
 size = Vector2(48, 24)
@@ -23,9 +24,9 @@ light_mode = 1
 collision_layer = 2
 collision_mask = 49
 script = ExtResource("1_kne1u")
+bullet_scene = ExtResource("2_gk222")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_tdg3f")
 one_way_collision = true
 
@@ -34,7 +35,6 @@ collision_layer = 2
 collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_tdg3f")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
@@ -55,7 +55,6 @@ texture = ExtResource("3_cxr5p")
 position = Vector2(29, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_e80uo")
 

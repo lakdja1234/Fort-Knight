@@ -1,4 +1,4 @@
-extends Area2D # 또는 온열장치의 기본 노드 타입
+extends StaticBody2D
 
 @export var debug_action_name: String = ""
 
@@ -7,6 +7,8 @@ extends Area2D # 또는 온열장치의 기본 노드 타입
 
 @export var hp: int = 100 # 온열장치의 현재 체력 (예시)
 var max_hp: int = 100 # 최대 체력 저장 변수
+
+var is_invincible: bool = false # 짧은 무적 상태를 관리할 플래그
 
 # 이미 파괴되었는지 확인하는 플래그
 var is_destroyed: bool = false
@@ -27,26 +29,23 @@ func _ready():
 	add_to_group("heaters")
 	max_hp = hp
 	
-	
-# 포탄 등 다른 객체와 충돌했을 때 호출되는 함수 (body_entered 시그널에 연결)
-func _on_body_entered(body):
-	# 이미 파괴되었거나, 들어온 것이 포탄이 아니면 무시
-	if is_destroyed or not body.is_in_group("projectiles"): 
-		return
-
-	# 포탄으로부터 데미지를 받는 로직 (예시)
-	take_damage(body.damage) # body(포탄)에 damage 변수가 있다고 가정
-
-	# 포탄은 소멸
-	body.queue_free()
-
-
 # 데미지를 받는 함수
 func take_damage(amount: int):
-	if is_destroyed:
+	# 이미 파괴되었거나, 짧은 무적 시간 중이면 데미지를 받지 않음
+	if is_destroyed or is_invincible:
 		return
-		
+	
+	# 무적 상태로 만들고 데미지 처리 시작
+	is_invincible = true
 	hp -= amount
+
+	# 데미지를 입었을 때 빨갛게 점멸하는 효과
+	var tween = create_tween().set_loops(2)
+	# 참고: 이 효과는 Sprite2D 노드에만 적용됩니다.
+	# 다른 종류의 노드(예: ColorRect)를 사용 중이라면 "modulate" 대신 다른 속성을 사용해야 할 수 있습니다.
+	tween.tween_property(sprite, "modulate", Color.RED, 0.15)
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
+	
 	
 	print("온열장치 현재 HP:", hp, "(", name, ")") # (어떤 온열장치인지 이름도 출력)
 	
@@ -60,6 +59,11 @@ func take_damage(amount: int):
 	# 체력이 0 이하가 되면 파괴 처리
 	if hp <= 0:
 		destroy()
+
+	# 0.1초의 짧은 무적 시간이 지나면 다시 데미지를 받을 수 있도록 플래그 해제
+	await get_tree().create_timer(0.1).timeout
+	is_invincible = false
+
 
 
 # 파괴 처리 함수
@@ -75,7 +79,8 @@ func destroy():
 		sprite.visible = false 
 		
 	# 2. 더 이상 충돌 감지하지 않도록 CollisionShape 비활성화
-	collision_shape.disabled = true
+	# StaticBody2D는 물리 바디이므로, 노드 자체를 큐에서 제거하는 것이 일반적입니다.
+	# collision_shape.disabled = true
 	
 	# 3. 부모(IceBoss)에게 파괴되었다는 시그널 발송
 	emit_signal("heat_sink_destroyed")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b3pvmx7jf58ma"]
 
 [ext_resource type="Script" uid="uid://cddpfnr26fpwf" path="res://캐릭터/player.gd" id="1_1ad07"]
-[ext_resource type="Texture2D" uid="uid://hcltopdtubgk" path="res://icon.svg" id="1_4i3q1"]
+[ext_resource type="Texture2D" uid="uid://crgth1xdm7k7p" path="res://icon.svg" id="1_4i3q1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1ad07"]
 animations = [{
