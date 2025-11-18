@@ -71,6 +71,11 @@ func create_explosion():
 	explosion.global_position = self.global_position
 	print("DEBUG: Explosion Global Position: ", explosion.global_position)
 
+	# --- 화면 흔들림 호출 ---
+	var camera = get_tree().get_first_node_in_group("camera")
+	if is_instance_valid(camera) and camera.has_method("shake"):
+		camera.shake(15, 0.3) # 강도 15, 지속시간 0.3초
+
 	# 폭발 씬에 반경 값 전달 (새 함수 호출)
 	if explosion.has_method("set_radius"):
 		explosion.set_radius(explosion_radius)

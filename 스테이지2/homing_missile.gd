@@ -28,6 +28,7 @@ func set_shooter(new_shooter: Node):
 
 
 func _ready():
+	add_to_group("bullets")
 	# 물리 설정: 중력의 영향을 받도록 함
 	gravity_scale = 1.0
 	player = get_tree().get_first_node_in_group("player")
@@ -71,53 +72,36 @@ func _physics_process(_delta):
 func _on_body_entered(body: Node):
 	if body == shooter:
 		return
-	
-	# 1. '방어벽'인지 확인
-	if body.is_in_group("wall"):
-		# 1a. 발사 주체가 'player' 그룹일 때만 데미지
-		if shooter != null and shooter.is_in_group("player"):
-			if body.has_method("take_damage"):
-				body.take_damage(1) # HP 1 감소
-		else:
-			# (보스 포탄이므로 데미지 없음)
-			print("보스 포탄이 방어벽에 부딪힘 (데미지 없음)")
 
-	# 2. '보스 온열장치'인지 확인
-	elif body.is_in_group("heaters"):
-		if body.has_method("take_damage"):
-			body.take_damage(damage) # 데미지 줌
-		
-	# 3. '맵 온열장치'인지 확인
-	elif body.is_in_group("map_heaters"):
-		if body.has_method("turn_on"):
-			body.turn_on() # 켬
-
-	# 4. '플레이어'인지 확인
-	elif body.is_in_group("player"):
-		if body.has_method("take_damage"):
-			body.take_damage(damage) # 데미지 줌
-	
-	# 5. (기타) '보스'인지 확인
-	elif body.is_in_group("boss"):
-		if body.has_method("take_damage"):
-			body.take_damage(damage) # 데미지 줌
-			
-	# --- ✅ 로직 수정 끝 ---
-		
+	# 충돌 시 무조건 폭발만 생성하고 사라집니다.
+	# 실제 데미지 처리는 explosion.gd에서 모두 담당합니다.
 	call_deferred("create_explosion")
-
-	# queue_free()는 create_explosion 함수 내부에서 처리
 
 
 
 func create_explosion():
+	# 1. 폭발 씬 인스턴스 생성
 	var explosion = ExplosionScene.instantiate()
+
+	# 2. 부모 노드(월드)에 폭발 씬 추가
 	get_tree().root.add_child(explosion)
+
+	# 3. 폭발 위치 설정
 	explosion.global_position = self.global_position
 
+	# --- 화면 흔들림 호출 ---
+	var camera = get_tree().get_first_node_in_group("camera")
+	if is_instance_valid(camera) and camera.has_method("shake"):
+		camera.shake(15, 0.3) # 강도 15, 지속시간 0.3초
+
+	# 폭발 씬에 반경 값 전달 (새 함수 호출)
 	if explosion.has_method("set_radius"):
 		explosion.set_radius(explosion_radius)
 
+	# 폭발 씬에 데미지 값 전달
+	explosion.damage = damage
+
+	# 5. 포탄 자신은 소멸
 	call_deferred("queue_free")
 
 

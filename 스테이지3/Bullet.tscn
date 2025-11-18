@@ -1,8 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://fgwbejfhbulb"]
+[gd_scene load_steps=9 format=3 uid="uid://fgwbejfhbulb"]
 
 [ext_resource type="Script" uid="uid://vhinakad8wid" path="res://bullet.gd" id="1_4s4u5"]
 [ext_resource type="Texture2D" uid="uid://b5leus2rgc4kb" path="res://Img/tankImages/tank_bullet3.png" id="2_7281b"]
 [ext_resource type="PackedScene" uid="uid://bxm52f32mesfo" path="res://explosion.tscn" id="2_u8st5"]
+[ext_resource type="Shader" path="res://스테이지2/HomingMissile.gdshader" id="4_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outline"]
+shader = ExtResource("4_shader")
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/line_thickness = 3.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8st5"]
 size = Vector2(38, 26)
@@ -26,6 +32,7 @@ script = ExtResource("1_4s4u5")
 explosion_scene = ExtResource("2_u8st5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_outline")
 texture = ExtResource("2_7281b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

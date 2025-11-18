@@ -101,7 +101,7 @@ func update_custom_health_bar():
 		var percent = clamp(float(hp) / float(max_hp), 0.0, 1.0)
 		health_bar_fg.size = Vector2(health_bar_bg.size.x * percent, health_bar_bg.size.y)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not has_gimmick_50_triggered and hp <= max_hp * 0.5:
 		has_gimmick_50_triggered = true
 		start_gimmick_50()
@@ -355,7 +355,10 @@ func _fire_projectile(fire_target_position: Vector2, radius: float):
 	projectile.collision_mask = 35
 	get_tree().root.add_child(projectile)
 	projectile.global_position = fire_point.global_position
-	projectile.owner_node = self
+	if projectile.has_method("set_shooter"):
+		projectile.set_shooter(self) # 'self'는 보스 자신
+	else:
+		printerr("오류: 포탄 씬에 set_shooter 함수가 없습니다!")
 
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 	var initial_velocity = calculate_parabolic_velocity(fire_point.global_position,

@@ -17,6 +17,7 @@ var wall_spawn_triggered: bool = false # 50% 방어벽 생성 플래그
 
 signal heat_sink_destroyed
 signal spawn_wall_requested
+signal health_updated(current_hp, max_hp, heater_name)
 
 # 이 Area2D의 CollisionShape2D 노드 경로 (에디터에서 설정)
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -38,6 +39,7 @@ func take_damage(amount: int):
 	# 무적 상태로 만들고 데미지 처리 시작
 	is_invincible = true
 	hp -= amount
+	emit_signal("health_updated", hp, max_hp, name)
 
 	# 데미지를 입었을 때 빨갛게 점멸하는 효과
 	var tween = create_tween().set_loops(2)

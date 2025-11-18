@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmwhid2ntfoue"]
 
-[ext_resource type="Texture2D" uid="uid://ch4fc5146dvfn" path="res://스테이지2/배경화면/Gemini_Generated_Image_redo96redo96redo.png" id="1_q8av4"]
+[ext_resource type="Texture2D" uid="uid://ddey1vwir5nfm" path="res://스테이지2/배경화면/image.png" id="1_q8av4"]
 
 [node name="배경화면" type="ParallaxBackground"]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
-position = Vector2(633.74976, -362.49994)
-scale = Vector2(5.476074, 2.0537112)
+position = Vector2(895, -432.8939)
+scale = Vector2(3.038, 2.2899666)
 texture = ExtResource("1_q8av4")

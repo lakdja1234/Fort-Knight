@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpsm8wjhq68n"]
+
+[ext_resource type="Script" path="res://스테이지2/snow_effect.gd" id="1_snow"]
+
+[sub_resource type="Gradient" id="Gradient_snow"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_snow"]
+gradient = SubResource("Gradient_snow")
+
+[node name="SnowEffect" type="CPUParticles2D"]
+script = ExtResource("1_snow")
+amount = 200
+lifetime = 7.0
+preprocess = 3.0
+speed_scale = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(1280, 1)
+direction = Vector2(0, 1)
+spread = 0.0
+gravity = Vector2(0, 80)
+initial_velocity_min = -30.0
+initial_velocity_max = 30.0
+scale_amount_min = 8.0
+scale_amount_max = 16.0
+color_ramp = SubResource("GradientTexture1D_snow")

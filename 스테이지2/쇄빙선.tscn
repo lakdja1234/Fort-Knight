@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://baj1om8s8mxju"]
+[gd_scene load_steps=12 format=3 uid="uid://baj1om8s8mxju"]
 
 [ext_resource type="Script" uid="uid://bspyxkrsell0d" path="res://스테이지2/쇄빙선.gd" id="1_a0gi5"]
 [ext_resource type="Texture2D" uid="uid://dmmamr5c8sdat" path="res://캐릭터/쇄빙선-Photoroom.png" id="1_akxky"]
 [ext_resource type="Script" uid="uid://b77v4l88eee7d" path="res://스테이지2/온열장치.gd" id="2_3g1fb"]
 [ext_resource type="Texture2D" uid="uid://dpes6b57ixr5p" path="res://스테이지2/온열(꺼짐)-Photoroom.png" id="2_a65gr"]
 [ext_resource type="Texture2D" uid="uid://dhkma8wjhq68n" path="res://스테이지2/온열-Photoroom.png" id="2_h2aor"]
+[ext_resource type="Texture2D" uid="uid://csv1y5vs1tuyi" path="res://캐릭터/쇄빙선 사망모션1-Photoroom.png" id="6_4ant8"]
+[ext_resource type="Texture2D" uid="uid://bcwxw8v2ti6s3" path="res://캐릭터/쇄빙선 사망모션2-Photoroom.png" id="7_ph33v"]
+[ext_resource type="Texture2D" uid="uid://bu3i1v1pqtef1" path="res://캐릭터/쇄빙선 사망모션3-Photoroom.png" id="8_f265u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h2aor"]
 radius = 58.00862
@@ -17,13 +20,22 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_akxky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_4ant8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ph33v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_f265u")
 }],
-"loop": true,
-"name": &"default",
-"speed": 5.0
+"loop": false,
+"name": &"freeze",
+"speed": 2.0
 }]
 
-[node name="쇄빙선" type="CharacterBody2D"]
+[node name="쇄빙선" type="CharacterBody2D" groups=["boss"]]
 scale = Vector2(3, 3)
 collision_layer = 8
 collision_mask = 7
@@ -71,6 +83,7 @@ shape = SubResource("CircleShape2D_a65gr")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_h2aor")
+animation = &"freeze"
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 visible = false
@@ -81,6 +94,9 @@ polygon = PackedVector2Array(-437.3334, 30.333338, -437.3334, 151.33336, 459.666
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(-162.33333, -73.333336)
 
+[node name="Muzzle2" type="Marker2D" parent="."]
+position = Vector2(-322.33334, 20.333328)
+
 [node name="HomingMuzzle" type="Marker2D" parent="."]
 position = Vector2(-248, -20)
 
@@ -89,13 +105,13 @@ wait_time = 4.0
 autostart = true
 
 [node name="HomingMissileTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 7.0
 autostart = true
 
 [node name="OverheatDamageTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.3
 
 [connection signal="heat_sink_destroyed" from="온열장치_앞" to="." method="_on_heat_sink_destroyed"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="heat_sink_destroyed" from="온열장치_뒤" to="." method="_on_heat_sink_destroyed"]
 [connection signal="timeout" from="HomingMissileTimer" to="." method="_on_homing_missile_timer_timeout"]
 [connection signal="timeout" from="OverheatDamageTimer" to="." method="_on_overheat_damage_timer_timeout"]

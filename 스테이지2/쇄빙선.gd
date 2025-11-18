@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
-var boss_hp: int = 1000 
+signal health_updated(current_hp, max_hp)
+
+var max_hp = 1000
+var boss_hp = max_hp
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") # ✅ 중력 값 저장
 
 @onready var overheat_timer = $OverheatDamageTimer
@@ -16,7 +19,7 @@ const IceWallScene = preload("res://스테이지2/iceWall.tscn")
 # 기본 공격 설정
 const BASIC_ATTACK_SPEED = 600.0
 const BASIC_EXPLOSION_RADIUS = 300.0
-const BASIC_PROJECTILE_SCALE = Vector2(2.5, 2.5) # 하드코딩된 값 사용
+const BASIC_PROJECTILE_SCALE = Vector2(3.0, 3.0) # 하드코딩된 값 사용
 const BASIC_WARNING_DURATION = 1.5
 
 # 유도 미사일 설정 (HomingMissile.gd의 @export var speed와 일치시킬 필요 있음)
@@ -25,19 +28,27 @@ const HOMING_EXPLOSION_RADIUS = 75.0
 const HOMING_PROJECTILE_SCALE = Vector2(2.5, 2.5) # 하드코딩된 값 사용
 
 # 얼음벽 설정
-const WALL_LAYER_MASK = 4 # 3번 레이어(wall)의 비트마스크 값 (2^(3-1))
+const WALL_LAYER_MASK = 32 # 6번 레이어(wall)의 비트마스크 값 (2^(6-1))
 const WALL_CHARGE_SPEED = 400.0
 var is_charging_for_wall: bool = false
 var wall_charge_direction: float = -1.0 # 왼쪽
 var player: CharacterBody2D = null
+var original_position: Vector2
+var is_returning: bool = false
 
 @onready var muzzle = $Muzzle
+@onready var muzzle2 = $Muzzle2
 @onready var homing_muzzle = $HomingMuzzle
 @onready var attack_timer = $AttackTimer
 @onready var homing_missile_timer = $HomingMissileTimer
+@onready var sprite = $AnimatedSprite2D
+@onready var collision_shape = $CollisionShape2D
+var second_attack_timer: Timer
+
 
 
 func _ready():
+	original_position = global_position
 	player = get_tree().get_first_node_in_group("player")
 	overheat_timer.timeout.connect(_on_overheat_timer_timeout)
 	var heaters = get_tree().get_nodes_in_group("heaters")
@@ -62,10 +73,21 @@ func _ready():
 		# (비트 연산: AND와 NOT을 사용하여 특정 비트를 끕니다)
 		set_collision_mask(get_collision_mask() & ~heater_layer)
 		print("보스: 온열장치와의 물리 충돌을 비활성화했습니다.")
+		
+	# 유도 미사일은 상시 발사
+	homing_missile_timer.start()
 
-	# 유도 미사일 타이머는 시작 시 비활성화
-	homing_missile_timer.stop()
+	# 기본 공격 타이머 연결 (Muzzle 1 사용)
+	attack_timer.timeout.connect(_on_attack_timer_timeout.bind(muzzle))
 
+	# 두 번째 공격 타이머 생성 및 설정 (Muzzle 2 사용)
+	second_attack_timer = Timer.new()
+	second_attack_timer.name = "SecondAttackTimer"
+	second_attack_timer.wait_time = 5.0
+	second_attack_timer.timeout.connect(_on_attack_timer_timeout.bind(muzzle2))
+	add_child(second_attack_timer)
+		
+	emit_signal("health_updated", boss_hp, max_hp)
 
 	
 
@@ -98,15 +120,29 @@ func _physics_process(delta):
 						
 						var wall_spawn_pos = collision.get_position() + normal * 2.0
 						spawn_ice_wall(wall_spawn_pos)
+						is_returning = true # 돌아가기 상태 활성화
 						
 						break
+	elif is_returning:
+		var direction_to_origin = (original_position - global_position).normalized()
+		velocity.x = direction_to_origin.x * WALL_CHARGE_SPEED
+
+		move_and_slide()
+
+		# 충분히 가까워지면 정지
+		if global_position.distance_to(original_position) < 10:
+			is_returning = false
+			velocity.x = 0
+			global_position = original_position # 정확한 위치로 보정
+			print("보스: 원래 위치로 복귀 완료.")
 	else:
 		velocity.x = move_toward(velocity.x, 0, 1000 * delta)
-		move_and_slide()
+		if velocity.length() > 0.1:
+			move_and_slide()
 		
 
-# 기본 공격 타이머
-func _on_attack_timer_timeout():
+# 기본 공격 타이머 (어떤 포구에서 쏠지 인자로 받음)
+func _on_attack_timer_timeout(muzzle_node: Node2D):
 	if player == null:
 		return
 	
@@ -121,7 +157,7 @@ func _on_attack_timer_timeout():
 	fire_timer.timeout.connect(_fire_generic_projectile.bind(
 		target_pos,
 		ProjectileScene,
-		muzzle,
+		muzzle_node,
 		BASIC_ATTACK_SPEED,
 		BASIC_EXPLOSION_RADIUS,
 		BASIC_PROJECTILE_SCALE
@@ -162,10 +198,14 @@ func _calculate_target_position() -> Vector2:
 	var ray_end = Vector2(base_target_position.x, 2000)
 	
 	# --- 온열장치를 레이캐스트에서 제외 ---
-	var heaters_to_exclude = get_tree().get_nodes_in_group("map_heaters")
+	var heaters_to_exclude_nodes = get_tree().get_nodes_in_group("map_heaters")
+	var heaters_to_exclude_rids = []
+	for heater in heaters_to_exclude_nodes:
+		heaters_to_exclude_rids.append(heater.get_rid())
+
 	var query = PhysicsRayQueryParameters2D.create(ray_start, ray_end)
 	query.collision_mask = 1
-	query.exclude = heaters_to_exclude # 제외할 노드 목록 설정
+	query.exclude = heaters_to_exclude_rids # 제외할 RID 목록 설정
 	# --- 제외 로직 끝 ---
 
 	var result = space_state.intersect_ray(query)
@@ -263,10 +303,10 @@ func _on_heat_sink_destroyed():
 	heat_sinks_destroyed += 1
 	print("보스: 온열장치 파괴 감지! (%d / %d)" % [heat_sinks_destroyed, total_heat_sinks])
 
-	# 첫 번째 온열장치가 파괴되면 유도 미사일 패턴 활성화
+	# 첫 번째 온열장치가 파괴되면 추가 기본 공격 패턴 활성화
 	if heat_sinks_destroyed == 1:
-		print("보스: 첫 온열장치 파괴! 유도 미사일 패턴을 시작합니다.")
-		homing_missile_timer.start()
+		print("보스: 첫 온열장치 파괴! 5초마다 기본 공격을 추가로 발사합니다.")
+		second_attack_timer.start()
 	
 	# 모든 온열장치가 파괴되었는지 확인
 	if heat_sinks_destroyed >= total_heat_sinks:
@@ -275,11 +315,13 @@ func _on_heat_sink_destroyed():
 # 과열(행동 불능) 상태 시작 함수
 func start_overheating():
 	print("!!! 보스 과열! 행동 불능 상태 돌입 !!!")
+	sprite.play("freeze")
 	
 	# (선택 사항) 모든 공격 타이머 중지
 	attack_timer.stop()
-	if has_node("HomingMissileTimer"):
-		$HomingMissileTimer.stop()
+	homing_missile_timer.stop()
+	if is_instance_valid(second_attack_timer):
+		second_attack_timer.stop()
 	
 	# 초당 100 데미지 타이머 시작
 	overheat_timer.start()
@@ -291,13 +333,46 @@ func _on_overheat_timer_timeout():
 
 # 보스 자신의 데미지 처리 함수
 func take_damage(amount: int):
+	# 이미 죽음 절차가 시작되었다면 데미지를 더 받지 않음
+	if boss_hp <= 0:
+		return
+		
 	boss_hp -= amount
 	print("보스 HP:", boss_hp)
 	
+	emit_signal("health_updated", boss_hp, max_hp)
+	
 	if boss_hp <= 0 and not is_queued_for_deletion():
-		print("보스 처치!")
 		overheat_timer.stop() # 데미지 타이머 중지
-		queue_free() # 보스 사망
+		_start_sinking() # 가라앉기 시작
+
+
+# 보스가 아래로 가라앉으며 사라지는 함수
+func _start_sinking():
+	print("보스 처치! 가라앉기 시작합니다.")
+	
+	# 1. 모든 공격 동작 정지
+	attack_timer.stop()
+	homing_missile_timer.stop()
+	if is_instance_valid(second_attack_timer):
+		second_attack_timer.stop()
+
+	# 2. 물리 충돌 비활성화 (가라앉는 동안 다른 것에 부딪히지 않도록)
+	if is_instance_valid(collision_shape):
+		collision_shape.disabled = true
+
+	# 3. Tween (애니메이션) 생성
+	var tween = create_tween()
+	# 3초에 걸쳐 현재 위치에서 Y축으로 400픽셀만큼 아래로 이동
+	tween.tween_property(self, "global_position:y", global_position.y + 400, 3.0)\
+		 .set_ease(Tween.EASE_IN) # 서서히 가속하며 가라앉는 느낌
+	# 동시에 15도 기울어지도록 회전
+	tween.parallel().tween_property(self, "rotation_degrees", 15, 3.0)\
+		 .set_ease(Tween.EASE_IN_OUT)
+
+	# 4. 애니메이션이 끝나면 노드 삭제
+	tween.tween_callback(queue_free)
+
 
 
 # 온열장치가 50% HP일 때 호출될 함수 (수정)
@@ -315,8 +390,6 @@ func _on_spawn_wall_requested():
 	else:
 		wall_charge_direction = 1.0  # 플레이어가 오른쪽에 있음
 	
-	# 돌진 방향에 맞게 스프라이트 뒤집기 (Sprite2D 노드 경로 확인!)
-	$AnimatedSprite2D.flip_h = (wall_charge_direction == 1.0)
 	# --- ✅ 설정 끝 ---
 	
 
@@ -350,3 +423,17 @@ func spawn_ice_wall(spawn_position: Vector2):
 	get_parent().add_child(wall)
 	wall.global_position = adjusted_spawn_position
 	print("보스: 방어벽 최종 생성 위치:", adjusted_spawn_position)
+
+
+func _on_toggle_homing_button_toggled(_toggled_on: bool) -> void:
+	if is_instance_valid(homing_missile_timer):
+			if homing_missile_timer.is_stopped():
+				homing_missile_timer.start()
+				print("--- (디버그 버튼) 유도 미사일 타이머 [시작됨] ---")
+			else:
+				homing_missile_timer.stop()
+				print("--- (디버그 버튼) 유도 미사일 타이머 [정지됨] ---")
+
+
+func _on_spawn_wall_button_pressed() -> void:
+	_on_spawn_wall_requested()

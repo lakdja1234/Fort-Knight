@@ -4,7 +4,7 @@ extends StaticBody2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D # (노드 이름이 "AnimatedSprite2D"인지 확인)
 
 # 2. 포탄 2회 타격으로 파괴되도록 HP 설정
-@export var hp: int = 2
+@export var hp: int = 3
 
 func _ready():
 	# 3. AnimatedSprite2D에 "build" 애니메이션이 있는지 확인하고 재생

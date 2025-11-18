@@ -1,0 +1,73 @@
+[gd_scene load_steps=13 format=3 uid="uid://bertogrbjvev0"]
+
+[ext_resource type="Script" uid="uid://54aqlkrsgsfp" path="res://스테이지2/ColdWindEffect.gd" id="1_abcde"]
+
+[sub_resource type="Gradient" id="Gradient_o53dh"]
+offsets = PackedFloat32Array(0, 0.5303644, 1)
+colors = PackedColorArray(0.49803922, 0.83137256, 0.98039216, 0, 0.49803922, 0.83137256, 0.98039216, 1, 0.49803922, 0.83137256, 0.98039216, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ls4bw"]
+gradient = SubResource("Gradient_o53dh")
+width = 10
+height = 128
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_hkng7"]
+colors = PackedColorArray(1, 1, 1, 0.09411765, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_icb3o"]
+gradient = SubResource("Gradient_hkng7")
+
+[sub_resource type="Gradient" id="Gradient_y244i"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8mbvd"]
+gradient = SubResource("Gradient_y244i")
+
+[sub_resource type="Curve" id="Curve_n7r4y"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.00873363, 191.01123), 0.0, 0.0, 0, 0, Vector2(0.99999, 200), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_jfhjk"]
+curve = SubResource("Curve_n7r4y")
+
+[sub_resource type="Curve" id="Curve_mbwlg"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.082969435, 168.53934), 0.0, 0.0, 0, 0, Vector2(0.2183406, 15.730347), 0.0, 0.0, 0, 0, Vector2(0.31004366, 150.5618), 0.0, 0.0, 0, 0, Vector2(0.3930131, 6.741577), 0.0, 0.0, 0, 0, Vector2(0.489083, 150.5618), 0.0, 0.0, 0, 0, Vector2(0.6113537, -15.730316), 0.0, 0.0, 0, 0, Vector2(0.68995637, 141.57304), 0.0, 0.0, 0, 0, Vector2(0.90829694, -123.59549), 0.0, 0.0, 0, 0, Vector2(0.98253274, 114.60675), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 11
+
+[sub_resource type="CurveTexture" id="CurveTexture_yxugp"]
+curve = SubResource("Curve_mbwlg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hi1qo"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(3000, 3000, 1)
+gravity = Vector3(1000, 100, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = 9.999997
+linear_accel_curve = SubResource("CurveTexture_jfhjk")
+tangential_accel_min = -6.000002
+tangential_accel_max = 5.9999976
+tangential_accel_curve = SubResource("CurveTexture_yxugp")
+scale_min = 1.5
+scale_max = 1.8
+color_ramp = SubResource("GradientTexture1D_8mbvd")
+color_initial_ramp = SubResource("GradientTexture1D_icb3o")
+
+[node name="ColdWindEffect" type="Node2D"]
+script = ExtResource("1_abcde")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 300
+texture = SubResource("GradientTexture2D_ls4bw")
+lifetime = 2.0
+one_shot = true
+preprocess = 2.0
+randomness = 1.0
+trail_enabled = true
+trail_lifetime = 0.6
+process_material = SubResource("ParticleProcessMaterial_hi1qo")

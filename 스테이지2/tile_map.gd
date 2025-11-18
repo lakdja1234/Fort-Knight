@@ -7,6 +7,10 @@ extends TileMapLayer
 # 2. 현재 녹아있는 타일을 관리하는 딕셔너리
 var melted_tiles = {}
 
+# 참고: 사용자가 GPUParticles2D로 만든 바람 효과 씬의 경로입니다.
+# 실제 파일 경로가 다르다면 이 부분을 수정해야 합니다.
+const WindEffectScene = preload("res://스테이지2/ColdWindEffect.tscn")
+
 # 15초짜리 '얼어붙는 바람' 타이머 노드 참조
 @onready var refreeze_wind_timer = $RefreezeWindTimer
 
@@ -63,7 +67,39 @@ func _melt_individual_tile(coords: Vector2i):
 		
 # '전역 얼리기' 함수
 func _on_refreeze_wind_timeout():
-	# print("15초 경과: 얼어붙는 바람이 불어 모든 녹은 타일을 복구합니다!")
+	# --- 차가운 바람 이펙트 생성 (최종 수정) ---
+	if WindEffectScene:
+		var wind_effect = WindEffectScene.instantiate()
+		var camera = get_tree().get_first_node_in_group("camera")
+		
+		if is_instance_valid(camera):
+			camera.add_child(wind_effect)
+			
+			
+			# 2. 카메라 뷰의 '중앙' 위치 계산
+			var center_pos = camera.get_screen_center_position()
+			
+			# 3. 이펙트 위치를 월드 좌표로 설정
+			wind_effect.global_position = center_pos
+			# 4. 다른 월드 요소 위에 그려지도록 z_index 설정
+			wind_effect.z_index = 100 
+		else:
+			get_tree().root.add_child(wind_effect)
+			wind_effect.z_index = 100
+			printerr("카메라 노드를 찾지 못해 월드에 이펙트를 추가합니다.")
+
+		# 5. 파티클 노드를 직접 찾아 강제로 방출 시작
+		var particles = wind_effect.get_node_or_null("GPUParticles2D")
+		if is_instance_valid(particles):
+			particles.emitting = true
+		else:
+			printerr("바람 효과 씬에서 'GPUParticles2D' 노드를 찾을 수 없습니다! 이름이 다르다면 이 코드를 수정해야 합니다.")
+			printerr("--- [디버그 팁] 그래도 이펙트가 안 보인다면, wind_effect.tscn 씬에서 다음을 확인하세요: ---")
+			printerr("1. GPUParticles2D 노드의 'Drawing' 섹션에서 'Local Coords' 속성이 꺼져(체크 해제) 있는지 확인하세요.")
+			printerr("2. 'Time' 섹션의 'Lifetime'이 너무 짧지 않은지 확인하세요 (최소 1초 이상).")
+			printerr("3. 'Process Material'의 'Initial Velocity'나 'Gravity'가 의도한 방향으로 설정되었는지 확인하세요.")
+
+	# --- 이펙트 생성 끝 ---
 
 	# 딕셔너리에 저장된 모든 '녹은 타일'을 순회
 	for coords in melted_tiles:
@@ -77,6 +113,11 @@ func _on_refreeze_wind_timeout():
 	# 모든 타일을 복구했으므로, 딕셔너리를 비움
 	melted_tiles.clear()
 	
+	# --- 플레이어 냉동 게이지 상승 ---
+	var player = get_tree().get_first_node_in_group("player")
+	if is_instance_valid(player):
+		player.current_freeze_gauge = min(player.current_freeze_gauge + 30, player.max_freeze_gauge)
+
 	# --- 모든 온열장치를 찾는 로직 추가 ---
 	# "heaters" 그룹에 속한 모든 노드를 가져옴
 	var heaters = get_tree().get_nodes_in_group("map_heaters")

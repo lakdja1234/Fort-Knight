@@ -2,6 +2,8 @@
 extends CharacterBody2D
 
 signal game_over
+signal health_updated(current_hp)
+signal freeze_gauge_changed(current_value, max_value)
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -14,7 +16,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var cooldown_timer = $CooldownTimer
 
 # --- 이동 변수 (S2 & S3 Merged) ---
-const SPEED_ORIGINAL = 300.0
+const SPEED_ORIGINAL = 400.0
 const ACCELERATION_NORMAL_ORIGINAL = 1000.0
 const ACCELERATION_ICE_ORIGINAL = 500.0
 const FRICTION_NORMAL = 1000.0 # Using S3's friction value
@@ -48,7 +50,7 @@ var hp = 100
 # --- 냉동 게이지 변수 (S2) ---
 var max_freeze_gauge: float = 100.0
 var current_freeze_gauge: float = 0.0
-const FREEZE_RATE_ICE: float = 5.0 # 얼음 위에서 게이지 차는 속도
+const FREEZE_RATE_ICE: float = 7.0 # 얼음 위에서 게이지 차는 속도
 const FREEZE_RATE_MELTED: float = 2.0 # 녹은 얼음 위에서 게이지 차는 속도
 var warm_rate: float = 20.0
 var is_warming_up: bool = false
@@ -78,6 +80,9 @@ func _ready():
 	ice_map_layer = get_tree().get_first_node_in_group("ground_tilemap")
 	if ice_map_layer == null:
 		printerr("플레이어: 'ground_tilemap' 그룹에서 TileMapLayer를 찾을 수 없습니다! (얼음 물리 비활성화)")
+		
+	emit_signal("health_updated", hp)
+	emit_signal("freeze_gauge_changed", current_freeze_gauge, max_freeze_gauge)
 
 
 # ProgressBar 관련 함수들 (S3)
@@ -222,6 +227,9 @@ func take_damage(amount):
 	var tween = create_tween().set_loops(2)
 	tween.tween_property(self, "modulate", Color.RED, 0.15)
 	tween.tween_property(self, "modulate", Color.WHITE, 0.15)
+	
+	emit_signal("health_updated", hp)
+	
 	if hp <= 0:
 		emit_signal("game_over")
 		queue_free()
@@ -229,8 +237,8 @@ func take_damage(amount):
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("bullets"):
 		take_damage(10)
-		if body.has_method("explode"):
-			body.explode()
+		if body.has_method("create_explosion"):
+			body.call_deferred("create_explosion")
 		else:
 			body.queue_free()
 
@@ -245,8 +253,6 @@ func update_freeze_gauge(delta: float):
 		current_freeze_gauge = 0
 		return
 
-	var previous_gauge = current_freeze_gauge
-
 	# 1순위: 온열장치 위에 있으면 무조건 게이지 감소
 	if is_warming_up:
 		current_freeze_gauge = max(current_freeze_gauge - warm_rate * delta, 0.0)
@@ -257,6 +263,7 @@ func update_freeze_gauge(delta: float):
 	elif current_floor_type == "MELTED":
 		current_freeze_gauge = min(current_freeze_gauge + FREEZE_RATE_MELTED * delta, max_freeze_gauge)
 	
+	emit_signal("freeze_gauge_changed", current_freeze_gauge, max_freeze_gauge)
 	# 그 외의 경우(NORMAL 바닥)는 게이지 변경 없음
 
 
@@ -264,7 +271,7 @@ func update_freeze_gauge(delta: float):
 	if current_freeze_gauge >= max_freeze_gauge and not is_frozen:
 		is_frozen = true
 		apply_freeze_debuff(true)
-	elif current_freeze_gauge < max_freeze_gauge and is_frozen: # 게이지가 최대치보다 낮아지면 바로 해동
+	elif current_freeze_gauge == 0 and is_frozen: # 게이지가 0이 되어야만 해동
 		is_frozen = false
 		apply_freeze_debuff(false)
 
