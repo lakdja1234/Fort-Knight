@@ -15,8 +15,8 @@ fill_from = Vector2(0.4906542, 0.48598132)
 radius = 156.70673
 
 [node name="BrightSpot" type="Area2D"]
-collision_layer = 8
-collision_mask = 4
+collision_layer = 64
+collision_mask = 36
 script = ExtResource("1_1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

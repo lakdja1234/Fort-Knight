@@ -1,18 +1,17 @@
 # Bullet.gd
 extends RigidBody2D
 
-@export var explosion_scene: PackedScene
 @onready var light = $PointLight2D
 @onready var collision_enable_timer = $CollisionEnableTimer
 @onready var collision_shape = $CollisionShape2D
 
 var can_collide = false
 var owner_node: Node = null
+var explosion_scene: PackedScene # No longer exported, will be loaded in _ready
 
 func _ready():
-	if explosion_scene == null:
-		printerr("Bullet: explosion_scene was not exported correctly. Loading manually.")
-		explosion_scene = load("res://explosion.tscn")
+	# Always load the explosion scene from the project
+	explosion_scene = load("res://explosion.tscn")
 
 	add_to_group("bullets")
 	collision_shape.disabled = true

@@ -1,11 +1,12 @@
-# Explosion.gd
-extends GPUParticles2D # ⚠️ 이 부분이 수정되었습니다!
+extends Node2D
+
+@onready var animated_explosion = $AnimatedExplosion # AnimatedSprite2D 노드의 이름
 
 func _ready():
-	# 씬이 생성되자마자 파티클 재생 시작
-	emitting = true
+	# 애니메이션 재생이 끝나면 _on_animation_finished 함수를 호출하도록 연결
+	animated_explosion.animation_finished.connect(_on_animation_finished)
+	animated_explosion.play("explode") # 또는 설정한 애니메이션 이름 (예: "explode")
 
-func _process(delta):
-	# One Shot이 켜져있으면, 재생이 끝난 뒤 emitting이 false가 됨
-	if not emitting:
-		queue_free() # 파티클 재생이 끝났으니 씬 스스로 삭제
+func _on_animation_finished():
+	# 애니메이션이 끝나면 이 씬(폭발)을 제거합니다.
+	queue_free()

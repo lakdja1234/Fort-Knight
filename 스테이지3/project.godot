@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="Fortknight godot"
-run/main_scene="uid://d0tqitblj46ty"
+run/main_scene="res://title_screen.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneTransition="*res://fade_layer.tscn"
+GlobalPhysics="*res://GlobalPhysics.gd"
 
 [input]
 
@@ -53,5 +58,12 @@ fire={
 2d_physics/layer_2="player"
 2d_physics/layer_3="player_bullet"
 2d_physics/layer_4="boss"
-2d_physics/layer_5="boss_bullet"
-2d_physics/layer_6="stalactite"
+2d_physics/layer_5="boss_projectile"
+2d_physics/layer_6="hazard"
+2d_physics/layer_7="boss_gimmick"
+2d_physics/layer_8="interactable"
+
+[display/window]
+
+size/viewport_width=1152
+size/viewport_height=818

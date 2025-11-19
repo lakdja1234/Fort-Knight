@@ -1,32 +1,32 @@
 [gd_scene load_steps=6 format=3 uid="uid://bxm52f32mesfo"]
 
-[ext_resource type="Script" path="res://explosion.gd" id="1_q7epf"]
+[ext_resource type="Script" uid="uid://bke1eradafhup" path="res://explosion.gd" id="1_q7epf"]
+[ext_resource type="Texture2D" uid="uid://dd1ba8gsppmlc" path="res://Img/tank_explosion2.png" id="2_m5xho"]
+[ext_resource type="Texture2D" uid="uid://ddmk28acrgfmq" path="res://Img/tank_explosion3.png" id="3_kmxf7"]
+[ext_resource type="Texture2D" uid="uid://dxpeesy1w57gm" path="res://Img/tank_explosion4.png" id="4_l04k4"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l8jgs"]
-light_mode = 1
+[sub_resource type="SpriteFrames" id="SpriteFrames_m5xho"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_m5xho")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kmxf7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_l04k4")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 20.0
+}]
 
-[sub_resource type="Curve" id="Curve_vxas0"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_j4sxf"]
-curve = SubResource("Curve_vxas0")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m5xho"]
-particle_flag_disable_z = true
-spread = 180.0
-initial_velocity_min = 100.0
-initial_velocity_max = 150.0
-gravity = Vector3(0, 98, 0)
-scale_min = 2.0
-scale_max = 2.0
-scale_curve = SubResource("CurveTexture_j4sxf")
-
-[node name="Explosion" type="GPUParticles2D"]
-material = SubResource("CanvasItemMaterial_l8jgs")
-emitting = false
-amount = 30
-lifetime = 0.5
-one_shot = true
-process_material = SubResource("ParticleProcessMaterial_m5xho")
+[node name="explosion" type="Node2D"]
 script = ExtResource("1_q7epf")
+
+[node name="AnimatedExplosion" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_m5xho")
+animation = &"explode"
+frame = 2
+frame_progress = 1.0

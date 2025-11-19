@@ -1,5 +1,7 @@
 extends StaticBody2D
 
+signal boss_died
+
 @export var bullet_scene: PackedScene
 @export var hitbox_indicator_scene: PackedScene
 
@@ -14,11 +16,10 @@ var in_gimmick_30 = false
 var has_gimmick_50_triggered = false
 var has_gimmick_30_triggered = false
 
-const PROJECTILE_SPEED = 600.0
 const WARNING_DURATION = 1.5
 const EXPLOSION_RADIUS = 100.0 # 보스 공격의 폭발 반경 (임의로 100으로 설정)
 
-@onready var health_bar = $HealthBar
+# --- Node References ---
 @onready var fire_point = $FirePoint
 @onready var attack_timer = $AttackTimer
 @onready var gimmick_50_timer = Timer.new()
@@ -27,51 +28,25 @@ const EXPLOSION_RADIUS = 100.0 # 보스 공격의 폭발 반경 (임의로 100�
 @onready var heal_pause_timer = Timer.new()
 
 var player: CharacterBody2D = null
+var game_manager: Node = null
 
-# Custom Health Bar UI Nodes
-var health_bar_bg: ColorRect
-var health_bar_fg: ColorRect
-var health_bar_label: Label
-
+# --- Scene UI References ---
+@onready var health_bar_frame: TextureRect = $BossUICanvas/HealthBarFrame
+@onready var health_bar_fg: Panel = $BossUICanvas/HealthBarFG
+@onready var health_bar_label: Label = $BossUICanvas/HealthBarLabel
+var max_health_bar_width: float = 0.0
 
 func _ready():
 	add_to_group("boss")
 	randomize()
 	
-	# --- Custom Health Bar Setup on a new CanvasLayer ---
-	var health_bar_canvas = CanvasLayer.new()
-	add_child(health_bar_canvas)
+	_setup_health_bar_styles()
+	# The max width is the initial width of the FG panel itself
+	max_health_bar_width = health_bar_fg.size.x
+	update_custom_health_bar() # Initialize the health bar with values
 
-	var bar_width = 400
-	var bar_height = 60 # Increased height
-	# Use get_viewport_rect() to be compatible with any screen resolution
-	var screen_width = get_viewport_rect().size.x
-	var position_x = (screen_width - bar_width) / 2
-	var position_y = 40 # Moved further down
-
-	health_bar_bg = ColorRect.new()
-	health_bar_bg.position = Vector2(position_x, position_y)
-	health_bar_bg.size = Vector2(bar_width, bar_height)
-	health_bar_bg.color = Color(0.2, 0.2, 0.2, 0.3) # Made even more transparent
-	health_bar_canvas.add_child(health_bar_bg)
-	
-	health_bar_fg = ColorRect.new()
-	health_bar_fg.color = Color(0.2, 0.8, 0.2, 0.3) # Made even more transparent
-	health_bar_bg.add_child(health_bar_fg) # Add as child of BG
-	
-	health_bar_label = Label.new()
-	health_bar_label.text = "Driller"
-	health_bar_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	health_bar_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	health_bar_label.size = health_bar_bg.size
-	health_bar_bg.add_child(health_bar_label)
-	# --- End Custom Health Bar Setup ---
-	
-	health_bar.max_value = max_hp
-	health_bar.value = hp
-	update_custom_health_bar() # Update the new bar
-	
-	if attack_timer:		attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
+	if attack_timer:
+		attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
 	else:
 		printerr("Boss: AttackTimer node not found!")
 	
@@ -96,10 +71,26 @@ func _ready():
 	
 	player = get_tree().get_first_node_in_group("player")
 
+
+
 func update_custom_health_bar():
-	if health_bar_bg and health_bar_fg:
-		var percent = clamp(float(hp) / float(max_hp), 0.0, 1.0)
-		health_bar_fg.size = Vector2(health_bar_bg.size.x * percent, health_bar_bg.size.y)
+	if health_bar_fg:
+		var health_ratio = clamp(float(hp) / float(max_hp), 0.0, 1.0)
+		health_bar_fg.size.x = max_health_bar_width * health_ratio
+
+		# Update color based on health via the StyleBox
+		var fg_style = health_bar_fg.get_theme_stylebox("panel")
+		if fg_style:
+			if health_ratio > 0.5:
+				fg_style.bg_color = Color(0.2, 0.8, 0.2, 0.7) # Green
+			elif health_ratio > 0.2:
+				fg_style.bg_color = Color(0.8, 0.8, 0.2, 0.7) # Yellow
+			else:
+				fg_style.bg_color = Color(0.8, 0.2, 0.2, 0.7) # Red
+	
+	if health_bar_label:
+		health_bar_label.text = str(hp) + " / " + str(max_hp)
+
 
 func _physics_process(delta):
 	if not has_gimmick_50_triggered and hp <= max_hp * 0.5:
@@ -111,6 +102,7 @@ func _physics_process(delta):
 		start_gimmick_30()
 
 func start_gimmick_50():
+	print("[GIMMICK 1] START. HP: ", hp)
 	in_gimmick_50 = true
 	attack_timer.stop()
 	
@@ -127,35 +119,42 @@ func start_gimmick_50():
 	spawn_bright_spot()
 
 func _on_gimmick_50_timer_timeout():
-	in_gimmick_50 = false # This flag indicates if the gimmick is *currently active*
+	print("[GIMMICK 1] END. HP: ", hp)
+	in_gimmick_50 = false
 	regen_timer.stop()
-	
-	for child in get_tree().get_nodes_in_group("bright_spots"):
-		child.queue_free()
+	heal_pause_timer.stop()
+
+	var bright_spots = get_tree().get_nodes_in_group("bright_spots")
+	for spot in bright_spots:
+		if is_instance_valid(spot):
+			spot.queue_free()
+
+	await get_tree().create_timer(1.0).timeout
 
 	show()
 	$CollisionShape2D.disabled = false
 	$WeakPoint/CollisionShape2D.disabled = false
 	
-	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 1.0, 1.0)
-	await tween.finished
+	var tween_boss = create_tween()
+	tween_boss.tween_property(self, "modulate:a", 1.0, 1.0)
+	await tween_boss.finished
 	
 	attack_timer.start()
 
 func _on_regen_timer_timeout():
+	var old_hp = hp
 	hp = min(hp + 10, max_hp)
-	health_bar.value = hp
+	print("[GIMMICK 1] HEAL. HP: %d -> %d" % [old_hp, hp])
 	update_custom_health_bar()
 
 func spawn_bright_spot():
-	print("DEBUG: spawn_bright_spot() called.")
+	if not in_gimmick_50: return
+
 	var bright_spot = BrightSpotScene.instantiate()
-	# Set collision to match the boss
-	bright_spot.collision_layer = 4
+	bright_spot.collision_layer = 8 # Enemy layer (bitmask value for layer 4)
 	bright_spot.collision_mask = 36
 	
-	get_tree().root.add_child(bright_spot) # Add to root, not self
+	get_tree().root.add_child(bright_spot)
 	bright_spot.add_to_group("bright_spots")
 	
 	bright_spot.global_position = _find_spawn_point_on_wall()
@@ -167,55 +166,47 @@ func _find_spawn_point_on_wall() -> Vector2:
 	var max_attempts = 20
 	
 	for i in range(max_attempts):
-		# 0 = ceiling, 1 = left wall, 2 = right wall
 		var surface = randi_range(0, 2)
 		var query = PhysicsRayQueryParameters2D.new()
-		query.collision_mask = 1 # World layer
+		query.collision_mask = 1
 
-		if surface == 0: # Ceiling
+		if surface == 0:
 			var x = randf_range(50, 1230)
 			query.from = Vector2(x, 0)
 			query.to = Vector2(x, 720)
-		elif surface == 1: # Left wall
+		elif surface == 1:
 			var y = randf_range(50, 670)
 			query.from = Vector2(0, y)
 			query.to = Vector2(1280, y)
-		else: # Right wall
+		else:
 			var y = randf_range(50, 670)
 			query.from = Vector2(1280, y)
 			query.to = Vector2(0, y)
 
 		var result = space_state.intersect_ray(query)
 		if result:
-			return result.position - result.normal * 50 # Offset slightly from the wall
+			return result.position - result.normal * 50
 	
-	# Fallback if no wall was found
-	print("WARNING: Could not find a wall to spawn BrightSpot. Using fallback position.")
 	return Vector2(randf_range(200, 1000), randf_range(100, 300))
 
 func _on_bright_spot_hit():
-	print("DEBUG: BrightSpot hit! Stopping healing and starting 3s pause.")
+	print("[GIMMICK 1] Bright spot hit. Pausing heal.")
 	regen_timer.stop()
 	heal_pause_timer.start()
-	take_damage(10, true) # Force damage even during gimmick
+	take_damage(10, true)
 
 func _on_heal_pause_timer_timeout():
-	print("DEBUG: 3s pause finished. Spawning new BrightSpot.")
 	spawn_bright_spot()
 	if in_gimmick_50:
-		print("DEBUG: Resuming healing.")
 		regen_timer.start()
 
 func start_gimmick_30():
 	in_gimmick_30 = true
 	
-	# Force darkness by extinguishing the torch
 	var torch = get_tree().get_first_node_in_group("torch")
 	if torch and torch.has_method("force_extinguish"):
 		torch.force_extinguish()
 	
-	# This CanvasModulate logic seems to be handled by the torch system now
-	# get_node("/root/TitleMap/GameManager").is_darkness_active = true
 	gimmick_30_timer.start()
 
 func _on_gimmick_30_timer_timeout():
@@ -233,30 +224,31 @@ func _on_gimmick_30_timer_timeout():
 
 func take_damage(amount, force=false):
 	if in_gimmick_50 and not force:
+		print("[DAMAGE] BLOCKED due to Gimmick 1. HP: ", hp)
 		return
-	hp -= amount
 	
-	# --- Blink Effect ---
+	var old_hp = hp
+	hp -= amount
+	print("[DAMAGE] Applied. Amount: %d, Force: %s. HP: %d -> %d" % [amount, str(force), old_hp, hp])
+	
 	var tween = create_tween().set_loops(2)
 	tween.tween_property(self, "modulate", Color.RED, 0.15)
 	tween.tween_property(self, "modulate", Color.WHITE, 0.15)
-	# --- End Blink Effect ---
 	
-	health_bar.value = hp
 	update_custom_health_bar()
 	if hp <= 0:
-		if health_bar_bg:
-			health_bar_bg.visible = false
+		emit_signal("boss_died")
 		if in_gimmick_30:
-			get_node("/root/TitleMap/GameManager").is_darkness_active = false
 			gimmick_30_timer.stop()
 		queue_free()
 
 func _on_weak_point_body_entered(body):
 	if body.is_in_group("bullets"):
-		take_damage(10) # Additive weak point damage
+		take_damage(10)
 		if body.has_method("explode"):
 			body.explode()
+
+const WALL_LAYER_MASK = 1
 
 func _on_attack_timer_timeout():
 	if player == null:
@@ -264,106 +256,147 @@ func _on_attack_timer_timeout():
 		if player == null:
 			return
 
-	var distance_to_player = global_position.distance_to(player.global_position)
-	var player_size = 100
-	var max_error = player_size * 2
-	var error_margin = clamp(inverse_lerp(200.0, 1000.0, distance_to_player), 0.0, 1.0) * max_error
-
-	var target_x_position = player.global_position.x + randf_range(-error_margin, error_margin)
-
-	var space_state = get_world_2d().direct_space_state
+	var target_pos = player.global_position
+	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 	
-	var ray_start = Vector2(target_x_position, -5000)
-	var ray_end = Vector2(target_x_position, 5000)
+	var current_speed = 1200.0
+	var speed_decrement = 50.0
+	var num_attempts = 15
+
+	var final_impact_point = Vector2.ZERO
+	var final_velocity = Vector2.ZERO
+
+	for i in range(num_attempts):
+		var initial_velocity = GlobalPhysics.calculate_parabolic_velocity(
+			fire_point.global_position,
+			target_pos,
+			current_speed,
+			gravity
+		)
+		
+		var impact_point = get_trajectory_impact_point(
+			fire_point.global_position,
+			initial_velocity,
+			gravity
+		)
+		
+		if impact_point != Vector2.ZERO and impact_point.y > target_pos.y - 50:
+			final_impact_point = impact_point
+			final_velocity = initial_velocity
+			break
+		
+		current_speed -= speed_decrement
+
+	var warning_target_ground_pos = Vector2.ZERO
+	var has_valid_impact_point = false
+
+	if final_impact_point != Vector2.ZERO:
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsRayQueryParameters2D.create(final_impact_point + Vector2(0, -50), final_impact_point + Vector2(0, 1000))
+		query.collision_mask = WALL_LAYER_MASK
+		var result = space_state.intersect_ray(query)
+		
+		if result:
+			warning_target_ground_pos = result.position
+			has_valid_impact_point = true
 	
-	var query = PhysicsRayQueryParameters2D.create(ray_start, ray_end)
-	query.collision_mask = 1
+	if not has_valid_impact_point:
+		if player:
+			var space_state = get_world_2d().direct_space_state
+			var query = PhysicsRayQueryParameters2D.create(player.global_position + Vector2(0, -50), player.global_position + Vector2(0, 1000))
+			query.collision_mask = WALL_LAYER_MASK
+			var result = space_state.intersect_ray(query)
+			if result:
+				warning_target_ground_pos = result.position
+				has_valid_impact_point = true
+			else:
+				warning_target_ground_pos = Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y)
+				has_valid_impact_point = true
+		else:
+			warning_target_ground_pos = Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y)
+			has_valid_impact_point = true
 
-	var result = space_state.intersect_ray(query)
+	if has_valid_impact_point:
+		var warning = WarningScene.instantiate()
+		get_tree().root.add_child(warning)
+		warning.global_position = warning_target_ground_pos
+		if warning.has_method("set_radius"):
+			warning.set_radius(EXPLOSION_RADIUS * 0.7)
+		
+		var visual_node = warning.get_node("Sprite2D")
+		if visual_node and visual_node.texture:
+			var half_height = visual_node.texture.get_height() * visual_node.scale.y / 2.0
+			warning.global_position.y -= half_height
 
-	var final_target_position: Vector2
-	if result:
-		final_target_position = result.position
+		var fire_timer = get_tree().create_timer(WARNING_DURATION)
+		fire_timer.timeout.connect(_fire_projectile.bind(final_velocity))
 	else:
-		final_target_position = player.global_position + Vector2(randf_range(-error_margin, error_margin), 0)
+		print("보스: 모든 시도에서 유효한 발사 경로를 찾지 못했습니다. 경고 및 발사 없음.")
 
-	var warning = WarningScene.instantiate()
-	get_tree().root.add_child(warning)
 
-	var visual_node = warning.get_node("Sprite2D")
-	var warning_height = 0.0
-	if visual_node:
-		if visual_node is Sprite2D and visual_node.texture:
-			warning_height = visual_node.texture.get_height() * visual_node.scale.y
-		elif visual_node is ColorRect:
-			warning_height = visual_node.size.y * visual_node.scale.y
-
-	var adjusted_warning_position = final_target_position - Vector2(0, warning_height / 7.0)
-	
-	warning.global_position = adjusted_warning_position
-
-	if warning.has_method("set_radius"):
-		warning.set_radius(EXPLOSION_RADIUS)
-
-	var fire_timer = get_tree().create_timer(WARNING_DURATION)
-	fire_timer.timeout.connect(_fire_projectile.bind(final_target_position, EXPLOSION_RADIUS))
-
-func calculate_parabolic_velocity(launch_pos: Vector2, target_pos: Vector2, desired_speed: float, gravity: float) -> Vector2:
-	var delta = target_pos - launch_pos
-	var delta_x = delta.x
-	var delta_y = -delta.y
-
-	if abs(delta_x) < 0.1:
-		var vertical_speed = -desired_speed if delta_y > 0 else desired_speed
-		return Vector2(0, vertical_speed)
-
-	var min_speed_sq = gravity * (delta_y + sqrt(delta_x * delta_x + delta_y * delta_y))
-	
-	var min_launch_speed = 0.0
-	if min_speed_sq >= 0:
-		min_launch_speed = sqrt(min_speed_sq)
-	else:
-		var fallback_angle = deg_to_rad(45.0)
-		return Vector2(cos(fallback_angle) * desired_speed, -sin(fallback_angle) * desired_speed)
-
-	var actual_launch_speed = max(desired_speed, min_launch_speed)
-	var actual_speed_sq = actual_launch_speed * actual_launch_speed
-
-	var gx = gravity * delta_x
-	var term_under_sqrt_calc = actual_speed_sq * actual_speed_sq - gravity * (gravity * delta_x * delta_x + 2 * delta_y * actual_speed_sq)
-	if term_under_sqrt_calc < 0:
-		term_under_sqrt_calc = 0
-	var sqrt_term = sqrt(term_under_sqrt_calc)
-
-	var launch_angle_rad = atan2(actual_speed_sq + sqrt_term, gx)
-
-	var vel_x = cos(launch_angle_rad) * actual_launch_speed
-	var vel_y_math = sin(launch_angle_rad) * actual_launch_speed
-
-	var vel_y_godot = -vel_y_math
-
-	var initial_velocity = Vector2(vel_x, vel_y_godot)
-
-	return initial_velocity
-
-func _fire_projectile(fire_target_position: Vector2, radius: float):
-	if player == null:
-		return
-
+func _fire_projectile(velocity: Vector2):
+	# 단순화된 발사 함수: 미리 계산된 속도로 발사체 생성 및 발사
 	var projectile = ProjectileScene.instantiate()
-	projectile.collision_layer = 5
-	projectile.collision_mask = 35
+	projectile.collision_layer = 16
+	projectile.collision_mask = 7
 	get_tree().root.add_child(projectile)
 	projectile.global_position = fire_point.global_position
 	projectile.owner_node = self
-
-	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-	var initial_velocity = calculate_parabolic_velocity(fire_point.global_position,
-														  fire_target_position,
-														  PROJECTILE_SPEED,
-														  gravity)
-
-	projectile.linear_velocity = initial_velocity
+	projectile.linear_velocity = velocity
 
 	if projectile.has_method("set_explosion_radius"):
-		projectile.set_explosion_radius(radius)
+		projectile.set_explosion_radius(EXPLOSION_RADIUS)
+
+
+func get_trajectory_impact_point(start_pos: Vector2, initial_vel: Vector2, gravity: float) -> Vector2:
+	var space_state = get_world_2d().direct_space_state
+	var prev_pos = start_pos
+	var current_pos = start_pos
+	var current_vel = initial_vel
+	var delta = 0.02
+	var steps = 150 # 3 seconds of simulation time
+
+	var shape = CircleShape2D.new()
+	shape.radius = 8.0
+
+	var query_params = PhysicsShapeQueryParameters2D.new()
+	query_params.shape = shape
+	query_params.collision_mask = WALL_LAYER_MASK
+	query_params.exclude = [self]
+
+	for i in range(steps):
+		prev_pos = current_pos
+		current_vel.y += gravity * delta
+		current_pos += current_vel * delta
+		
+		query_params.transform = Transform2D(0, current_pos)
+		var shape_result = space_state.intersect_shape(query_params)
+		
+		if not shape_result.is_empty():
+			# A collision occurred. Now find the exact point and normal with a raycast.
+			var ray_query = PhysicsRayQueryParameters2D.create(prev_pos, current_pos)
+			ray_query.collision_mask = WALL_LAYER_MASK
+			ray_query.exclude = [self]
+			var ray_result = space_state.intersect_ray(ray_query)
+
+			if ray_result:
+				var normal = ray_result.normal
+				# Ignore floor collisions (normal pointing up)
+				if normal.y > -0.7:
+					return ray_result.position # Return the precise impact point
+			# else: ray_result is null, but shape collision happened.
+			# This can happen if the shape starts inside a collider.
+			# We can't determine a normal, so we can't ignore the floor.
+			# To be safe, we'll treat it as a non-valid impact point by returning ZERO.
+		
+	return Vector2.ZERO # No non-floor collision detected
+
+func _setup_health_bar_styles():
+	# Style for the foreground
+	var fg_style = StyleBoxFlat.new()
+	fg_style.bg_color = Color(0.2, 0.8, 0.2, 0.7) # Initial green color
+	fg_style.corner_radius_top_left = 4
+	fg_style.corner_radius_top_right = 4
+	fg_style.corner_radius_bottom_left = 4
+	fg_style.corner_radius_bottom_right = 4
+	health_bar_fg.add_theme_stylebox_override("panel", fg_style)

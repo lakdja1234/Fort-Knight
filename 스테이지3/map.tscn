@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0tqitblj46ty"]
+[gd_scene load_steps=15 format=3 uid="uid://d0tqitblj46ty"]
 
 [ext_resource type="Texture2D" uid="uid://bcm8vy4livc0e" path="res://Img/mapImages/CaveBG.png" id="1_p5pve"]
 [ext_resource type="PackedScene" uid="uid://cmsb6o148rkke" path="res://Torch.tscn" id="1_torch_scene"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://bciw81w2gq2e5" path="res://Stalactite.tscn" id="8_abcde"]
 [ext_resource type="PackedScene" uid="uid://c7s5w5g5g5g5" path="res://Boss.tscn" id="9_boss"]
 [ext_resource type="Script" uid="uid://dqr3y6f644otn" path="res://game_manager.gd" id="10_game_manager"]
-[ext_resource type="Script" uid="uid://363tb73wf8j1" path="res://boss.gd" id="10_sb2pt"]
 [ext_resource type="PackedScene" uid="uid://d3j4k3l3j4k3" path="res://HitboxIndicator.tscn" id="11_0t07s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iw27f"]
@@ -2576,7 +2575,6 @@ texture = ExtResource("5_urblq")
 
 [node name="Boss" parent="." instance=ExtResource("9_boss")]
 position = Vector2(965, 409)
-script = ExtResource("10_sb2pt")
 bullet_scene = ExtResource("2_e0an3")
 hitbox_indicator_scene = ExtResource("11_0t07s")
 
@@ -2584,7 +2582,6 @@ hitbox_indicator_scene = ExtResource("11_0t07s")
 script = ExtResource("10_game_manager")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.1, 0.1, 0.1, 1)
 
 [node name="GameOverUI" type="CanvasLayer" parent="."]
@@ -2623,8 +2620,44 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Retry"
 
+[node name="GameClearUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameClearUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Label" type="Label" parent="GameClearUI/ColorRect"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME CLEAR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextStageButton" type="Button" parent="GameClearUI/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 50.0
+offset_right = 50.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Next Stage"
+
 [node name="Torch" parent="." instance=ExtResource("1_torch_scene")]
-position = Vector2(554, 190)
+position = Vector2(552, 186)
 
 [node name="Stalactites" type="Node2D" parent="."]
 position = Vector2(-4, -69)
@@ -2634,11 +2667,5 @@ stalactite_scene = ExtResource("8_abcde")
 [node name="Player" parent="." instance=ExtResource("1_wijl4")]
 position = Vector2(43, 505)
 bullet_scene = ExtResource("2_e0an3")
-
-[node name="BossHealthBar" type="TextureProgressBar" parent="."]
-offset_left = 381.0
-offset_top = -19.0
-offset_right = 715.0
-offset_bottom = 90.0
 
 [connection signal="pressed" from="GameOverUI/ColorRect/RetryButton" to="GameManager" method="_on_retry_button_pressed"]

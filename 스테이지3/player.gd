@@ -1,4 +1,4 @@
-# Player.gd (최종 통합본 - ⚠️ 색상 버그 수정)
+# Player.gd (HUD 재설계 및 오류 수정 버전)
 extends CharacterBody2D
 
 signal game_over
@@ -6,10 +6,12 @@ signal game_over
 # 1. 변수 설정
 @export var bullet_scene: PackedScene
 
+# --- HUD 및 노드 참조 ---
+@onready var health_bar = $PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/HealthBar
+@onready var charge_bar = $PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/ChargeBar
+@onready var cooldown_timer = $CooldownTimer
 @onready var cannon_pivot = $CannonPivot
 @onready var fire_point = $CannonPivot/FirePoint
-@onready var progress_bar = $ChargeBar # ProgressBar 노드 (이름 확인!)
-@onready var cooldown_timer = $CooldownTimer # Timer 노드 (이름 확인!)
 
 # --- 이동 변수 ---
 const MAX_SPEED = 300.0
@@ -19,77 +21,92 @@ const FRICTION = 1000.0
 # --- 조준 변수 ---
 const AIM_SPEED = 2.0
 
-# --- 통합 시스템 변수 ---
-const MIN_FIRE_POWER = 500.0   # 최소 파워
-const MAX_FIRE_POWER = 2000.0  # 최대 파워
-const CHARGE_RATE = 1000.0   # 1초당 차오르는 파워 양
-const COOLDOWN_DURATION = 3.0 # 쿨다운 시간
+# --- 발사 시스템 변수 ---
+const MIN_FIRE_POWER = 500.0
+const MAX_FIRE_POWER = 2000.0
+const CHARGE_RATE = 1000.0
+const COOLDOWN_DURATION = 2.0
 
 # --- 색상 변수 ---
-const CHARGE_COLOR = Color.YELLOW # 차징 시 색상 (원하는 색으로 변경하세요)
+const CHARGE_COLOR = Color("orange") # 차지 시 색상 (주황색)
 const COOLDOWN_COLOR = Color.RED   # 쿨다운 시 색상
+const HEALTH_FULL_COLOR = Color.GREEN
+const HEALTH_EMPTY_COLOR = Color.RED
 
+# --- 상태 변수 ---
 var is_charging = false
 var current_power = MIN_FIRE_POWER
 var can_fire = true
-var hp = 100
+var max_hp = 100
+var hp = max_hp
 
 
-# _ready 함수: ProgressBar 설정
+# _ready: 초기화
 func _ready():
 	add_to_group("player")
-	# ⚠️ 중요: 인스펙터 창에서 'Show Percentage' 체크를 해제하세요!
-	progress_bar.show_percentage = false 
 	
-	# 차징 모드(노란색)로 시작
+	# 체력바 초기화
+	health_bar.max_value = max_hp
+	update_health_bar()
+	
+	# 차지바 초기화 (차징 모드로 시작)
 	setup_bar_for_charging()
 
 
-# ProgressBar를 '차징' 모드(0% ~ 100%)로 설정하는 함수
+# --- 체력바 관리 ---
+func update_health_bar():
+	health_bar.value = hp
+	
+	# 체력 비율 계산 (0.0 ~ 1.0)
+	var health_ratio = float(hp) / float(max_hp)
+	
+	# 색상 보간
+	var current_color = HEALTH_FULL_COLOR.lerp(HEALTH_EMPTY_COLOR, 1.0 - health_ratio)
+	
+	# 체력바 스타일에 새 색상 적용
+	var stylebox_original = health_bar.get_theme_stylebox("fill")
+	if stylebox_original:
+		var stylebox_copy = stylebox_original.duplicate()
+		stylebox_copy.bg_color = current_color
+		health_bar.add_theme_stylebox_override("fill", stylebox_copy)
+
+
+# --- 차지/쿨다운 바 관리 ---
+
+# ProgressBar를 '차징' 모드로 설정
 func setup_bar_for_charging():
-	progress_bar.min_value = MIN_FIRE_POWER
-	progress_bar.max_value = MAX_FIRE_POWER
-	progress_bar.value = MIN_FIRE_POWER
+	charge_bar.fill_mode = ProgressBar.FILL_BEGIN_TO_END # 왼쪽에서 오른쪽으로 채우기
+	charge_bar.min_value = MIN_FIRE_POWER
+	charge_bar.max_value = MAX_FIRE_POWER
+	charge_bar.value = MIN_FIRE_POWER
 	
-	# "foreground" 스타일을 가져옵니다.
-	var stylebox_original = progress_bar.get_theme_stylebox("foreground")
+	var stylebox_original = charge_bar.get_theme_stylebox("fill")
 	if stylebox_original:
-		# 1. 스타일을 복제(duplicate)해서 고유한 사본을 만듭니다.
 		var stylebox_copy = stylebox_original.duplicate()
-		# 2. 사본의 색상을 '차징 색' (노란색)으로 변경합니다.
 		stylebox_copy.bg_color = CHARGE_COLOR
-		# 3. 이 사본을 'override' (덮어쓰기)로 적용합니다.
-		progress_bar.add_theme_stylebox_override("foreground", stylebox_copy)
-	else:
-		print("경고: ChargeBar의 'Theme Overrides' > 'Styles' > 'Foreground'에 StyleBoxFlat이 설정되지 않았습니다.")
+		charge_bar.add_theme_stylebox_override("fill", stylebox_copy)
 
-
-# ProgressBar를 '쿨다운' 모드(3초 ~ 0초)로 설정하는 함수
+# ProgressBar를 '쿨다운' 모드로 설정
 func setup_bar_for_cooldown():
-	progress_bar.min_value = 0.0
-	progress_bar.max_value = COOLDOWN_DURATION
-	progress_bar.value = COOLDOWN_DURATION # 3초로 꽉 채움
+	charge_bar.fill_mode = ProgressBar.FILL_BEGIN_TO_END # 왼쪽에서 오른쪽으로 채우기
+	charge_bar.min_value = 0.0
+	charge_bar.max_value = COOLDOWN_DURATION
+	charge_bar.value = COOLDOWN_DURATION
 	
-	# "foreground" 스타일을 가져옵니다.
-	var stylebox_original = progress_bar.get_theme_stylebox("foreground")
+	var stylebox_original = charge_bar.get_theme_stylebox("fill")
 	if stylebox_original:
-		# 1. 스타일을 다시 복제합니다.
 		var stylebox_copy = stylebox_original.duplicate()
-		# 2. 사본의 색상을 '쿨다운 색' (빨간색)으로 변경합니다.
 		stylebox_copy.bg_color = COOLDOWN_COLOR
-		# 3. 이 사본을 'override' (덮어쓰기)로 적용합니다.
-		progress_bar.add_theme_stylebox_override("foreground", stylebox_copy)
-	else:
-		print("경고: ChargeBar의 'Theme Overrides' > 'Styles' > 'Foreground'에 StyleBoxFlat이 설정되지 않았습니다.")
+		charge_bar.add_theme_stylebox_override("fill", stylebox_copy)
 
 
-@onready var background = get_node("/root/TitleMap/Background")
-
+@onready var background = get_node_or_null("/root/TitleMap/Background")
 
 var bullet_path_points = []
 const BULLET_PATH_DURATION = 2.0
 
-# 2. 물리 업데이트
+
+# _physics_process: 매 프레임 실행
 func _physics_process(delta):
 	
 	# --- 1. 이동 처리 ---
@@ -112,13 +129,13 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("fire"):
 			is_charging = true
 			current_power = MIN_FIRE_POWER
-			progress_bar.value = current_power
+			charge_bar.value = current_power
 
 		# [A-2] 차징 중
 		if is_charging and Input.is_action_pressed("fire"):
 			current_power += CHARGE_RATE * delta
 			current_power = min(current_power, MAX_FIRE_POWER)
-			progress_bar.value = current_power
+			charge_bar.value = current_power
 
 		# [A-3] 발사 및 쿨다운 시작
 		if is_charging and Input.is_action_just_released("fire"):
@@ -128,13 +145,14 @@ func _physics_process(delta):
 			fire_bullet(current_power)
 			
 			cooldown_timer.start()
-			setup_bar_for_cooldown() # 쿨다운 모드 (빨간색, 3초)로 변경
+			setup_bar_for_cooldown()
 	
 	else: # [B] 발사 불가능 (쿨다운 중)
-		progress_bar.value = cooldown_timer.time_left
+		charge_bar.value = cooldown_timer.time_left
 
 	# --- 4. 쉐이더 업데이트 ---
-	if background and background.material and not get_node("/root/TitleMap/GameManager").is_darkness_active:
+	var game_manager = get_node_or_null("/root/TitleMap/GameManager")
+	if background and background.material and game_manager and not game_manager.is_darkness_active:
 		var light_positions = []
 		light_positions.append(background.to_local(global_position))
 
@@ -147,10 +165,9 @@ func _physics_process(delta):
 			return current_time - point.timestamp < BULLET_PATH_DURATION * 1000
 		)
 
-		# Sort by timestamp, newest first
 		bullet_path_points.sort_custom(func(a, b): return a.timestamp > b.timestamp)
 
-		var max_points = 127 # 128 total, 1 for player
+		var max_points = 127
 		var points_to_add = bullet_path_points.slice(0, min(bullet_path_points.size(), max_points))
 
 		for point in points_to_add:
@@ -160,42 +177,44 @@ func _physics_process(delta):
 		background.material.set_shader_parameter("light_count", light_positions.size())
 
 
-# 3. 발사 함수
+# 발사 함수
 func fire_bullet(power: float):
 	if not bullet_scene:
-		print("!!! 중요: Player 노드의 인스펙터 창에서 'Bullet Scene'을 연결해주세요! !!!")
 		return
 
 	var bullet = bullet_scene.instantiate()
-	bullet.collision_layer = 3 # "player_bullets" 레이어
 	get_parent().add_child(bullet)
-	bullet.owner_node = self # Bullet의 owner를 플레이어로 설정
+	bullet.owner_node = self
 
 	bullet.global_position = fire_point.global_position
 	bullet.global_rotation = cannon_pivot.global_rotation
 	bullet.linear_velocity = bullet.transform.x * power
 
 
-# 4. 쿨다운 타이머(3초)가 끝나면 호출되는 함수
+# 쿨다운 종료 시 호출
 func _on_cooldown_timer_timeout():
 	can_fire = true
-	setup_bar_for_charging() # 차징 모드 (원래 색)로 변경
+	setup_bar_for_charging()
 
+
+# 데미지 처리 함수
 func take_damage(amount):
 	hp -= amount
+	hp = max(hp, 0) # HP가 0 미만으로 내려가지 않도록
+	update_health_bar() # 체력바 업데이트
 	
 	# --- Blink Effect ---
 	var tween = create_tween().set_loops(2)
 	tween.tween_property(self, "modulate", Color.RED, 0.15)
 	tween.tween_property(self, "modulate", Color.WHITE, 0.15)
-	# --- End Blink Effect ---
 	
 	if hp <= 0:
+		await tween.finished # 깜빡임 효과가 끝날 때까지 대기
 		emit_signal("game_over")
 		queue_free()
 
+# 충돌 처리
 func _on_hitbox_body_entered(body):
-	# Check for boss bullets
 	if body.is_in_group("bullets"):
 		take_damage(10)
 		if body.has_method("explode"):
@@ -204,7 +223,5 @@ func _on_hitbox_body_entered(body):
 			body.queue_free()
 
 func _on_hitbox_area_entered(area):
-	# Check for falling stalactites
 	if area.is_in_group("stalactites") and area.is_falling:
 		take_damage(20)
-		# The stalactite will queue_free itself upon collision
