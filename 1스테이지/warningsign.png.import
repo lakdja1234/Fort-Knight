@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btk35j7fs0jol"
-path="res://.godot/imported/warningsign.png-3e4d6d0f89145fed26f814435eb6ddc4.ctex"
+path="res://.godot/imported/warningsign.png-cefd384821ccd03ddd31cec0f03093c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://1스테이지/warningsign.png"
-dest_files=["res://.godot/imported/warningsign.png-3e4d6d0f89145fed26f814435eb6ddc4.ctex"]
+source_file="res://warningsign.png"
+dest_files=["res://.godot/imported/warningsign.png-cefd384821ccd03ddd31cec0f03093c1.ctex"]
 
 [params]
 

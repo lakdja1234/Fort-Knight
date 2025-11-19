@@ -223,10 +223,6 @@ func _on_cooldown_timer_timeout():
 
 # 데미지 및 충돌 함수 (S3)
 func take_damage(amount):
-	# 이미 사망했다면 더 이상 데미지를 받지 않음
-	if hp <= 0:
-		return
-
 	hp -= amount
 	var tween = create_tween().set_loops(2)
 	tween.tween_property(self, "modulate", Color.RED, 0.15)
@@ -235,11 +231,8 @@ func take_damage(amount):
 	emit_signal("health_updated", hp)
 	
 	if hp <= 0:
-		print("플레이어 사망, game_over 신호 발생 시도")
 		emit_signal("game_over")
-		# 플레이어를 숨기고 충돌을 비활성화하여 '사망' 처리
-		hide()
-		collision_shape.set_deferred("disabled", true)
+		queue_free()
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("bullets"):

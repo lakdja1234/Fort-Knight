@@ -38,7 +38,6 @@ func _ready():
 	print("카메라: 맵 경계 계산 완료 - ", map_limits)
 
 
-
 func shake(strength: float = 10.0, duration: float = 0.5):
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	var shake_offset = Vector2(randf_range(-strength, strength), randf_range(-strength, strength))

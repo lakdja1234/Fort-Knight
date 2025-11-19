@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bukhtr1t363nh"
-path="res://.godot/imported/1stageboss.png-5034373215850527c41c328bfdd654af.ctex"
+path="res://.godot/imported/1stageboss.png-1ddbf852ecf95d24ea2201b8160be6ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://1스테이지/1stageboss.png"
-dest_files=["res://.godot/imported/1stageboss.png-5034373215850527c41c328bfdd654af.ctex"]
+source_file="res://1stageboss.png"
+dest_files=["res://.godot/imported/1stageboss.png-1ddbf852ecf95d24ea2201b8160be6ba.ctex"]
 
 [params]
 

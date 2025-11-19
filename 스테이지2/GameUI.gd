@@ -2,8 +2,8 @@ extends CanvasLayer
 
 # --- UI 노드 참조 ---
 @onready var player_health_label: Label = $PlayerHealthLabel
+@onready var boss_health_label: Label = $BossHealthLabel
 @onready var freeze_gauge_label: Label = $FreezeGaugeLabel
-@onready var boss_health_bar: Control = $BossHealthBar
 
 # --- 동적 UI 관리 변수 ---
 var main_container: VBoxContainer
@@ -26,21 +26,12 @@ func _ready():
 	# 이렇게 하면 컨테이너가 자동으로 위치를 정렬해줍니다.
 	player_health_label.reparent(main_container)
 	freeze_gauge_label.reparent(main_container)
+	boss_health_label.reparent(main_container)
 	
 	# 3. 구분을 위한 빈 레이블 추가 (선택 사항)
 	var separator = Label.new()
 	separator.text = "--- Heaters ---"
 	main_container.add_child(separator)
-	
-	# --- 보스와 시그널 연결 (한 번만 실행) ---
-	var boss = get_tree().get_first_node_in_group("boss")
-	if is_instance_valid(boss):
-		if boss.has_signal("health_updated"):
-			boss.health_updated.connect(boss_health_bar.update_health)
-			# 초기 체력 설정
-			if "hp" in boss and "max_hp" in boss:
-				boss_health_bar.update_health(boss.hp, boss.max_hp)
-		boss_connected = true
 
 
 func _process(_delta):
@@ -53,6 +44,14 @@ func _process(_delta):
 			if player.has_signal("freeze_gauge_changed"):
 				player.freeze_gauge_changed.connect(_on_player_freeze_gauge_updated)
 			player_connected = true
+
+	# --- 보스와 시그널 연결 (한 번만 실행) ---
+	if not boss_connected:
+		var boss = get_tree().get_first_node_in_group("boss")
+		if is_instance_valid(boss):
+			if boss.has_signal("health_updated"):
+				boss.health_updated.connect(_on_boss_health_updated)
+			boss_connected = true
 
 	# --- 온열장치와 시그널 연결 (한 번만 실행) ---
 	if not heaters_connected:
@@ -77,6 +76,9 @@ func _process(_delta):
 # --- 시그널 수신 함수 ---
 func _on_player_health_updated(current_hp):
 	player_health_label.text = "Player HP: %d" % current_hp
+
+func _on_boss_health_updated(current_hp, max_hp):
+	boss_health_label.text = "Boss HP: %d / %d" % [current_hp, max_hp]
 
 func _on_player_freeze_gauge_updated(current_value, max_value):
 	freeze_gauge_label.text = "Freeze: %d / %d" % [int(current_value), int(max_value)]
