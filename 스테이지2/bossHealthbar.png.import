@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btmck14teqboj"
-path="res://.godot/imported/bossttack.png-ec6575be67ee036b80439ec01b600d69.ctex"
+uid="uid://c55rn4rvxc71d"
+path="res://.godot/imported/bossHealthbar.png-1851365ef65dd31e7aabdc3cf6fa2922.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://1스테이지/bossttack.png"
-dest_files=["res://.godot/imported/bossttack.png-ec6575be67ee036b80439ec01b600d69.ctex"]
+source_file="res://스테이지2/bossHealthbar.png"
+dest_files=["res://.godot/imported/bossHealthbar.png-1851365ef65dd31e7aabdc3cf6fa2922.ctex"]
 
 [params]
 

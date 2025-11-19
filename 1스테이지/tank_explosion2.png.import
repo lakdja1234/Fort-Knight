@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dd1ba8gsppmlc"
-path="res://.godot/imported/tank_explosion2.png-411e67b351b826ab3b80c923b32c21c9.ctex"
+path="res://.godot/imported/tank_explosion2.png-5d46f3437442b6e04079cfb1b223316c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tank_explosion2.png"
-dest_files=["res://.godot/imported/tank_explosion2.png-411e67b351b826ab3b80c923b32c21c9.ctex"]
+source_file="res://1스테이지/tank_explosion2.png"
+dest_files=["res://.godot/imported/tank_explosion2.png-5d46f3437442b6e04079cfb1b223316c.ctex"]
 
 [params]
 

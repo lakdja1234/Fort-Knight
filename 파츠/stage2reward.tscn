@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://v8fu20hlq6hq"]
 
-[ext_resource type="Texture2D" uid="uid://vumuqf2m6dst" path="res://쇄빙선파츠2.png" id="1_molvx"]
+[ext_resource type="Texture2D" uid="uid://buyopqgqbr01m" path="res://파츠/쇄빙선파츠2.png" id="1_molvx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2qf6d"]
 bg_color = Color(0, 0, 0, 0)

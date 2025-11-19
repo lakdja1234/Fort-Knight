@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btmck14teqboj"
-path="res://.godot/imported/bossttack.png-ec6575be67ee036b80439ec01b600d69.ctex"
+uid="uid://buyopqgqbr01m"
+path="res://.godot/imported/쇄빙선파츠2.png-d5f137be6ca79732f133ac34aebd776f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://1스테이지/bossttack.png"
-dest_files=["res://.godot/imported/bossttack.png-ec6575be67ee036b80439ec01b600d69.ctex"]
+source_file="res://파츠/쇄빙선파츠2.png"
+dest_files=["res://.godot/imported/쇄빙선파츠2.png-d5f137be6ca79732f133ac34aebd776f.ctex"]
 
 [params]
 

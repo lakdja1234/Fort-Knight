@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://q0jqvhryr7dn"]
+
+[ext_resource type="Script" uid="uid://wcadjo3yofcf" path="res://스테이지2/healthBar.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://c55rn4rvxc71d" path="res://스테이지2/bossHealthbar.png" id="2_fghij"]
+
+[node name="HealthBar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1167.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="Frame" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fghij")
+expand_mode = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.4
+anchor_right = 0.9
+anchor_bottom = 0.6
+offset_left = -7.2000046
+offset_top = -1.2000122
+offset_right = 15.200073
+offset_bottom = -82.80002
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="ProgressBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 390.0
+offset_top = 68.0
+offset_right = -390.0
+offset_bottom = 95.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
