@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxm52f32mesfo"]
+
+[ext_resource type="Script" path="res://stalactiteExplosion.gd" id="1_q7epf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l8jgs"]
+light_mode = 1
+
+[sub_resource type="Curve" id="Curve_vxas0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_j4sxf"]
+curve = SubResource("Curve_vxas0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m5xho"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_j4sxf")
+
+[node name="Explosion" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_l8jgs")
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_m5xho")
+script = ExtResource("1_q7epf")

@@ -17,8 +17,8 @@ fill_to = Vector2(0.87383175, 0.23364486)
 size = Vector2(27, 74)
 
 [node name="Torch" type="Area2D"]
-collision_layer = 7
-collision_mask = 3
+collision_layer = 128
+collision_mask = 4
 script = ExtResource("1_torch_script")
 on_texture = ExtResource("3_torch_on")
 off_texture = ExtResource("2_torch_off")
