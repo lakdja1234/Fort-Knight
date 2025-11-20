@@ -34,6 +34,7 @@ func _ready():
 	main_container.add_child(separator)
 
 
+
 func _process(_delta):
 	# --- 플레이어와 시그널 연결 (한 번만 실행) ---
 	if not player_connected:

@@ -370,8 +370,28 @@ func _start_sinking():
 	tween.parallel().tween_property(self, "rotation_degrees", 15, 3.0)\
 		 .set_ease(Tween.EASE_IN_OUT)
 
-	# 4. 애니메이션이 끝나면 노드 삭제
-	tween.tween_callback(queue_free)
+	# 4. 애니메이션이 끝나면 보상 화면 표시
+	tween.tween_callback(_show_reward_screen)
+
+func _show_reward_screen():
+	# 1. Create a CanvasLayer to render the UI independent of camera zoom.
+	var ui_layer = CanvasLayer.new()
+	
+	# 2. Load and instance the reward scene.
+	var reward_scene = load("res://파츠/stage2reward.tscn").instantiate()
+	
+	# 3. Add the reward scene to the CanvasLayer.
+	ui_layer.add_child(reward_scene)
+	
+	# 4. Add the CanvasLayer to the scene tree, making it visible.
+	get_tree().root.add_child(ui_layer)
+	
+	# Let the reward scene's root Control fill the entire CanvasLayer.
+	if reward_scene is Control:
+		reward_scene.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		
+	# The boss can now be removed.
+	queue_free()
 
 
 
