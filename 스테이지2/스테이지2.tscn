@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://cujqbox3d7mi7"]
+[gd_scene load_steps=19 format=4 uid="uid://cujqbox3d7mi7"]
 
 [ext_resource type="PackedScene" uid="uid://bmwhid2ntfoue" path="res://스테이지2/배경화면/배경화면.tscn" id="1_krlra"]
 [ext_resource type="PackedScene" uid="uid://baj1om8s8mxju" path="res://스테이지2/쇄빙선.tscn" id="1_t4bt1"]
@@ -11,10 +11,9 @@
 [ext_resource type="Script" uid="uid://b7b6croqgtwjx" path="res://스테이지2/MainCamera.gd" id="9_j6p7f"]
 [ext_resource type="Script" uid="uid://ct6su8eq4l0hp" path="res://스테이지2/DebugUI.gd" id="10_14p8l"]
 [ext_resource type="PackedScene" uid="uid://dpsm8wjhq68n" path="res://스테이지2/snow_effect.tscn" id="11_snow"]
-[ext_resource type="Script" path="res://스테이지2/GameOverUI.gd" id="12_ui"]
 [ext_resource type="Script" uid="uid://6oo188ms7gwi" path="res://스테이지2/HealthBar.gd" id="12_xr71h"]
 [ext_resource type="Texture2D" uid="uid://c55rn4rvxc71d" path="res://스테이지2/bossHealthbar.png" id="13_4p06b"]
-[ext_resource type="Script" uid="uid://djgdy2a0fobjt" path="res://스테이지2/스테이지2.gd" id="13_main"]
+[ext_resource type="Script" uid="uid://5o68fmxv5xqh" path="res://스테이지2/스테이지2.gd" id="13_main"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dhuxn"]
 resource_name = "ice_map"
@@ -154,6 +153,7 @@ sources/5 = SubResource("TileSetAtlasSource_03b5r")
 bg_color = Color(0.78431374, 0.11764706, 0.08627451, 1)
 
 [node name="스테이지2" type="Node2D"]
+script = ExtResource("13_main")
 
 [node name="배경화면" parent="." instance=ExtResource("1_krlra")]
 
@@ -191,7 +191,7 @@ color_ramp = null
 
 [node name="GameUI" parent="." instance=ExtResource("9_14p8l")]
 
-[node name="HealthBar" type="Control" parent="GameUI"]
+[node name="BossHealthBar" type="Control" parent="GameUI"]
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
@@ -203,7 +203,7 @@ offset_bottom = 150.0
 grow_horizontal = 2
 script = ExtResource("12_xr71h")
 
-[node name="Frame" type="TextureRect" parent="GameUI/HealthBar"]
+[node name="Frame" type="TextureRect" parent="GameUI/BossHealthBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -213,22 +213,7 @@ grow_vertical = 2
 texture = ExtResource("13_4p06b")
 expand_mode = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="GameUI/HealthBar"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.4
-anchor_right = 0.9
-anchor_bottom = 0.6
-offset_left = -8.0
-offset_right = 15.0
-offset_bottom = -25.000008
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/fill = SubResource("StyleBoxFlat_xr71h")
-show_percentage = false
-
-[node name="Label" type="Label" parent="GameUI/HealthBar"]
+[node name="Label" type="Label" parent="GameUI/BossHealthBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -242,6 +227,22 @@ grow_vertical = 2
 text = "1000 / 1000"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="GameUI/BossHealthBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.4
+anchor_right = 0.9
+anchor_bottom = 0.6
+offset_left = -6.0
+offset_top = 1.0
+offset_right = 15.0
+offset_bottom = -24.000008
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_xr71h")
+show_percentage = false
 
 [node name="DebugUI" type="CanvasLayer" parent="."]
 script = ExtResource("10_14p8l")
@@ -273,6 +274,42 @@ offset_top = 176.0
 offset_right = 1118.0
 offset_bottom = 207.0
 text = "Reset"
+
+[node name="GameOverUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOverUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Label" type="Label" parent="GameOverUI/ColorRect"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RetryButton" type="Button" parent="GameOverUI/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 50.0
+offset_right = 50.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Retry"
 
 [connection signal="timeout" from="TileMapLayer/RefreezeWindTimer" to="TileMapLayer" method="_on_refreeze_wind_timer_timeout"]
 [connection signal="toggled" from="DebugUI/ToggleHomingButton" to="쇄빙선" method="_on_toggle_homing_button_toggled"]

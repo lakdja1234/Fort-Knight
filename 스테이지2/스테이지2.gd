@@ -4,7 +4,7 @@ extends Node2D
 @onready var player = $Player
 @onready var game_over_ui = $GameOverUI
 @onready var boss = $쇄빙선
-@onready var health_bar = $GameUI/HealthBar
+@onready var health_bar = $GameUI/BossHealthBar
 
 func _ready():
 	# 플레이어 노드와 UI 노드가 모두 유효한지 확인
@@ -14,9 +14,11 @@ func _ready():
 	else:
 		if not is_instance_valid(player):
 			printerr("스테이지2 Error: 'Player' 노드를 찾을 수 없습니다.")
-		if not is_instance_valid(game_over_ui):
-			printerr("스테이지2 Error: 'GameOverUI' 노드를 찾을 수 없습니다.")
+	
+	# Defer the connection to the next frame to ensure nodes are ready
+	call_deferred("setup_boss_health_bar")
 
+func setup_boss_health_bar():
 	# 보스와 체력 바 연결
 	if is_instance_valid(boss) and is_instance_valid(health_bar):
 		boss.health_updated.connect(health_bar.update_health)
@@ -27,7 +29,7 @@ func _ready():
 		if not is_instance_valid(boss):
 			printerr("스테이지2 Error: '쇄빙선' (보스) 노드를 찾을 수 없습니다.")
 		if not is_instance_valid(health_bar):
-			printerr("스테이지2 Error: 'GameUI/HealthBar' 노드를 찾을 수 없습니다.")
+			printerr("스테이지2 Error: 'GameUI/BossHealthBar' 노드를 찾을 수 없습니다.")
 
 # 플레이어의 game_over 신호를 받았을 때 실행될 함수
 func _on_player_game_over():

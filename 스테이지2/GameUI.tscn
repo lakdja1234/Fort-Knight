@@ -11,11 +11,7 @@ offset_top = 11.0
 offset_right = 43.0
 offset_bottom = 34.0
 
-[node name="BossHealthLabel" type="Label" parent="."]
-offset_left = -2.0
-offset_top = 78.0
-offset_right = 38.0
-offset_bottom = 101.0
+
 
 [node name="FreezeGaugeLabel" type="Label" parent="."]
 

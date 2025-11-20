@@ -70,8 +70,7 @@ func _on_body_entered(body: Node):
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
 	elif body.is_in_group("boss"):
-		if body.has_method("take_damage"):
-			body.take_damage(damage)
+		pass # Damage will be handled by the explosion
 	
 	# (포탄.gd의 안전한 폭발 호출)
 	call_deferred("create_explosion")
