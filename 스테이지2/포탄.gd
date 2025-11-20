@@ -15,10 +15,15 @@ const WarningScene = preload("res://스테이지2/warning_indicator.tscn")
 
 # ✅ 1. 변수 이름을 'owner'에서 'shooter'로 변경
 var shooter = null
+var explosion_created = false # NEW FLAG
 
 # ✅ 2. 함수 이름을 'set_owner'에서 'set_shooter'로 변경
 func set_shooter(new_shooter: Node):
 	shooter = new_shooter
+
+func set_damage(amount: int):
+	self.damage = amount
+
 
 func _ready():
 	# 이 노드를 "projectiles" 그룹에 추가합니다.
@@ -54,10 +59,17 @@ func set_projectile_scale(new_scale: Vector2):
 func _on_body_entered(body: Node):
 	if body == shooter:
 		return
-	# 포탄은 어떤 물리 바디와 충돌하든 폭발을 생성하고 사라집니다.
-	# 실제 데미지 처리는 explosion.gd에서 담당합니다.
+	
+	if explosion_created: # If explosion already created, return
+		return
+
+	explosion_created = true # Set flag to true to prevent multiple calls
 	call_deferred("create_explosion")
-	# queue_free()는 create_explosion 함수 내부에서 처리
+	
+	# Aggressively prevent further collisions and queue free
+	set_deferred("monitoring", false) # Disable collision monitoring immediately
+	set_deferred("collision_mask", 0) # Remove from all collision checks
+	call_deferred("queue_free") # Queue for free immediately
 
 ## 폭발 생성 함수 (body_entered 내부에서 호출)
 func create_explosion():
@@ -69,7 +81,6 @@ func create_explosion():
 
 	# 3. 폭발 위치 설정
 	explosion.global_position = self.global_position
-	print("DEBUG: Explosion Global Position: ", explosion.global_position)
 
 	# --- 화면 흔들림 호출 ---
 	var camera = get_tree().get_first_node_in_group("camera")
@@ -83,8 +94,8 @@ func create_explosion():
 	# 폭발 씬에 데미지 값 전달
 	explosion.damage = damage
 
-	# 5. 포탄 자신은 소멸
-	call_deferred("queue_free")
+	# 5. 포탄 자신은 소멸 (MOVED TO _on_body_entered)
+	# call_deferred("queue_free")
 
 # ⚠️ 경고 생성 함수 (이 함수를 보스 스크립트 등이 호출하게 변경)
 func create_warning(target_pos: Vector2):

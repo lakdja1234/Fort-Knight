@@ -19,12 +19,15 @@ var homing_turn_done: bool = false
 @onready var sprite: Sprite2D = $Sprite2D # 미사일 이미지 노드 (경로 확인!)
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D # 충돌 모양 노드 (경로 확인!)
 
-# ✅ 1. 발사 주체를 저장할 변수 추가
 var shooter = null
+var explosion_created = false # NEW FLAG
 
-# ✅ 2. 외부에서 발사 주체를 설정할 함수 추가
 func set_shooter(new_shooter: Node):
 	shooter = new_shooter
+
+func set_damage(amount: int):
+	self.damage = amount
+
 
 
 func _ready():
@@ -72,10 +75,18 @@ func _physics_process(_delta):
 func _on_body_entered(body: Node):
 	if body == shooter:
 		return
+	
+	if explosion_created: # If explosion already created, return
+		return
 
-	# 충돌 시 무조건 폭발만 생성하고 사라집니다.
-	# 실제 데미지 처리는 explosion.gd에서 모두 담당합니다.
+	explosion_created = true # Set flag to true to prevent multiple calls
 	call_deferred("create_explosion")
+	
+	# Aggressively prevent further collisions and queue free
+	set_deferred("monitoring", false) # Disable collision monitoring immediately
+	set_deferred("collision_mask", 0) # Remove from all collision checks
+	call_deferred("queue_free") # Queue for free immediately
+
 
 
 
@@ -101,8 +112,8 @@ func create_explosion():
 	# 폭발 씬에 데미지 값 전달
 	explosion.damage = damage
 
-	# 5. 포탄 자신은 소멸
-	call_deferred("queue_free")
+	# 5. 포탄 자신은 소멸 (MOVED TO _on_body_entered)
+	# call_deferred("queue_free")
 
 
 # --- 외부에서 크기를 설정하는 함수 추가 ---

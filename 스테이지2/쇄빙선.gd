@@ -17,12 +17,14 @@ const HomingMissileScene = preload("res://스테이지2/homing_missile.tscn")
 const IceWallScene = preload("res://스테이지2/iceWall.tscn")
 
 # 기본 공격 설정
+const BASIC_ATTACK_DAMAGE = 10
 const BASIC_ATTACK_SPEED = 600.0
 const BASIC_EXPLOSION_RADIUS = 300.0
 const BASIC_PROJECTILE_SCALE = Vector2(3.0, 3.0) # 하드코딩된 값 사용
 const BASIC_WARNING_DURATION = 1.5
 
 # 유도 미사일 설정 (HomingMissile.gd의 @export var speed와 일치시킬 필요 있음)
+const HOMING_MISSILE_DAMAGE = 15
 const HOMING_MISSILE_SPEED = 600.0 
 const HOMING_EXPLOSION_RADIUS = 75.0
 const HOMING_PROJECTILE_SCALE = Vector2(2.5, 2.5) # 하드코딩된 값 사용
@@ -293,6 +295,18 @@ func _fire_generic_projectile(
 		projectile.set_projectile_scale(projectile_scale)
 	else:
 		printerr("오류: Projectile 씬에 set_projectile_scale 함수가 없습니다!")
+	
+	# NEW: Set damage explicitly
+	if projectile_scene == ProjectileScene: # Basic Attack
+		if projectile.has_method("set_damage"):
+			projectile.set_damage(BASIC_ATTACK_DAMAGE)
+		else:
+			projectile.damage = BASIC_ATTACK_DAMAGE # Fallback
+	elif projectile_scene == HomingMissileScene: # Homing Missile
+		if projectile.has_method("set_damage"):
+			projectile.set_damage(HOMING_MISSILE_DAMAGE)
+		else:
+			projectile.damage = HOMING_MISSILE_DAMAGE # Fallback
 
 
 

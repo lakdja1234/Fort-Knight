@@ -3,6 +3,7 @@ extends Node2D
 # 노드를 미리 가져오기 위한 변수 선언
 @onready var player = $Player
 @onready var game_over_ui = $GameOverUI
+@onready var retry_button = $GameOverUI/ColorRect/RetryButton
 @onready var boss = $쇄빙선
 @onready var health_bar = $GameUI/BossHealthBar
 
@@ -11,12 +12,23 @@ func _ready():
 	if is_instance_valid(player) and is_instance_valid(game_over_ui):
 		# 플레이어의 game_over 신호를 이 스크립트의 _on_player_game_over 함수에 연결
 		player.game_over.connect(_on_player_game_over)
+		# DEBUG: Check if retry_button is valid
+		if is_instance_valid(retry_button):
+			retry_button.pressed.connect(_on_retry_button_pressed)
+		else:
+			pass # Error handling removed as requested
+
 	else:
 		if not is_instance_valid(player):
 			printerr("스테이지2 Error: 'Player' 노드를 찾을 수 없습니다.")
 	
 	# Defer the connection to the next frame to ensure nodes are ready
 	call_deferred("setup_boss_health_bar")
+
+func _on_retry_button_pressed():
+
+	get_tree().paused = false # Unpause the game
+	get_tree().reload_current_scene() # Reload the current scene
 
 func setup_boss_health_bar():
 	# 보스와 체력 바 연결

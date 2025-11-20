@@ -2,6 +2,7 @@ extends Node2D
 
 # 포탄으로부터 데미지 값을 전달받을 변수
 var damage: int = 10 # 기본 데미지 10
+var damaged_targets: Array[Node] = [] # 데미지를 입은 대상 저장
 
 # 노드 참조 (씬 구조에 맞게 경로 수정 필요)
 @onready var animation_player: AnimatedSprite2D = $AnimatedSprite2D # AnimatedSprite2D 사용 시
@@ -51,7 +52,21 @@ func apply_area_damage():
 	var overlapping_bodies = damage_area.get_overlapping_bodies()
 
 	for body in overlapping_bodies:
-		# 대상에게 'take_damage' 함수가 있는지 확인하고 호출
-		if body.has_method("take_damage"):
-			body.take_damage(damage)
-			# print(body.name + "에게 폭발 데미지 " + str(damage) + " 적용!")
+		var target_node: Node = body # 기본적으로 감지된 body를 타겟으로 설정
+
+		# 감지된 body가 Area2D(예: 플레이어의 Hitbox)라면, 그 부모 노드(플레이어 CharacterBody2D)를 가져옴
+		if body is Area2D:
+			# Area2D의 owner는 해당 Area2D를 소유하는 Scene의 Root Node이다.
+			# Player.tscn의 경우 Hitbox(Area2D)의 Owner는 Player(CharacterBody2D)이다.
+			# 따라서 owner를 사용하여 최상위 노드를 가져온다.
+			if body.owner != null:
+				target_node = body.owner
+			else:
+				# owner가 null이면 get_parent()를 시도 (예외적인 경우)
+				target_node = body.get_parent()
+				
+		# 동일한 최상위 노드에 대해 한 번만 데미지를 적용
+		if not damaged_targets.has(target_node):
+			if target_node.has_method("take_damage"):
+				target_node.take_damage(damage)
+				damaged_targets.append(target_node) # 데미지를 입힌 대상을 기록
