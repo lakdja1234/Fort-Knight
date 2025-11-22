@@ -8,6 +8,7 @@ extends Node2D
 @onready var health_bar = $GameUI/BossHealthBar
 
 func _ready():
+	print("DEBUG: Player node name:", player.name, ", class:", player.get_class())
 	# 플레이어 노드와 UI 노드가 모두 유효한지 확인
 	if is_instance_valid(player) and is_instance_valid(game_over_ui):
 		# 플레이어의 game_over 신호를 이 스크립트의 _on_player_game_over 함수에 연결
@@ -15,7 +16,7 @@ func _ready():
 		# DEBUG: Check if retry_button is valid
 		if is_instance_valid(retry_button):
 			retry_button.pressed.connect(_on_retry_button_pressed)
-		else:
+		else:	
 			pass # Error handling removed as requested
 
 	else:

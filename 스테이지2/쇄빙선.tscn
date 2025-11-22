@@ -109,7 +109,7 @@ wait_time = 7.0
 autostart = true
 
 [node name="OverheatDamageTimer" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.5
 
 [connection signal="heat_sink_destroyed" from="온열장치_앞" to="." method="_on_heat_sink_destroyed"]
 [connection signal="heat_sink_destroyed" from="온열장치_뒤" to="." method="_on_heat_sink_destroyed"]

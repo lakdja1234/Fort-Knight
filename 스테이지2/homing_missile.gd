@@ -76,10 +76,12 @@ func _on_body_entered(body: Node):
 	if body == shooter:
 		return
 	
-	if explosion_created: # If explosion already created, return
-		return
-
+	if explosion_created: return
+	
 	explosion_created = true # Set flag to true to prevent multiple calls
+	# Disconnect the signal immediately to prevent further calls
+	body_entered.disconnect(_on_body_entered) # NEW LINE
+
 	call_deferred("create_explosion")
 	
 	# Aggressively prevent further collisions and queue free
