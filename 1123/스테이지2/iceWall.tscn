@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://bqahoo3bxy5gt"]
+
+[ext_resource type="Script" uid="uid://bguqisqlt650r" path="res://스테이지2/iceWall.gd" id="1_67nk5"]
+[ext_resource type="Texture2D" uid="uid://bpem77djorkfn" path="res://스테이지2/얼음 방어벽(1단계).png" id="2_b1mnt"]
+[ext_resource type="Texture2D" uid="uid://b55434yeumfvf" path="res://스테이지2/얼음 방어벽(2단계).png" id="3_1rmq6"]
+[ext_resource type="Texture2D" uid="uid://ddkx1v5vayv7o" path="res://스테이지2/얼음 방어벽(3단계).png" id="4_ymejr"]
+[ext_resource type="Texture2D" uid="uid://yng3iky7gegf" path="res://스테이지2/얼음 방어벽(4단계).png" id="5_3mlpa"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_67nk5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_piih6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_b1mnt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1rmq6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ymejr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3mlpa")
+}],
+"loop": false,
+"name": &"build",
+"speed": 5.0
+}]
+
+[node name="IceWall" type="StaticBody2D" groups=["wall"]]
+scale = Vector2(1, 1.5)
+collision_layer = 32
+collision_mask = 5
+physics_material_override = SubResource("PhysicsMaterial_67nk5")
+script = ExtResource("1_67nk5")
+hp = 5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_piih6")
+animation = &"build"
+frame = 3
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-2, 21)
+polygon = PackedVector2Array(9, -405.6667, 75, -408.33334, 102, 319, -362, 321, -101, -136.33334)
