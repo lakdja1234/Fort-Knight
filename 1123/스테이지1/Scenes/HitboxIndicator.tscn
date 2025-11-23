@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ciw4b26xie7bs"]
+
+[ext_resource type="Script" uid="uid://2cqkqknmputx" path="res://hitbox_indicator.gd" id="1_1"]
+[ext_resource type="Texture2D" uid="uid://du2t6rykiryoe" path="res://경고-Photoroom.png" id="2_4dqeh"]
+
+[node name="HitboxIndicator" type="Area2D"]
+z_index = 10
+script = ExtResource("1_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 31)
+scale = Vector2(1, 1.0057354)
+texture = ExtResource("2_4dqeh")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ot0wlnpbe54q"]
+
+[ext_resource type="Script" path="res://Scenes/warning_indicator.gd" id="1_rivtk"]
+[ext_resource type="Texture2D" uid="uid://btk35j7fs0jol" path="res://warningsign.png" id="2_5fnhy"]
+
+[node name="WarningIndicator" type="Node2D"]
+script = ExtResource("1_rivtk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_5fnhy")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

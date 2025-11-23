@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://cpxgudsgvndi7"]
+
+[ext_resource type="Script" uid="uid://brvpntmde6o8r" path="res://스테이지1/Scenes/player.gd" id="1_kne1u"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://Scenes/bullet.tscn" id="2_dewec"]
+[ext_resource type="Texture2D" uid="uid://ckuybkhj76utn" path="res://tanks_tankGreen_body3.png" id="2_e80uo"]
+[ext_resource type="Texture2D" uid="uid://dcir4ux0jsoml" path="res://tanks_turret2.png" id="3_cxr5p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
+size = Vector2(48, 24)
+
+[sub_resource type="Gradient" id="Gradient_kne1u"]
+offsets = PackedFloat32Array(0, 0.78)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e80uo"]
+gradient = SubResource("Gradient_kne1u")
+fill = 1
+fill_from = Vector2(0.4906542, 0.5140187)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 25
+script = ExtResource("1_kne1u")
+bullet_scene = ExtResource("2_dewec")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_e80uo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_tdg3f")
+one_way_collision = true
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_tdg3f")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.4999999)
+texture = SubResource("GradientTexture2D_e80uo")
+texture_scale = 3.0
+
+[node name="CannonPivot" type="Node2D" parent="."]
+position = Vector2(0, -5)
+
+[node name="CannonSprite" type="Sprite2D" parent="CannonPivot"]
+position = Vector2(14, 0)
+rotation = 6.2831855
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_cxr5p")
+
+[node name="FirePoint" type="Marker2D" parent="CannonPivot"]
+position = Vector2(29, 0)
+
+[node name="ChargeBar" type="ProgressBar" parent="."]
+material = SubResource("CanvasItemMaterial_unshaded")
+offset_left = -22.0
+offset_top = 9.0
+offset_right = 21.0
+offset_bottom = 25.0
+rounded = true
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="CooldownTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
