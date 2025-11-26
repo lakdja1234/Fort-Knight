@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhjwsfkmrye2e"
-path="res://.godot/imported/groundtile.png-f00a73d0e8372e35055577bc8116905d.ctex"
+path="res://.godot/imported/groundtile.png-507c11a97c15fc3c21fc47bf4ebd87cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/groundtile.png"
-dest_files=["res://.godot/imported/groundtile.png-f00a73d0e8372e35055577bc8116905d.ctex"]
+source_file="res://스테이지1/Scenes/groundtile.png"
+dest_files=["res://.godot/imported/groundtile.png-507c11a97c15fc3c21fc47bf4ebd87cf.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bf6b6eopdmai4"
-path="res://.godot/imported/player_tank.png-9d8f5c684a9c6dbd1a620cd982ee1fbb.ctex"
+path="res://.godot/imported/player_tank.png-cd948e48ccac12c3c9f1dabd66035670.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player_tank.png"
-dest_files=["res://.godot/imported/player_tank.png-9d8f5c684a9c6dbd1a620cd982ee1fbb.ctex"]
+source_file="res://스테이지1/player_tank.png"
+dest_files=["res://.godot/imported/player_tank.png-cd948e48ccac12c3c9f1dabd66035670.ctex"]
 
 [params]
 

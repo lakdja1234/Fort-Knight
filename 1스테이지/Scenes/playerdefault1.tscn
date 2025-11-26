@@ -1,12 +1,12 @@
 [gd_scene load_steps=7 format=3 uid="uid://cr02qjfnpuj3y"]
 
 [ext_resource type="Script" uid="uid://dsirfslt4rrl4" path="res://Scenes/player.gd" id="1_4yfsw"]
-[ext_resource type="Texture2D" uid="uid://bf6b6eopdmai4" path="res://player_tank.png" id="1_thf0f"]
-[ext_resource type="PackedScene" uid="uid://u7kau5oe7and" path="res://Scenes/bullet.tscn" id="2_qo5pp"]
-[ext_resource type="Texture2D" uid="uid://colt3g0abmkh6" path="res://tank_rocket.png" id="3_4yfsw"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://Scenes/bullet.tscn" id="2_qo5pp"]
+[ext_resource type="Texture2D" uid="uid://dcir4ux0jsoml" path="res://tanks_turret2.png" id="3_qo5pp"]
+[ext_resource type="Texture2D" uid="uid://ckuybkhj76utn" path="res://tanks_tankGreen_body3.png" id="4_qo5pp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thf0f"]
-size = Vector2(71.49791, 64.221924)
+size = Vector2(26.480701, 6.760193)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qo5pp"]
 
@@ -17,32 +17,32 @@ script = ExtResource("1_4yfsw")
 bullet_scene = ExtResource("2_qo5pp")
 
 [node name="TurretPivot" type="Node2D" parent="tank"]
-position = Vector2(40.349987, -65.650055)
+position = Vector2(31.849998, -30.840149)
 
 [node name="PlayerTank_Turret" type="Sprite2D" parent="tank/TurretPivot"]
-position = Vector2(25, -2)
+position = Vector2(3, 0)
 scale = Vector2(0.08, 0.08)
-texture = ExtResource("3_4yfsw")
+texture = ExtResource("3_qo5pp")
 
 [node name="Muzzle" type="Marker2D" parent="tank/TurretPivot"]
-position = Vector2(47, 0)
+position = Vector2(4, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="tank"]
-position = Vector2(41.349987, -56.650124)
+position = Vector2(26.000011, -35.000008)
 scale = Vector2(0.75526637, 0.59169763)
 shape = SubResource("RectangleShape2D_thf0f")
 
 [node name="PlayerTank_Body" type="Sprite2D" parent="tank"]
-position = Vector2(45.350002, -57.5)
+position = Vector2(31.2, -29.340149)
 scale = Vector2(0.1, 0.10037173)
-texture = ExtResource("1_thf0f")
+texture = ExtResource("4_qo5pp")
 
 [node name="PowerBar" type="ProgressBar" parent="tank"]
 z_index = 10
-offset_left = 11.349987
-offset_top = -29.650059
-offset_right = 75.34999
-offset_bottom = -2.6500587
+offset_left = -1.0
+offset_top = -25.0
+offset_right = 63.0
+offset_bottom = 2.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_qo5pp")
 value = 100.0
 show_percentage = false

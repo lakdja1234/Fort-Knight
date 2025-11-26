@@ -1,47 +1,61 @@
-extends CharacterBody2D
+# Bullet.gd
+extends RigidBody2D
 
-@export var min_speed = 100.0
-@export var max_speed = 800.0
-
-# --- (✨ 이 줄을 추가하세요!) ---
 @export var explosion_scene: PackedScene
+@onready var light = $PointLight2D
+@onready var collision_enable_timer = $CollisionEnableTimer
+@onready var collision_shape = $CollisionShape2D
 
-# 1. (추가) 중력 변수를 가져옵니다.
-@export var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var can_collide = false
+var owner_node: Node = null
 
-# set_power_ratio는 탱크가 호출하여 '초기 속도'를 설정합니다.
-func set_power_ratio(power_ratio: float):
-	var current_speed = lerp(min_speed, max_speed, power_ratio)
-	# velocity는 CharacterBody2D에 내장된 속성입니다.
-	# transform.x (발사 방향)에 속도를 곱해 초기 속도를 설정합니다.
-	velocity = transform.x * current_speed
+func _ready():
+	if explosion_scene == null:
+		printerr("Bullet: explosion_scene was not exported correctly. Loading manually.")
+		explosion_scene = load("res://스테이지1/explosion.tscn")
+
+	add_to_group("bullets")
+	collision_shape.disabled = true
+	collision_enable_timer.start()
 
 func _physics_process(delta):
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	
-	# (✨ 수정) move_and_slide()는 충돌 시 물리 정보를 반환합니다.
-	var collision_info = move_and_slide()
-
-	# (✨ 추가) 만약 충돌이 발생했다면
-	if collision_info:
-		# 폭발 애니메이션을 생성하고 재생합니다.
-		spawn_explosion()
-		# 포탄은 자신을 제거합니다.
-		queue_free()
-
+	rotation = linear_velocity.angle()
 
 func _on_screen_exited():
 	queue_free()
 
-# (✨ 추가) 폭발 씬을 생성하는 함수
-func spawn_explosion():
-	if not explosion_scene:
+func _on_body_entered(body):
+	if not can_collide or (owner_node and body == owner_node):
 		return
-		
-	var explosion = explosion_scene.instantiate()
-	# 현재 포탄의 위치에 폭발을 생성합니다.
-	explosion.global_position = global_position
+
+	if body.has_method("take_damage"):
+		body.take_damage(10)
+
+	explode()
+
+func explode():
+	if is_queued_for_deletion():
+		return
+
+	remove_from_group("bullets")
+
+	if light:
+		var light_global_pos = light.global_position
+		var main_scene = get_tree().root
+		light.get_parent().remove_child(light)
+		main_scene.add_child(light)
+		light.global_position = light_global_pos
+		var tween = get_tree().create_tween()
+		tween.tween_property(light, "energy", 0.0, 2.0).set_trans(Tween.TRANS_LINEAR)
+		tween.tween_callback(light.queue_free)
+
+	if explosion_scene:
+		var explosion = explosion_scene.instantiate()
+		explosion.global_position = self.global_position
+		get_parent().add_child(explosion)
 	
-	# 현재 씬에 폭발 노드를 추가합니다.
-	get_tree().current_scene.add_child(explosion)
+	queue_free()
+
+func _on_collision_enable_timer_timeout():
+	can_collide = true
+	collision_shape.disabled = false

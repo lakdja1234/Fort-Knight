@@ -6,7 +6,7 @@ extends Node2D
 @onready var visual_node = $Sprite2D # 또는 $ColorRect
 
 # 원본 이미지 크기
-@export var base_size: float = 1024.0
+@export var base_size: float = 4096.0
 
 func _ready():
 	# Timer의 timeout 시그널을 _on_timer_timeout 함수에 연결

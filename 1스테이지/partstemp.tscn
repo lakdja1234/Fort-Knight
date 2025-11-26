@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://doglwqbpsrgta"]
+
+[ext_resource type="Texture2D" uid="uid://vumuqf2m6dst" path="res://쇄빙선파츠2.png" id="1_r010j"]
+[ext_resource type="PackedScene" uid="uid://cpxgudsgvndi7" path="res://Scenes/Player.tscn" id="2_55fam"]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(562, 300)
+scale = Vector2(5.1907473, 5.1907473)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.99999994, -20)
+rotation = -6.2831855
+scale = Vector2(-0.04742418, 0.04779353)
+texture = ExtResource("1_r010j")
+
+[node name="Player" parent="." instance=ExtResource("2_55fam")]

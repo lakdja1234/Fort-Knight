@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends StaticBody2D
 
 # 1. 공격 패턴 ENUM
 enum AttackPattern { 
@@ -54,11 +54,6 @@ func _ready():
 	
 	attack_timer.start()
 
-# 8. 매 프레임 실행 (조준)
-func _physics_process(_delta): # 'delta' -> '_delta'
-	if player_target:
-		# 만약 포탑만 돌아간다면: $TurretPivot.look_at(player_target.global_position)
-		look_at(player_target.global_position)
 
 # 9. 공격 타이머 종료 시 (공격 '관리자')
 func _on_attack_timer_timeout():
@@ -93,6 +88,7 @@ func execute_attack(pattern: AttackPattern):
 			burst_count = 3 
 			_on_burst_timer_timeout() 
 			burst_timer.start()
+			
 			
 		AttackPattern.CLUSTER:
 			spawn_bullet(cluster_bullet_scene) # 직사 화기
@@ -195,6 +191,8 @@ func _fire_projectile(fire_target_position: Vector2, radius: float):
 	var projectile = basic_bullet_scene.instantiate()
 	get_tree().root.add_child(projectile)
 	
+	projectile.set_collision_layer_value(4, true)
+	projectile.set_collision_mask_value(1, true)
 	projectile.global_position = muzzle_position.global_position # 포구에서 발사
 
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")

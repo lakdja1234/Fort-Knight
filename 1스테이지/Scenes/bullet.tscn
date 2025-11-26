@@ -1,24 +1,47 @@
-[gd_scene load_steps=5 format=3 uid="uid://u7kau5oe7and"]
+[gd_scene load_steps=6 format=3 uid="uid://fgwbejfhbulb"]
 
-[ext_resource type="Script" uid="uid://dwdh0s1mguj7u" path="res://Scenes/bullet.gd" id="1_oduel"]
-[ext_resource type="Texture2D" uid="uid://uhogarckh17h" path="res://bullet.png" id="1_xjght"]
-[ext_resource type="PackedScene" uid="uid://bxm52f32mesfo" path="res://explosion.tscn" id="2_ycag2"]
+[ext_resource type="Script" uid="uid://vhinakad8wid" path="res://스테이지1/Scenes/bullet.gd" id="1_4s4u5"]
+[ext_resource type="Texture2D" uid="uid://b5leus2rgc4kb" path="res://스테이지3/Img/tankImages/tank_bullet3.png" id="2_7281b"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oduel"]
-size = Vector2(8, 8)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u8st5"]
+size = Vector2(38, 26)
 
-[node name="Bullet" type="CharacterBody2D"]
-script = ExtResource("1_oduel")
-explosion_scene = ExtResource("2_ycag2")
+[sub_resource type="Gradient" id="Gradient_7281b"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u8st5"]
+gradient = SubResource("Gradient_7281b")
+fill = 1
+fill_from = Vector2(0.4906542, 0.49532712)
+fill_to = Vector2(0.87383175, 0.23364486)
+
+[node name="Bullet" type="RigidBody2D" groups=["boss_bullets"]]
+collision_layer = 4
+collision_mask = 9
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_4s4u5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(2.842171e-14, 0)
-scale = Vector2(0.02982648, 0.033065602)
-texture = ExtResource("1_xjght")
+texture = ExtResource("2_7281b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_oduel")
+shape = SubResource("RectangleShape2D_u8st5")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(6, 6)
-rect = Rect2(-10, -10, 8, 8)
+rect = Rect2(-19, -13, 38, 26)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+texture = SubResource("GradientTexture2D_u8st5")
+texture_scale = 2.9
+
+[node name="CollisionEnableTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="CollisionEnableTimer" to="." method="_on_collision_enable_timer_timeout"]

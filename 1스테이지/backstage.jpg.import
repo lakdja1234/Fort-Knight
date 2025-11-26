@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkgu3nsm7g8o5"
-path="res://.godot/imported/backstage.jpg-3b0fa5e6c1c6b16b6738f1abb5db35cb.ctex"
+path="res://.godot/imported/backstage.jpg-1c8512f299d160f01c0c56765431dcbd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://backstage.jpg"
-dest_files=["res://.godot/imported/backstage.jpg-3b0fa5e6c1c6b16b6738f1abb5db35cb.ctex"]
+source_file="res://스테이지1/backstage.jpg"
+dest_files=["res://.godot/imported/backstage.jpg-1c8512f299d160f01c0c56765431dcbd.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btk35j7fs0jol"
-path="res://.godot/imported/warningsign.png-cefd384821ccd03ddd31cec0f03093c1.ctex"
+uid="uid://cpgvscark1slf"
+path="res://.godot/imported/warningsign.png-d2e0422c975806e0ad65df1f00819b6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://warningsign.png"
-dest_files=["res://.godot/imported/warningsign.png-cefd384821ccd03ddd31cec0f03093c1.ctex"]
+source_file="res://스테이지1/warningsign.png"
+dest_files=["res://.godot/imported/warningsign.png-d2e0422c975806e0ad65df1f00819b6a.ctex"]
 
 [params]
 

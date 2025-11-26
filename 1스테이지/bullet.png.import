@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://uhogarckh17h"
-path="res://.godot/imported/bullet.png-ff1424653e10246c11e3724e402c519e.ctex"
+path="res://.godot/imported/bullet.png-00164fe15e4ade992bdd8e981a8315e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bullet.png"
-dest_files=["res://.godot/imported/bullet.png-ff1424653e10246c11e3724e402c519e.ctex"]
+source_file="res://스테이지1/bullet.png"
+dest_files=["res://.godot/imported/bullet.png-00164fe15e4ade992bdd8e981a8315e0.ctex"]
 
 [params]
 

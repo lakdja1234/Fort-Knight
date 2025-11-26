@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btmck14teqboj"
-path="res://.godot/imported/bossttack.png-1d001b7d4bd0239f6704d0495d7460f5.ctex"
+path="res://.godot/imported/bossttack.png-967b40cfd1ff697c8e4bd4a10f0cff8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bossttack.png"
-dest_files=["res://.godot/imported/bossttack.png-1d001b7d4bd0239f6704d0495d7460f5.ctex"]
+source_file="res://스테이지1/bossttack.png"
+dest_files=["res://.godot/imported/bossttack.png-967b40cfd1ff697c8e4bd4a10f0cff8a.ctex"]
 
 [params]
 

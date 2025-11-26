@@ -1,0 +1,171 @@
+[gd_scene load_steps=15 format=3 uid="uid://cpxgudsgvndi7"]
+
+[ext_resource type="Script" uid="uid://brvpntmde6o8r" path="res://스테이지1/player.gd" id="1_kne1u"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지1/Scenes/bullet.tscn" id="2_e43j3"]
+[ext_resource type="Texture2D" uid="uid://ckuybkhj76utn" path="res://스테이지3/Img/tankImages/tanks_tankGreen_body3.png" id="3_e80uo"]
+[ext_resource type="Texture2D" uid="uid://dcir4ux0jsoml" path="res://스테이지3/Img/tankImages/tanks_turret2.png" id="4_cxr5p"]
+[ext_resource type="Texture2D" uid="uid://vwd0yrf5pwj7" path="res://스테이지3/Img/partSlot.png" id="5_slot_img"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
+size = Vector2(48, 24)
+
+[sub_resource type="Gradient" id="Gradient_kne1u"]
+offsets = PackedFloat32Array(0, 0.78)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e80uo"]
+gradient = SubResource("Gradient_kne1u")
+fill = 1
+fill_from = Vector2(0.4906542, 0.5140187)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_info_border"]
+bg_color = Color(0, 0, 0, 0.501961)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_bg"]
+bg_color = Color(0, 0, 0, 0.392157)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fg"]
+bg_color = Color(0.262745, 0.835294, 0.380392, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_charge_bg"]
+bg_color = Color(0, 0, 0, 0.392157)
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_charge_fg"]
+bg_color = Color(1, 0.6, 0, 1)
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 25
+script = ExtResource("1_kne1u")
+bullet_scene = ExtResource("2_e43j3")
+
+[node name="CannonPivot" type="Node2D" parent="."]
+position = Vector2(0, -5)
+
+[node name="CannonSprite" type="Sprite2D" parent="CannonPivot"]
+position = Vector2(14, 0)
+rotation = 6.2831855
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_cxr5p")
+
+[node name="FirePoint" type="Marker2D" parent="CannonPivot"]
+position = Vector2(29, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_e80uo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_tdg3f")
+one_way_collision = true
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_tdg3f")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.4999999)
+texture = SubResource("GradientTexture2D_e80uo")
+texture_scale = 3.0
+
+[node name="CooldownTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="PlayerHUD" type="CanvasLayer" parent="."]
+
+[node name="HUDContainer" type="VBoxContainer" parent="PlayerHUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_top = -100.0
+offset_right = 125.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="SlotUI" type="HBoxContainer" parent="PlayerHUD/HUDContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Slot1" type="TextureRect" parent="PlayerHUD/HUDContainer/SlotUI"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("5_slot_img")
+expand_mode = 1
+
+[node name="Slot2" type="TextureRect" parent="PlayerHUD/HUDContainer/SlotUI"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("5_slot_img")
+expand_mode = 1
+
+[node name="Slot3" type="TextureRect" parent="PlayerHUD/HUDContainer/SlotUI"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("5_slot_img")
+expand_mode = 1
+
+[node name="PlayerInfoUI" type="PanelContainer" parent="PlayerHUD/HUDContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_player_info_border")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerHUD/HUDContainer/PlayerInfoUI"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer"]
+custom_minimum_size = Vector2(250, 15)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_health_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fg")
+max_value = 30.0
+value = 30.0
+show_percentage = false
+
+[node name="ChargeBar" type="ProgressBar" parent="PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer"]
+material = SubResource("CanvasItemMaterial_unshaded")
+custom_minimum_size = Vector2(250, 15)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_charge_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_charge_fg")
+show_percentage = false
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
