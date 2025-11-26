@@ -1,16 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://baj1om8s8mxju"]
+[gd_scene load_steps=13 format=3 uid="uid://baj1om8s8mxju"]
 
 [ext_resource type="Script" uid="uid://bspyxkrsell0d" path="res://스테이지2/쇄빙선.gd" id="1_a0gi5"]
 [ext_resource type="Texture2D" uid="uid://dmmamr5c8sdat" path="res://캐릭터/쇄빙선-Photoroom.png" id="1_akxky"]
 [ext_resource type="Script" uid="uid://b77v4l88eee7d" path="res://스테이지2/온열장치.gd" id="2_3g1fb"]
 [ext_resource type="Texture2D" uid="uid://dpes6b57ixr5p" path="res://스테이지2/온열(꺼짐)-Photoroom.png" id="2_a65gr"]
 [ext_resource type="Texture2D" uid="uid://dhkma8wjhq68n" path="res://스테이지2/온열-Photoroom.png" id="2_h2aor"]
-[ext_resource type="Texture2D" uid="uid://csv1y5vs1tuyi" path="res://캐릭터/쇄빙선 사망모션1-Photoroom.png" id="6_4ant8"]
-[ext_resource type="Texture2D" uid="uid://bcwxw8v2ti6s3" path="res://캐릭터/쇄빙선 사망모션2-Photoroom.png" id="7_ph33v"]
-[ext_resource type="Texture2D" uid="uid://bu3i1v1pqtef1" path="res://캐릭터/쇄빙선 사망모션3-Photoroom.png" id="8_f265u"]
+[ext_resource type="Texture2D" uid="uid://crk55ckrlxysq" path="res://캐릭터/쇄빙선 사망모션1-Photoroom.png" id="6_4ant8"]
+[ext_resource type="Texture2D" uid="uid://c7oo407g3x7yq" path="res://캐릭터/쇄빙선 사망모션2-Photoroom.png" id="7_ph33v"]
+[ext_resource type="Texture2D" uid="uid://bcb3pxl485ekj" path="res://캐릭터/쇄빙선 사망모션3-Photoroom.png" id="8_f265u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h2aor"]
 radius = 58.00862
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4ant8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a65gr"]
 radius = 59.008472
@@ -65,6 +67,7 @@ position = Vector2(-590, 150)
 scale = Vector2(1.97531e-05, 1.97531e-05)
 collision_layer = 64
 collision_mask = 4
+physics_material_override = SubResource("PhysicsMaterial_4ant8")
 script = ExtResource("2_3g1fb")
 debug_action_name = "debug_damage_heatsink_2"
 texture_off = ExtResource("2_a65gr")
@@ -75,7 +78,6 @@ scale = Vector2(3374.9978, 3374.9978)
 texture = ExtResource("2_h2aor")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="온열장치_뒤"]
-visible = false
 position = Vector2(21358478, -9707914)
 scale = Vector2(16874.988, 16874.988)
 shape = SubResource("CircleShape2D_a65gr")
@@ -86,7 +88,6 @@ sprite_frames = SubResource("SpriteFrames_h2aor")
 animation = &"freeze"
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-visible = false
 position = Vector2(-30.00001, 1.3333359)
 scale = Vector2(0.9999999, 0.9999999)
 polygon = PackedVector2Array(-437.3334, 30.333338, -437.3334, 151.33336, 459.66678, 157.00002, 502.00012, 55.666676, 98.00003, 11.666667, 29.000017, -177.00005, -103.66667, -2.3333364)

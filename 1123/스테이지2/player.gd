@@ -207,12 +207,6 @@ func fire_bullet(power: float):
 	bullet.collision_layer = 3
 	get_parent().add_child(bullet)
 
-	# 스테이지 2와 3의 발사체 스크립트 호환을 위한 처리
-	if bullet.has_method("set_shooter"):
-		bullet.set_shooter(self) # Stage 2 방식
-	else:
-		bullet.owner_node = self # Stage 3 방식 (또는 기본)
-
 	bullet.global_position = fire_point.global_position
 	bullet.global_rotation = cannon_pivot.global_rotation
 	bullet.linear_velocity = bullet.transform.x * power
@@ -236,8 +230,14 @@ func take_damage(amount):
 		queue_free()
 
 func _on_hitbox_body_entered(body):
-							if body.is_in_group("bullets"):
-								body.queue_free()
+	if body.is_in_group("bullets"):
+		# 총알의 'shooter'가 있는지, 그리고 그게 'self'(플레이어)가 아닌지 확인
+		if "shooter" in body and body.shooter != self:
+			# 적의 총알이므로, 여기서 처리하지 않고 통과시켜서 플레이어 몸에 맞도록 함
+			return
+
+		# 플레이어 자신의 총알이거나, shooter를 판별할 수 없는 총알은 소멸
+		body.queue_free()
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("stalactites") and area.is_falling:

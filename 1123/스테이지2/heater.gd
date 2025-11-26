@@ -20,7 +20,7 @@ func _ready():
 func turn_on():
 	if is_on:
 		return
-	print("맵 온열장치: 켜짐!")
+	# print("맵 온열장치: 켜짐!")
 	is_on = true
 	sprite.texture = texture_on
 	warm_aura.monitoring = true
@@ -35,7 +35,7 @@ func turn_on():
 func turn_off():
 	if not is_on:
 		return
-	print("맵 온열장치: 꺼짐!")
+	# print("맵 온열장치: 꺼짐!")
 	is_on = false
 	sprite.texture = texture_off
 
@@ -50,6 +50,12 @@ func turn_off():
 	if is_instance_valid(range_visual):
 		range_visual.hide_range()
 
+# 플레이어의 공격 등 외부로부터 데미지를 받을 때 호출될 함수
+func take_damage(_amount: int):
+	# 데미지를 받으면 그냥 '켜짐' 상태로 만듦
+	turn_on()
+
+
 # --- Aura 시그널 함수 ---
 
 func _on_warm_aura_body_entered(body: Node2D):
@@ -57,11 +63,11 @@ func _on_warm_aura_body_entered(body: Node2D):
 	if body.is_in_group("player") and is_on:
 		if body.has_method("start_warming_up"):
 			body.start_warming_up()
-			print("온열장치: 플레이어 웜업 시작")
+			# print("온열장치: 플레이어 웜업 시작")
 
 func _on_warm_aura_body_exited(body: Node2D):
 	# 플레이어가 범위에서 나갔다면
 	if body.is_in_group("player"):
 		if body.has_method("stop_warming_up"):
 			body.stop_warming_up()
-			print("온열장치: 플레이어 웜업 중지")
+			# print("온열장치: 플레이어 웜업 중지")

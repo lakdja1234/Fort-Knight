@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bmwhid2ntfoue"]
+[gd_scene format=3]
 
 [node name="배경화면" type="ParallaxBackground"]
 

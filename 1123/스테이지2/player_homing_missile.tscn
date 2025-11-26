@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bf3she4g4jqab"]
+[gd_scene load_steps=6 format=3 uid="uid://b5cvxk0gwfvag"]
 
-[ext_resource type="Script" uid="uid://b0ov31qgockb0" path="res://스테이지2/homing_missile.gd" id="1_xdjs4"]
+[ext_resource type="Script" uid="uid://dhviiubv4jq24" path="res://스테이지2/player_homing_missile.gd" id="1_xdjs4"]
 [ext_resource type="Texture2D" uid="uid://dyhocu162sq1s" path="res://스테이지2/유도미사일.png" id="2_d0nnr"]
 [ext_resource type="Shader" uid="uid://yu424pqsiygl" path="res://스테이지2/HomingMissile.gdshader" id="2_d5o3f"]
 
@@ -11,9 +11,9 @@ shader_parameter/line_thickness = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g8hvj"]
 
-[node name="HomingMissile" type="RigidBody2D"]
-collision_layer = 16
-collision_mask = 1
+[node name="PlayerHomingMissile" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 105
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_xdjs4")

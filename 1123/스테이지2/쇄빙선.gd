@@ -18,16 +18,17 @@ const IceWallScene = preload("res://스테이지2/iceWall.tscn")
 
 # 기본 공격 설정
 const BASIC_ATTACK_DAMAGE = 10
-const BASIC_ATTACK_SPEED = 600.0
 const BASIC_EXPLOSION_RADIUS = 300.0
-const BASIC_PROJECTILE_SCALE = Vector2(3.0, 3.0) # 하드코딩된 값 사용
+const BASIC_PROJECTILE_SCALE = Vector2(3.0, 3.0)
 const BASIC_WARNING_DURATION = 1.5
 
-# 유도 미사일 설정 (HomingMissile.gd의 @export var speed와 일치시킬 필요 있음)
+# 유도 미사일 설정
 const HOMING_MISSILE_DAMAGE = 15
-const HOMING_MISSILE_SPEED = 600.0 
 const HOMING_EXPLOSION_RADIUS = 75.0
-const HOMING_PROJECTILE_SCALE = Vector2(2.5, 2.5) # 하드코딩된 값 사용
+const HOMING_PROJECTILE_SCALE = Vector2(2.5, 2.5)
+
+# 포물선 공격 높이 설정
+const ATTACK_APEX_HEIGHT = 300.0 # 발사 지점으로부터 포물선 최고점까지의 높이 (픽셀)
 
 # 얼음벽 설정
 const WALL_LAYER_MASK = 32 # 6번 레이어(wall)의 비트마스크 값 (2^(6-1))
@@ -56,13 +57,13 @@ func _ready():
 	var heaters = get_tree().get_nodes_in_group("heaters")
 	total_heat_sinks = heaters.size()
 	if total_heat_sinks == 0:
-		printerr("경고: 'heaters' 그룹에 온열장치가 없습니다!")
+		pass # printerr("경고: 'heaters' 그룹에 온열장치가 없습니다!")
 	for heater in heaters:
 		if heater.has_signal("spawn_wall_requested"):
 			heater.spawn_wall_requested.connect(_on_spawn_wall_requested)
 		else:
-			printerr("오류:", heater.name, "에 spawn_wall_requested 시그널이 없습니다.")	
-	print("보스 준비 완료. 총 온열장치 개수:", total_heat_sinks)
+			pass # printerr("오류:", heater.name, "에 spawn_wall_requested 시그널이 없습니다.")	
+	# print("보스 준비 완료. 총 온열장치 개수:", total_heat_sinks)
 
 	# --- 온열장치와의 물리 충돌 방지 로직 ---
 	# 'heaters' 그룹에 있는 노드(온열장치)를 찾습니다.
@@ -74,7 +75,7 @@ func _ready():
 		# 현재 보스의 collision mask에서 온열장치의 layer를 제외합니다.
 		# (비트 연산: AND와 NOT을 사용하여 특정 비트를 끕니다)
 		set_collision_mask(get_collision_mask() & ~heater_layer)
-		print("보스: 온열장치와의 물리 충돌을 비활성화했습니다.")
+		# print("보스: 온열장치와의 물리 충돌을 비활성화했습니다.")
 		
 	# 유도 미사일은 상시 발사
 	homing_missile_timer.start()
@@ -116,7 +117,7 @@ func _physics_process(delta):
 					if (wall_charge_direction > 0 and normal.x < -0.5) or \
 					   (wall_charge_direction < 0 and normal.x > 0.5):
 						
-						print("보스: '앞쪽 지형'과 충돌! 돌진 중지 및 방어벽 생성.")
+						# print("보스: '앞쪽 지형'과 충돌! 돌진 중지 및 방어벽 생성.")
 						is_charging_for_wall = false
 						velocity.x = 0
 						
@@ -136,9 +137,9 @@ func _physics_process(delta):
 			is_returning = false
 			velocity.x = 0
 			global_position = original_position # 정확한 위치로 보정
-			print("보스: 원래 위치로 복귀 완료.")
+			# print("보스: 원래 위치로 복귀 완료.")
 	else:
-		velocity.x = move_toward(velocity.x, 0, 1000 * delta)
+		velocity.x = move_toward(velocity.x, 0, delta)
 		if velocity.length() > 0.1:
 			move_and_slide()
 		
@@ -160,7 +161,6 @@ func _on_attack_timer_timeout(muzzle_node: Node2D):
 		target_pos,
 		ProjectileScene,
 		muzzle_node,
-		BASIC_ATTACK_SPEED,
 		BASIC_EXPLOSION_RADIUS,
 		BASIC_PROJECTILE_SCALE
 	))
@@ -179,7 +179,6 @@ func _on_homing_missile_timer_timeout():
 		target_pos,
 		HomingMissileScene,
 		homing_muzzle,
-		HOMING_MISSILE_SPEED,
 		HOMING_EXPLOSION_RADIUS,
 		HOMING_PROJECTILE_SCALE
 	)
@@ -206,7 +205,7 @@ func _calculate_target_position() -> Vector2:
 		heaters_to_exclude_rids.append(heater.get_rid())
 
 	var query = PhysicsRayQueryParameters2D.create(ray_start, ray_end)
-	query.collision_mask = 1
+	query.collision_mask = 33 # 수정: 기본 지형(1)과 얼음 벽(32)을 모두 감지
 	query.exclude = heaters_to_exclude_rids # 제외할 RID 목록 설정
 	# --- 제외 로직 끝 ---
 
@@ -235,7 +234,6 @@ func _spawn_warning_indicator(spawn_pos: Vector2, radius: float) -> Node:
 	# "position" 대신 "spawn_pos" 사용
 	var adjusted_warning_position = spawn_pos - Vector2(0, warning_height / 7.0)
 	warning.global_position = adjusted_warning_position
-	print("DEBUG: Warning Indicator Global Position: ", warning.global_position)
 
 	# 크기 설정
 	if warning.has_method("set_radius"):
@@ -249,43 +247,40 @@ func _fire_generic_projectile(
 	target_pos: Vector2, 
 	projectile_scene: PackedScene, 
 	muzzle_node: Node2D, 
-	launch_speed: float, 
 	explosion_radius: float, 
 	projectile_scale: Vector2
 ):
 	if player == null:
 		return
 		
-	# --- ✅ 1. 발사 전 궤도 확인 ---
-	var fire_target_pos = target_pos # 기본 목표 지점
+	var fire_target_pos = target_pos
+	var dynamic_apex_height = ATTACK_APEX_HEIGHT 
+
 	var space_state = get_world_2d().direct_space_state
-	
 	var query = PhysicsRayQueryParameters2D.create(muzzle_node.global_position, target_pos)
-	query.collision_mask = WALL_LAYER_MASK # (스크립트 상단에 WALL_LAYER_MASK가 정의되어 있어야 함)
+	query.collision_mask = WALL_LAYER_MASK
 	
 	var result = space_state.intersect_ray(query)
 
 	if result:
-		print("보스: 방어벽이 궤적을 막고 있음! 궤도를 높여서 발사합니다.")
-		fire_target_pos = target_pos + Vector2(0, -1000) # 500픽셀 더 높이 조준
-	# --- ✅ 궤도 확인 끝 ---
+		# print("보스: 방어벽이 궤적을 막고 있음! 궤도를 높여서 발사합니다.")
+		fire_target_pos = target_pos + Vector2(0, -500)
+		dynamic_apex_height += 800 # 목표가 높아진 만큼, 최고점도 높여줌
 
 	var projectile = projectile_scene.instantiate()
 	get_tree().root.add_child(projectile)
 	projectile.global_position = muzzle_node.global_position
 	
-	# --- ✅ 2. (수정) 발사 주체 설정 ---
 	if projectile.has_method("set_shooter"):
-		projectile.set_shooter(self) # 'self'는 보스 자신을 의미
+		projectile.set_shooter(self)
 
-	# --- ✅ 3. (수정) 'gravity' 변수 사용 ---
-	#    (스크립트 상단에 'var gravity = ...'가 선언되어 있어야 함)
-	var initial_velocity = GlobalPhysics.calculate_parabolic_velocity(
+	var initial_velocity = _calculate_parabolic_velocity_local(
 								muzzle_node.global_position,
 								fire_target_pos,
-								launch_speed,
-								gravity # ⬅️ 지역 변수가 아닌 멤버 변수 사용
+								gravity,
+								dynamic_apex_height # 고정값 대신 동적 최고 높이 전달
 							)
+	
 	projectile.linear_velocity = initial_velocity
 
 	if projectile.has_method("set_explosion_radius"):
@@ -294,19 +289,55 @@ func _fire_generic_projectile(
 	if projectile.has_method("set_projectile_scale"):
 		projectile.set_projectile_scale(projectile_scale)
 	else:
-		printerr("오류: Projectile 씬에 set_projectile_scale 함수가 없습니다!")
+		pass # printerr("오류: Projectile 씬에 set_projectile_scale 함수가 없습니다!")
 	
-	# NEW: Set damage explicitly
-	if projectile_scene == ProjectileScene: # Basic Attack
+	if projectile_scene == ProjectileScene:
 		if projectile.has_method("set_damage"):
 			projectile.set_damage(BASIC_ATTACK_DAMAGE)
 		else:
-			projectile.damage = BASIC_ATTACK_DAMAGE # Fallback
-	elif projectile_scene == HomingMissileScene: # Homing Missile
+			projectile.damage = BASIC_ATTACK_DAMAGE
+	elif projectile_scene == HomingMissileScene:
 		if projectile.has_method("set_damage"):
 			projectile.set_damage(HOMING_MISSILE_DAMAGE)
 		else:
-			projectile.damage = HOMING_MISSILE_DAMAGE # Fallback
+			projectile.damage = HOMING_MISSILE_DAMAGE
+
+
+# '고정된 최고 높이' 포물선 발사를 위한 속도 계산 함수
+func _calculate_parabolic_velocity_local(start_pos: Vector2, end_pos: Vector2, p_gravity: float, apex_height: float) -> Vector2:
+	var diff = end_pos - start_pos
+	var dist_x = diff.x
+	var dist_y = diff.y
+
+	if abs(dist_x) < 1.0:
+		dist_x = 1.0 # 0으로 나누기 방지
+
+	# 1. 최고점에 도달하기 위한 초기 Y 속도 계산
+	# v_y^2 = 2 * g * h  =>  v_y = sqrt(2 * g * h)
+	var initial_vy = -sqrt(2 * p_gravity * apex_height)
+
+	# 2. 최고점까지 올라가는 데 걸리는 시간 계산
+	# v = v0 + at  =>  0 = initial_vy + g*t  =>  t = -initial_vy / g
+	var time_to_apex = -initial_vy / p_gravity
+
+	# 3. 최고점에서 목표 Y좌표까지 떨어지는 데 걸리는 시간 계산
+	# d = 0.5 * g * t^2  =>  t = sqrt(2d/g)
+	var fall_distance = apex_height + dist_y
+	if fall_distance < 0:
+		# 목표가 최고점보다 위에 있어 도달할 수 없는 경우
+		# printerr("목표에 도달할 수 없습니다. (목표가 최고점보다 높음)")
+		return Vector2(0, initial_vy) # 일단 위로 쏘기
+
+	var time_to_fall = sqrt(2 * fall_distance / p_gravity)
+
+	# 4. 총 비행 시간
+	var total_time = time_to_apex + time_to_fall
+
+	# 5. 총 비행 시간 동안 수평 거리를 이동하기 위한 X 속도 계산
+	# d = v*t  =>  v = d/t
+	var initial_vx = dist_x / total_time
+	
+	return Vector2(initial_vx, initial_vy)
 
 
 
@@ -315,11 +346,11 @@ func _fire_generic_projectile(
 # --- 온열장치가 파괴될 때마다 호출될 함수 ---
 func _on_heat_sink_destroyed():
 	heat_sinks_destroyed += 1
-	print("보스: 온열장치 파괴 감지! (%d / %d)" % [heat_sinks_destroyed, total_heat_sinks])
+	# print("보스: 온열장치 파괴 감지! (%d / %d)" % [heat_sinks_destroyed, total_heat_sinks])
 
 	# 첫 번째 온열장치가 파괴되면 추가 기본 공격 패턴 활성화
 	if heat_sinks_destroyed == 1:
-		print("보스: 첫 온열장치 파괴! 5초마다 기본 공격을 추가로 발사합니다.")
+		# print("보스: 첫 온열장치 파괴! 5초마다 기본 공격을 추가로 발사합니다.")
 		second_attack_timer.start()
 	
 	# 모든 온열장치가 파괴되었는지 확인
@@ -328,7 +359,7 @@ func _on_heat_sink_destroyed():
 
 # 과열(행동 불능) 상태 시작 함수
 func start_overheating():
-	print("!!! 보스 과열! 행동 불능 상태 돌입 !!!")
+	# print("!!! 보스 과열! 행동 불능 상태 돌입 !!!")
 	sprite.play("freeze")
 	
 	# (선택 사항) 모든 공격 타이머 중지
@@ -342,7 +373,7 @@ func start_overheating():
 
 # 1초마다 호출되어 HP를 100씩 감소시키는 함수
 func _on_overheat_timer_timeout():
-	print("과열 데미지! -100 HP")
+	# print("과열 데미지! -100 HP")
 	take_damage(100) #
 
 # 보스 자신의 데미지 처리 함수
@@ -352,7 +383,7 @@ func take_damage(amount: int):
 		return
 		
 	boss_hp -= amount
-	print("보스 HP:", boss_hp)
+	# print("보스 HP:", boss_hp)
 	
 	emit_signal("health_updated", boss_hp, max_hp)
 	
@@ -363,7 +394,7 @@ func take_damage(amount: int):
 
 # 보스가 아래로 가라앉으며 사라지는 함수
 func _start_sinking():
-	print("보스 처치! 가라앉기 시작합니다.")
+	# print("보스 처치! 가라앉기 시작합니다.")
 	
 	# 1. 모든 공격 동작 정지
 	attack_timer.stop()
@@ -415,7 +446,7 @@ func _on_spawn_wall_requested():
 	if is_charging_for_wall or boss_hp <= 0:
 		return
 		
-	print("보스: 온열장치 50% HP 감지, 방어벽 생성을 위해 돌진 시작!")
+	# print("보스: 온열장치 50% HP 감지, 방어벽 생성을 위해 돌진 시작!")
 	is_charging_for_wall = true
 	
 	# --- ✅ 2. 플레이어 방향 확인 및 돌진 방향/스프라이트 설정 ---
@@ -429,7 +460,7 @@ func _on_spawn_wall_requested():
 
 # 방어벽 생성 함수 (spawn_position 인자 받도록 수정)
 func spawn_ice_wall(spawn_position: Vector2):
-	print("보스: 방어벽 생성 시도 (충돌 지점):", spawn_position)
+	# print("보스: 방어벽 생성 시도 (충돌 지점):", spawn_position)
 	var wall = IceWallScene.instantiate()
 	
 	# --- ✅ 1. 방어벽의 높이 계산 (스프라이트 기준) ---
@@ -447,7 +478,7 @@ func spawn_ice_wall(spawn_position: Vector2):
 			wall_height = frame_texture.get_height() * wall_sprite.scale.y
 	
 	if wall_height == 0.0:
-		printerr("경고: IceWall의 높이를 계산할 수 없습니다. 'AnimatedSprite2D' 노드와 'build' 애니메이션을 확인하세요.")
+		pass # printerr("경고: IceWall의 높이를 계산할 수 없습니다. 'AnimatedSprite2D' 노드와 'build' 애니메이션을 확인하세요.")
 		 # 예비로 50픽셀 높이 사용
 		wall_height = 50.0 
 	
@@ -456,17 +487,17 @@ func spawn_ice_wall(spawn_position: Vector2):
 	
 	get_parent().add_child(wall)
 	wall.global_position = adjusted_spawn_position
-	print("보스: 방어벽 최종 생성 위치:", adjusted_spawn_position)
+	# print("보스: 방어벽 최종 생성 위치:", adjusted_spawn_position)
 
 
 func _on_toggle_homing_button_toggled(_toggled_on: bool) -> void:
 	if is_instance_valid(homing_missile_timer):
 			if homing_missile_timer.is_stopped():
 				homing_missile_timer.start()
-				print("--- (디버그 버튼) 유도 미사일 타이머 [시작됨] ---")
+				# print("--- (디버그 버튼) 유도 미사일 타이머 [시작됨] ---")
 			else:
 				homing_missile_timer.stop()
-				print("--- (디버그 버튼) 유도 미사일 타이머 [정지됨] ---")
+				# print("--- (디버그 버튼) 유도 미사일 타이머 [정지됨] ---")
 
 
 func _on_spawn_wall_button_pressed() -> void:

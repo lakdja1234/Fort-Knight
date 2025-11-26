@@ -10,3 +10,7 @@ func _ready():
 func _on_animation_finished():
 	# 애니메이션이 끝나면 이 씬(폭발)을 제거합니다.
 	queue_free()
+
+func set_radius(new_radius: float):
+	# AnimatedExplosion 스프라이트의 스케일을 조절하여 시각적인 폭발 반경을 나타냅니다.
+	animated_explosion.scale = Vector2(new_radius, new_radius)

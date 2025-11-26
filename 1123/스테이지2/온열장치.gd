@@ -49,14 +49,14 @@ func take_damage(amount: int):
 	tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
 	
 	
-	print("온열장치 현재 HP:", hp, "(", name, ")") # (어떤 온열장치인지 이름도 출력)
+	# print("온열장치 현재 HP:", hp, "(", name, ")") # (어떤 온열장치인지 이름도 출력)
 	
 	# HP 50% 이하 체크
 	# 아직 50% 방어벽이 생성되지 않았고, HP가 50% 이하로 떨어졌다면
 	if not wall_spawn_triggered and hp <= (max_hp / 2.0):
 		wall_spawn_triggered = true # 플래그 설정 (한 번만 실행)
 		emit_signal("spawn_wall_requested") # 보스에게 방어벽 생성 요청
-		print("온열장치 50% HP 도달! 방어벽 생성 요청.")
+		# print("온열장치 50% HP 도달! 방어벽 생성 요청.")
 	
 	# 체력이 0 이하가 되면 파괴 처리
 	if hp <= 0:

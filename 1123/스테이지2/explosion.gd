@@ -10,6 +10,7 @@ var damaged_targets: Array[Node] = [] # 데미지를 입은 대상 저장
 @onready var damage_area: Area2D = $Area2D
 # Area2D의 CollisionShape2D 노드 참조 추가
 @onready var damage_shape: CollisionShape2D = $Area2D/CollisionShape2D
+@onready var damage_timer = $DamageTimer # 새로 추가한 타이머 참조
 # TileMap 노드를 찾아서 저장할 변수
 @onready var tilemap = get_tree().get_first_node_in_group("ground_tilemap")
 
@@ -17,10 +18,9 @@ func _ready():
 	# 1. 폭발 애니메이션/파티클 시작
 	animation_player.play("default")
 
-	# 2. 물리 프레임을 한 번 기다린 후, 폭발 범위 내 객체들에게 데미지 주기
-	# 이를 통해 물리 엔진이 충돌을 감지할 시간을 확보합니다.
-	await get_tree().physics_frame
-	apply_area_damage()
+	# 2. 타이머의 timeout 시그널에 데미지 적용 함수를 연결하고 타이머 시작
+	damage_timer.timeout.connect(apply_area_damage)
+	damage_timer.start()
 
 	# 3. 애니메이션/파티클 재생이 끝나면 스스로 소멸
 	animation_player.animation_finished.connect(queue_free)
@@ -43,7 +43,7 @@ func set_radius(radius: float):
 	if tilemap and tilemap.has_method("melt_ice_in_area"):
 		tilemap.melt_ice_in_area(self.global_position, radius)
 	else:
-		printerr("Explosion: 'ground_tilemap' 그룹에서 TileMap을 찾지 못했거나 melt_ice_in_area 함수가 없습니다.")
+		pass # 'ground_tilemap' 그룹에서 TileMap을 찾지 못했거나 melt_ice_in_area 함수가 없습니다.
 	# --- 3. 얼음 녹이기 로직 끝 ---
 
 # 폭발 범위 내의 객체들에게 데미지를 주는 함수
@@ -56,13 +56,9 @@ func apply_area_damage():
 
 		# 감지된 body가 Area2D(예: 플레이어의 Hitbox)라면, 그 부모 노드(플레이어 CharacterBody2D)를 가져옴
 		if body is Area2D:
-			# Area2D의 owner는 해당 Area2D를 소유하는 Scene의 Root Node이다.
-			# Player.tscn의 경우 Hitbox(Area2D)의 Owner는 Player(CharacterBody2D)이다.
-			# 따라서 owner를 사용하여 최상위 노드를 가져온다.
 			if body.owner != null:
 				target_node = body.owner
 			else:
-				# owner가 null이면 get_parent()를 시도 (예외적인 경우)
 				target_node = body.get_parent()
 				
 		# 동일한 최상위 노드에 대해 한 번만 데미지를 적용
@@ -70,3 +66,7 @@ func apply_area_damage():
 			if target_node.has_method("take_damage"):
 				target_node.take_damage(damage)
 				damaged_targets.append(target_node) # 데미지를 입힌 대상을 기록
+			else:
+				pass
+		else:
+			pass

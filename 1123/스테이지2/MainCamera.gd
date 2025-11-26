@@ -16,15 +16,16 @@ func _ready():
 	# --- 1. 필수 노드 찾기 ---
 	player = get_tree().get_first_node_in_group("player")
 	if not is_instance_valid(player):
-		printerr("MainCamera: 'player' 그룹에서 플레이어를 찾을 수 없습니다!")
-		print("DEBUG: Player not found!")
+		# printerr("MainCamera: 'player' 그룹에서 플레이어를 찾을 수 없습니다!")
+		# print("DEBUG: Player not found!")
+		pass
 		
 	# 'ground_tilemap' 그룹에서 TileMapLayer 노드를 찾습니다.
 	# (TileMapLayer 노드의 인스펙터 -> Node -> Groups에 'ground_tilemap'이 추가되어 있어야 합니다)
 	tilemap = get_tree().get_first_node_in_group("ground_tilemap")
 	if not is_instance_valid(tilemap):
-		printerr("MainCamera: 'ground_tilemap' 그룹에서 TileMapLayer를 찾을 수 없습니다!")
-		print("DEBUG: Tilemap not found!")
+		# printerr("MainCamera: 'ground_tilemap' 그룹에서 TileMapLayer를 찾을 수 없습니다!")
+		# print("DEBUG: Tilemap not found!")
 		# 타일맵을 못 찾으면 카메라 제한을 할 수 없으므로 함수를 종료합니다.
 		return
 		
@@ -37,7 +38,7 @@ func _ready():
 		tilemap.map_to_local(used_rect.position),
 		used_rect.size * tilemap.tile_set.tile_size
 	)
-	print("카메라: 맵 경계 계산 완료 - ", map_limits)
+	# print("카메라: 맵 경계 계산 완료 - ", map_limits)
 
 
 func shake(strength: float = 10.0, duration: float = 0.5):
@@ -60,7 +61,7 @@ func shake(strength: float = 10.0, duration: float = 0.5):
 func _physics_process(delta):
 	# 플레이어나 타일맵이 없으면 아무것도 하지 않음
 	if not is_instance_valid(player) or not is_instance_valid(tilemap):
-		print("DEBUG: Camera not moving because player or tilemap is invalid.")
+		# print("DEBUG: Camera not moving because player or tilemap is invalid.")
 		return
 
 	# --- 1. 목표 위치 계산 (Y축 오프셋 적용) ---
