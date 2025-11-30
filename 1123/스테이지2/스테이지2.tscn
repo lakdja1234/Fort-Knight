@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://cujqbox3d7mi7"]
+[gd_scene load_steps=24 format=4 uid="uid://cujqbox3d7mi7"]
 
 [ext_resource type="PackedScene" uid="uid://bmwhid2ntfoue" path="res://스테이지2/배경화면/배경화면.tscn" id="1_krlra"]
 [ext_resource type="PackedScene" uid="uid://baj1om8s8mxju" path="res://스테이지2/쇄빙선.tscn" id="1_t4bt1"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://6oo188ms7gwi" path="res://스테이지2/HealthBar.gd" id="12_xr71h"]
 [ext_resource type="Texture2D" uid="uid://c55rn4rvxc71d" path="res://스테이지2/bossHealthbar.png" id="13_4p06b"]
 [ext_resource type="Script" uid="uid://5o68fmxv5xqh" path="res://스테이지2/스테이지2.gd" id="13_main"]
+[ext_resource type="PackedScene" uid="uid://ok2s5ytjqoss" path="res://스테이지2/FreezeGaugeUI.tscn" id="14_ui"]
+[ext_resource type="PackedScene" uid="uid://d111aqkrgcnst" path="res://스테이지2/BossHeaterUI.tscn" id="15_heater_ui"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dhuxn"]
 resource_name = "ice_map"
@@ -204,9 +206,9 @@ layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -378.0
+offset_left = -376.0
 offset_top = -50.0
-offset_right = 422.0
+offset_right = 424.0
 offset_bottom = 150.0
 grow_horizontal = 2
 script = ExtResource("12_xr71h")
@@ -253,7 +255,26 @@ theme_override_styles/background = SubResource("StyleBoxFlat_progress_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_xr71h")
 show_percentage = false
 
+[node name="FreezeGaugeUI" parent="GameUI" instance=ExtResource("14_ui")]
+
+[node name="HeaterHealthBar1" parent="GameUI" instance=ExtResource("15_heater_ui")]
+offset_left = -296.0
+offset_top = 70.0
+offset_right = 104.0
+offset_bottom = 130.0
+scale = Vector2(0.52, 0.52)
+heater_name = "온열장치_앞"
+
+[node name="HeaterHealthBar2" parent="GameUI" instance=ExtResource("15_heater_ui")]
+offset_left = 144.0
+offset_top = 70.0
+offset_right = 544.0
+offset_bottom = 130.0
+scale = Vector2(0.5, 0.5)
+heater_name = "온열장치_뒤"
+
 [node name="DebugUI" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("10_14p8l")
 
 [node name="ToggleHomingButton" type="Button" parent="DebugUI"]

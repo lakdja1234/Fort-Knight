@@ -1,0 +1,96 @@
+[gd_scene load_steps=6 format=3 uid="uid://ok2s5ytjqoss"]
+
+[ext_resource type="Script" uid="uid://ccmiq4jr05ma" path="res://스테이지2/FreezeGaugeUI.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://bl5j6yxk7joaf" path="res://스테이지2/냉동게이지ui.png" id="2_qhc3e"]
+[ext_resource type="Texture2D" uid="uid://d1ngwqcxbwibn" path="res://스테이지2/냉동게이지ui(얼어붙음).png" id="3_o4rxi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Background"]
+bg_color = Color(0.1, 0.1, 0.1, 0.7)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Fill"]
+bg_color = Color(0.3, 0.7, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="FreezeGaugeUI" type="CanvasLayer"]
+script = ExtResource("1_abcde")
+default_texture = ExtResource("2_qhc3e")
+frozen_texture = ExtResource("3_o4rxi")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = -195.0
+offset_right = 252.0
+offset_bottom = -115.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ProgressBarContainer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/ProgressBarContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = 35.0
+offset_right = 76.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_Background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_Fill")
+value = 50.0
+fill_mode = 3
+
+[node name="ProgressBarText" type="Label" parent="MarginContainer/VBoxContainer/ProgressBarContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = 35.0
+offset_right = 76.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "얼어붙음!!"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ImageContainer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/ImageContainer"]
+layout_mode = 0
+offset_left = -211.0
+offset_top = -1.0
+offset_right = 382.0
+offset_bottom = 181.0
+texture = ExtResource("2_qhc3e")
+expand_mode = 1

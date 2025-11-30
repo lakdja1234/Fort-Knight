@@ -57,9 +57,6 @@ var warm_rate: float = 20.0
 var is_warming_up: bool = false
 var is_frozen: bool = false
 
-var _print_timer: float = 0.0
-const PRINT_INTERVAL: float = 1.0
-
 # --- 노드 참조 (S2 & S3 Merged) ---
 @onready var ice_map_layer: TileMapLayer = null
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D # S2
@@ -129,12 +126,6 @@ func _physics_process(delta):
 
 	# --- 냉동 게이지 업데이트 (매 프레임 호출) ---
 	update_freeze_gauge(delta)
-
-	# --- 냉동 게이지 1초마다 출력 ---
-	_print_timer += delta
-	if _print_timer >= PRINT_INTERVAL:
-		print("냉동 게이지:", current_freeze_gauge, "/", max_freeze_gauge)
-		_print_timer = 0.0
 
 	# --- S2/S3: 이동 처리 (얼음 물리 적용) ---
 	var direction = Input.get_axis("move_left", "move_right") # S3 입력 사용

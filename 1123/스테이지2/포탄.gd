@@ -57,6 +57,9 @@ func set_projectile_scale(new_scale: Vector2):
 		collision_shape.scale = new_scale
 
 func _on_body_entered(body: Node):
+	# 물리적 상호작용으로 인한 버그를 막기 위해 충돌 즉시 속도를 0으로 만듭니다.
+	linear_velocity = Vector2.ZERO
+	
 	if body == shooter:
 		return
 	
