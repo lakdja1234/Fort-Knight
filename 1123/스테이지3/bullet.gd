@@ -11,6 +11,8 @@ var explosion_scene: PackedScene # This will be loaded dynamically in explode()
 var explosion_radius: float = 1.0 # Default explosion radius (visual scale)
 var current_stage: String = "" # To be set by the player
 
+
+
 func _ready():
 	add_to_group("bullets")
 	collision_shape.disabled = true
@@ -25,9 +27,15 @@ func _on_screen_exited():
 func _on_body_entered(body):
 	if not can_collide or (owner_node and body == owner_node):
 		return
+	
 
-	if body.has_method("take_damage"):
-		body.take_damage(10)
+
+	# Immediately disable collision to prevent further signals from this bullet
+	collision_shape.disabled = true
+	set_contact_monitor(false) # Disable collision monitoring
+	set_physics_process(false) # Stop physics processing for this bullet if it's not needed after hit
+
+
 
 	call_deferred("explode")
 

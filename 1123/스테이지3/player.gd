@@ -9,9 +9,19 @@ signal freeze_gauge_changed(current_value, max_value)
 # --- Physics ---
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# --- Scene References ---
+# --- Scene References & Part System ---
 @export var bullet_scene: PackedScene
-const HomingMissileScene = preload("res://스테이지2/player_homing_missile.tscn")
+
+# Part System
+@export var equipped_parts: Array[Part] = [null, null, null] # Array to hold Part resources for up to 3 slots
+@onready var skill_slots: Array[Node2D] = [
+	$SkillSlot1, # Assuming SkillSlot1, SkillSlot2, SkillSlot3 are children of Player
+	$SkillSlot2,
+	$SkillSlot3
+]
+var current_skill_nodes: Array[Node] = [null, null, null] # To hold instantiated skill nodes
+var next_shot_skill_data: Dictionary = {} # Stores {scene: PackedScene, power: float, skill_node: Node}
+										  # to tell fire_projectile what to use for next shot
 
 # --- HUD & Node References ---
 @onready var health_bar = $PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/HealthBar
@@ -21,6 +31,16 @@ const HomingMissileScene = preload("res://스테이지2/player_homing_missile.ts
 @onready var fire_point = $CannonPivot/FirePoint
 @onready var ice_map_layer: TileMapLayer = null # For Stage 2
 @onready var background = get_node_or_null("/root/TitleMap/Background") # For Stage 3
+@onready var skill_cooldown_progress_bars: Array[ProgressBar] = [
+	get_node("PlayerHUD/HUDContainer/SlotUI/Slot1/ProgressBar"),
+	get_node("PlayerHUD/HUDContainer/SlotUI/Slot2/ProgressBar"),
+	get_node("PlayerHUD/HUDContainer/SlotUI/Slot3/ProgressBar")
+]
+@onready var skill_icon_textures: Array[TextureRect] = [
+	get_node("PlayerHUD/HUDContainer/SlotUI/Slot1/TextureRect"),
+	get_node("PlayerHUD/HUDContainer/SlotUI/Slot2/TextureRect"),
+	get_node("PlayerHUD/HUDContainer/SlotUI/Slot3/TextureRect")
+]
 
 # --- Movement Variables ---
 const SPEED_ORIGINAL = 400.0
@@ -45,7 +65,6 @@ const COOLDOWN_DURATION = 2.0
 var is_charging = false
 var current_power = MIN_FIRE_POWER
 var can_fire = true
-var is_homing_missile_selected = false # Ammo toggle
 
 # --- Player Stats ---
 var max_hp = 100
@@ -98,16 +117,23 @@ func _ready():
 	# Emit health for any listening UIs
 	emit_signal("health_updated", hp)
 	
+	# --- Part System Initialization ---
+	for i in range(equipped_parts.size()):
+		equip_part(equipped_parts[i], i)
+
+	
 
 func _physics_process(delta):
-	# --- Input Handling for Ammo Toggle (Moved from _unhandled_input) ---
-	if Input.is_action_just_pressed("use_skill"):
-		is_homing_missile_selected = not is_homing_missile_selected
-		if is_homing_missile_selected:
-			print("Switched to Homing Missile ammo.")
-		else:
-			print("Switched to Normal Bullet ammo.")
-	
+	# --- Skill Activation ---
+	if Input.is_action_just_pressed("skill_1"):
+		if is_instance_valid(current_skill_nodes[0]):
+			current_skill_nodes[0].activate()
+	if Input.is_action_just_pressed("skill_2"):
+		if is_instance_valid(current_skill_nodes[1]):
+			current_skill_nodes[1].activate()
+	if Input.is_action_just_pressed("skill_3"):
+		if is_instance_valid(current_skill_nodes[2]):
+			current_skill_nodes[2].activate()	
 	# --- Gravity ---
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -186,18 +212,62 @@ func _physics_process(delta):
 #  ACTION FUNCTIONS
 # ==============================================================================
 
-func fire_bullet(power: float):
-	var projectile_scene
-	if is_homing_missile_selected:
-		projectile_scene = HomingMissileScene
-	else:
-		projectile_scene = bullet_scene
-		
-	if not projectile_scene:
-		if is_homing_missile_selected:
-			pass # printerr("Player cannot fire: Homing Missile Scene is not set!")
+func equip_part(new_part: Part, slot_index: int):
+	# Ensure slot_index is valid
+	if slot_index < 0 or slot_index >= skill_slots.size():
+		printerr("Invalid slot_index for equip_part: ", slot_index)
+		return
+
+	var target_slot_node = skill_slots[slot_index]
+	var current_skill_node_in_slot = current_skill_nodes[slot_index]
+
+	# Clear any existing skill from the slot
+	if is_instance_valid(current_skill_node_in_slot):
+		current_skill_node_in_slot.queue_free()
+		current_skill_nodes[slot_index] = null
+
+	equipped_parts[slot_index] = new_part
+	
+	# Handle icon display
+	if slot_index < skill_icon_textures.size() and is_instance_valid(skill_icon_textures[slot_index]):
+		if is_instance_valid(new_part) and is_instance_valid(new_part.part_texture):
+			skill_icon_textures[slot_index].texture = new_part.part_texture
+			skill_icon_textures[slot_index].visible = true
 		else:
-			pass # printerr("Player cannot fire: Bullet Scene is not set!")
+			skill_icon_textures[slot_index].texture = null
+			skill_icon_textures[slot_index].visible = false # Hide icon if no part or texture
+
+	# If the new part is valid and has a scene, instantiate it
+	if is_instance_valid(new_part) and new_part.skill_scene:
+		var skill_instance = new_part.skill_scene.instantiate()
+		target_slot_node.add_child(skill_instance)
+		current_skill_nodes[slot_index] = skill_instance
+		# print("Equipped part '", new_part.part_name, "' into slot ", slot_index) # Optional: for debugging
+
+		# Connect skill signals for UI feedback (e.g., cooldown progress bars)
+		if skill_instance.has_signal("cooldown_started"):
+			skill_instance.cooldown_started.connect(Callable(self, "_on_skill_cooldown_started").bind(slot_index))
+		if skill_instance.has_signal("cooldown_progress"):
+			skill_instance.cooldown_progress.connect(Callable(self, "_on_skill_cooldown_progress").bind(slot_index))
+		if skill_instance.has_signal("cooldown_finished"):
+			skill_instance.cooldown_finished.connect(Callable(self, "_on_skill_cooldown_finished").bind(slot_index))
+	#else:
+		# print("Equipped an empty part or part with no scene into slot ", slot_index) # Optional: for debugging
+		pass
+
+
+func set_next_projectile(projectile_scene: PackedScene, power: float, skill_node: Node):
+	next_shot_skill_data = {
+		"scene": projectile_scene,
+		"power": power,
+		"skill_node": skill_node # Store reference to the skill node
+	}
+	# print("Next projectile set by ", skill_node.name) # Optional: for debugging
+
+
+func fire_projectile(projectile_scene: PackedScene, power: float):
+	if not projectile_scene:
+		printerr("Player cannot fire: projectile_scene is not set!")
 		return
 
 	var bullet = projectile_scene.instantiate()
@@ -208,11 +278,9 @@ func fire_bullet(power: float):
 		var current_scene_path = get_tree().current_scene.scene_file_path
 		bullet.set_current_stage(current_scene_path)
 
-	# --- Collision Layer/Mask Setup ---
-	if not is_homing_missile_selected:
-		# The bullet itself is on layer 3.
+	# --- Primary Bullet Specific Setup (Collision Layer/Mask) ---
+	if projectile_scene == bullet_scene: # Check if this is the primary bullet
 		bullet.set_collision_layer_value(3, true)
-		# Set the mask to detect layers 1 (Terrain/Heaters), 4 (Old Enemies), 8 (Boss), and 32 (Ice Walls).
 		bullet.collision_mask = (1 << 0) | (1 << 3) | (1 << 7) | (1 << 31)
 
 	# --- Set projectile properties based on the current stage ---
@@ -223,10 +291,11 @@ func fire_bullet(power: float):
 			bullet.set_explosion_radius(1.0)
 			
 	if bullet.has_method("set_projectile_scale"):
-		if is_homing_missile_selected:
-			bullet.set_projectile_scale(Vector2(2.0, 2.0)) # Make homing missile bigger
+		# Make homing missile bigger, a bit of a hack but preserves old behavior
+		if projectile_scene.resource_path.contains("homing"):
+			bullet.set_projectile_scale(Vector2(2.0, 2.0))
 		else:
-			bullet.set_projectile_scale(player_projectile_scale)
+			bullet.set_projectile_scale(player_projectile_scale) # Default scale for primary bullets
 	
 	# This works for both S2 and S3 bullets as long as they have the methods.
 	if bullet.has_method("set_shooter"):
@@ -239,6 +308,33 @@ func fire_bullet(power: float):
 	bullet.global_position = fire_point.global_position
 	bullet.global_rotation = cannon_pivot.global_rotation
 	bullet.linear_velocity = bullet.transform.x * power
+
+
+func fire_bullet(power: float): # Name remains fire_bullet as per user request
+	var projectile_scene_to_use: PackedScene
+	var projectile_power_to_use: float
+	var skill_node_that_fired: Node = null
+
+	if not next_shot_skill_data.is_empty() and is_instance_valid(next_shot_skill_data["skill_node"]):
+		# Use skill's projectile and power
+		projectile_scene_to_use = next_shot_skill_data["scene"]
+		projectile_power_to_use = next_shot_skill_data["power"]
+		skill_node_that_fired = next_shot_skill_data["skill_node"]
+		next_shot_skill_data = {} # Clear the skill shot data after use
+		
+		# Notify the skill node that its projectile has been fired
+		if is_instance_valid(skill_node_that_fired) and skill_node_that_fired.has_method("_on_shot_fired"):
+			skill_node_that_fired._on_shot_fired()
+	else:
+		# Use primary weapon's projectile and charged power
+		projectile_scene_to_use = bullet_scene
+		projectile_power_to_use = power
+
+	if not projectile_scene_to_use:
+		printerr("Player cannot fire: No projectile scene set for primary weapon or skill!")
+		return
+	
+	fire_projectile(projectile_scene_to_use, projectile_power_to_use)
 
 
 func take_damage(amount):
@@ -258,6 +354,28 @@ func take_damage(amount):
 		emit_signal("game_over")
 		queue_free()
 
+
+# --- Skill Cooldown UI Handlers ---
+func _on_skill_cooldown_started(duration: float, slot_index: int):
+	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size(): return
+	var progress_bar = skill_cooldown_progress_bars[slot_index]
+	if is_instance_valid(progress_bar):
+		progress_bar.max_value = duration
+		progress_bar.value = duration
+		progress_bar.visible = true
+
+func _on_skill_cooldown_progress(time_left: float, slot_index: int):
+	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size(): return
+	var progress_bar = skill_cooldown_progress_bars[slot_index]
+	if is_instance_valid(progress_bar):
+		progress_bar.value = time_left
+
+func _on_skill_cooldown_finished(slot_index: int):
+	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size(): return
+	var progress_bar = skill_cooldown_progress_bars[slot_index]
+	if is_instance_valid(progress_bar):
+		progress_bar.value = 0
+		progress_bar.visible = false # Hide when cooldown is finished
 # ==============================================================================
 #  HUD AND VISUALS
 # ==============================================================================

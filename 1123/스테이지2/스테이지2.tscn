@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://cujqbox3d7mi7"]
+[gd_scene load_steps=25 format=4 uid="uid://cujqbox3d7mi7"]
 
 [ext_resource type="PackedScene" uid="uid://bmwhid2ntfoue" path="res://스테이지2/배경화면/배경화면.tscn" id="1_krlra"]
 [ext_resource type="PackedScene" uid="uid://baj1om8s8mxju" path="res://스테이지2/쇄빙선.tscn" id="1_t4bt1"]
@@ -7,11 +7,12 @@
 [ext_resource type="Script" uid="uid://vqvurpqtxk0f" path="res://스테이지2/tile_map.gd" id="4_0f3da"]
 [ext_resource type="PackedScene" uid="uid://bf8bw4agvcrxp" path="res://스테이지2/Heater.tscn" id="6_r81n0"]
 [ext_resource type="PackedScene" uid="uid://pxqgegm6a54e" path="res://스테이지3/Player.tscn" id="8_7o5j8"]
-[ext_resource type="Script" uid="uid://dlns1ix5ixjpe" path="res://스테이지3/player.gd" id="9_4p06b"]
 [ext_resource type="PackedScene" uid="uid://d318hu7yjxo2e" path="res://스테이지2/GameUI.tscn" id="9_14p8l"]
 [ext_resource type="Script" uid="uid://b7b6croqgtwjx" path="res://스테이지2/MainCamera.gd" id="9_j6p7f"]
 [ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="9_xr71h"]
 [ext_resource type="Script" uid="uid://ct6su8eq4l0hp" path="res://스테이지2/DebugUI.gd" id="10_14p8l"]
+[ext_resource type="Script" uid="uid://b7yovahwqm2p0" path="res://parts/part.gd" id="10_w4rx3"]
+[ext_resource type="Resource" uid="uid://c4bswmwe25oaq" path="res://parts/homing_missile_part.tres" id="11_c755o"]
 [ext_resource type="PackedScene" uid="uid://dpsm8wjhq68n" path="res://스테이지2/snow_effect.tscn" id="11_snow"]
 [ext_resource type="Script" uid="uid://6oo188ms7gwi" path="res://스테이지2/HealthBar.gd" id="12_xr71h"]
 [ext_resource type="Texture2D" uid="uid://c55rn4rvxc71d" path="res://스테이지2/bossHealthbar.png" id="13_4p06b"]
@@ -187,8 +188,8 @@ collision_mask = 20
 [node name="Player" parent="." groups=["player"] instance=ExtResource("8_7o5j8")]
 position = Vector2(153, 515)
 scale = Vector2(3, 3)
-script = ExtResource("9_4p06b")
 bullet_scene = ExtResource("9_xr71h")
+equipped_parts = Array[ExtResource("10_w4rx3")]([ExtResource("11_c755o"), ExtResource("11_c755o"), ExtResource("11_c755o")])
 player_explosion_radius = 200.0
 player_projectile_scale = Vector2(2, 2)
 
@@ -274,7 +275,6 @@ scale = Vector2(0.5, 0.5)
 heater_name = "온열장치_뒤"
 
 [node name="DebugUI" type="CanvasLayer" parent="."]
-visible = false
 script = ExtResource("10_14p8l")
 
 [node name="ToggleHomingButton" type="Button" parent="DebugUI"]

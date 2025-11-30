@@ -16,17 +16,6 @@ func calculate_parabolic_velocity(launch_pos: Vector2, target_pos: Vector2, desi
 		var vertical_speed = -desired_speed if delta_y > 0 else desired_speed
 		return Vector2(0, vertical_speed)
 
-	# 목표 지점에 도달하기 위한 최소 속력 제곱(v^2) 계산 (수학 기준 Y 사용)
-	var min_speed_sq = gravity * (delta_y + sqrt(delta_x * delta_x + delta_y * delta_y))
-	
-	var min_launch_speed = 0.0
-	if min_speed_sq >= 0:
-		min_launch_speed = sqrt(min_speed_sq)
-	else:
-		printerr("경고: 최소 속력 계산 불가!")
-		var fallback_angle = deg_to_rad(45.0) # 수학 기준 45도
-		return Vector2(cos(fallback_angle) * desired_speed, -sin(fallback_angle) * desired_speed) # Y축만 Godot에 맞게 뒤집음
-
 	var actual_launch_speed = desired_speed
 	var actual_speed_sq = actual_launch_speed * actual_launch_speed
 	# print("실제 발사 속력:", actual_launch_speed)

@@ -13,7 +13,7 @@ func _ready():
 	# 온열장치 노드를 찾고 시그널에 연결합니다.
 	var heaters = get_tree().get_nodes_in_group("heaters")
 	
-	var found_heater = false
+
 	for heater in heaters:
 		if heater.name == heater_name:
 			# 시그널 연결
@@ -23,15 +23,15 @@ func _ready():
 			if "hp" in heater and "max_hp" in heater:
 				_on_heater_health_updated(heater.hp, heater.max_hp, heater.name)
 			
-			found_heater = true
+
 			# 일치하는 히터를 찾았으면 루프 종료
 			break
 			
 	# 온열장치의 체력이 업데이트될 때 호출되는 함수
-func _on_heater_health_updated(current_hp: int, max_hp: int, name: String):
+func _on_heater_health_updated(current_hp: int, max_hp: int, _name: String):
 	
 	# 이 UI가 담당하는 온열장치가 맞는지 다시 한 번 확인
-	if name != heater_name:
+	if _name != heater_name:
 		return
 		
 	# ProgressBar 업데이트

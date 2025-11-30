@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Part" load_steps=4 format=3 uid="uid://c4bswmwe25oaq"]
+
+[ext_resource type="Script" uid="uid://b7yovahwqm2p0" path="res://parts/part.gd" id="1_86cr5"]
+[ext_resource type="Texture2D" uid="uid://c5a3o0vq5x704" path="res://파츠/쇄빙선파츠2.png" id="1_hwpg5"]
+[ext_resource type="PackedScene" uid="uid://pp0kciwj7vj7" path="res://parts/HomingMissilePart.tscn" id="3_an683"]
+
+[resource]
+script = ExtResource("1_86cr5")
+part_name = "유도 미사일"
+description = "유도 미사일을 발사합니다."
+part_texture = ExtResource("1_hwpg5")
+skill_scene = ExtResource("3_an683")
+metadata/_custom_type_script = "uid://b7yovahwqm2p0"

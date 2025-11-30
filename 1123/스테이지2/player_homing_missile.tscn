@@ -13,7 +13,7 @@ shader_parameter/line_thickness = 3.0
 
 [node name="PlayerHomingMissile" type="RigidBody2D"]
 collision_layer = 4
-collision_mask = 105
+collision_mask = 137
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_xdjs4")
