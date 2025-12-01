@@ -31,5 +31,5 @@ func _on_stage_3_button_gui_input(event):
 			last_click_time_3 = current_time
 
 func _on_part_selection_button_pressed():
-	print("Part selection screen will be implemented here!")
+	SceneTransition.change_scene("res://ui/PartSelectionScreen.tscn")
 

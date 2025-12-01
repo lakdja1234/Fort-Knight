@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://new_player_preview_scene"]
+
+[ext_resource type="PackedScene" path="res://스테이지3/player.tscn" id="1_player_scene"]
+[ext_resource type="Script" path="res://ui/PlayerPreview.gd" id="2_script"]
+
+[node name="PlayerPreview" type="Node2D"]
+script = ExtResource("2_script")
+
+[node name="Player" parent="." instance=ExtResource("1_player_scene")]
+position = Vector2(0, 0)
+scale = Vector2(1.0, 1.0) # Or adjust for preview size  

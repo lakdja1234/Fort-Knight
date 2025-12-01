@@ -41,6 +41,7 @@ var next_shot_skill_data: Dictionary = {} # Stores {scene: PackedScene, power: f
 	get_node("PlayerHUD/HUDContainer/SlotUI/Slot2/TextureRect"),
 	get_node("PlayerHUD/HUDContainer/SlotUI/Slot3/TextureRect")
 ]
+@onready var part_icon_sprite: Sprite2D = $PartIconSprite
 
 # --- Movement Variables ---
 const SPEED_ORIGINAL = 400.0
@@ -118,8 +119,16 @@ func _ready():
 	emit_signal("health_updated", hp)
 	
 	# --- Part System Initialization ---
+	var player_data = get_node_or_null("/root/PlayerData")
+	if is_instance_valid(player_data):
+		# Overwrite the inspector-defined parts with the globally selected parts
+		for i in range(player_data.equipped_parts.size()):
+			if i < equipped_parts.size():
+				equipped_parts[i] = player_data.equipped_parts[i]
+				
 	for i in range(equipped_parts.size()):
 		equip_part(equipped_parts[i], i)
+	_update_part_icon_display(equipped_parts[0])
 
 	
 
@@ -228,6 +237,9 @@ func equip_part(new_part: Part, slot_index: int):
 
 	equipped_parts[slot_index] = new_part
 	
+	if slot_index == 0:
+		_update_part_icon_display(equipped_parts[0])
+	
 	# Handle icon display
 	if slot_index < skill_icon_textures.size() and is_instance_valid(skill_icon_textures[slot_index]):
 		if is_instance_valid(new_part) and is_instance_valid(new_part.part_texture):
@@ -254,6 +266,18 @@ func equip_part(new_part: Part, slot_index: int):
 	#else:
 		# print("Equipped an empty part or part with no scene into slot ", slot_index) # Optional: for debugging
 		pass
+
+func _update_part_icon_display(part_resource: Part):
+	if not is_instance_valid(part_icon_sprite):
+		printerr("PartIconSprite (Sprite2D) is not valid!")
+		return
+	
+	if is_instance_valid(part_resource) and is_instance_valid(part_resource.part_texture):
+		part_icon_sprite.texture = part_resource.part_texture
+		part_icon_sprite.visible = true
+	else:
+		part_icon_sprite.texture = null
+		part_icon_sprite.visible = false
 
 
 func set_next_projectile(projectile_scene: PackedScene, power: float, skill_node: Node):

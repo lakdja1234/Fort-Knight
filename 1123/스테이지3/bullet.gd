@@ -31,9 +31,9 @@ func _on_body_entered(body):
 
 
 	# Immediately disable collision to prevent further signals from this bullet
-	collision_shape.disabled = true
-	set_contact_monitor(false) # Disable collision monitoring
-	set_physics_process(false) # Stop physics processing for this bullet if it's not needed after hit
+	collision_shape.call_deferred("set", "disabled", true)
+	call_deferred("set_contact_monitor", false)
+	call_deferred("set_physics_process", false)
 
 
 

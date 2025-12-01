@@ -16,13 +16,20 @@ var player = null
 func _ready():
 	# 부모(SkillSlot)의 부모(Player)에 대한 참조를 저장
 	# 이 파츠는 항상 플레이어의 '스킬 슬롯' 자식으로 존재해야 합니다.
-	player = get_parent().get_parent()
-	if not player.has_method("fire_projectile"):
-		printerr("HomingMissilePart Error: Parent Player node does not have 'fire_projectile' method.")
+	call_deferred("_initialize_player_reference") # Defer this until scene tree is fully ready
 
 	cooldown_timer.wait_time = HOMING_COOLDOWN
 	cooldown_timer.one_shot = true
 	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
+
+func _initialize_player_reference():
+	# This function will be called after _ready() when the scene tree is more stable
+	player = get_parent().get_parent()
+	if not is_instance_valid(player):
+		printerr("HomingMissilePart Error: Player reference is invalid after deferred initialization.")
+		return
+	if not player.has_method("fire_projectile"):
+		printerr("HomingMissilePart Error: Parent Player node does not have 'fire_projectile' method.")
 
 func _physics_process(_delta):
 	if is_on_cooldown:

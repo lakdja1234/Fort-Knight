@@ -1,0 +1,176 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv5g3c643yrx6"]
+
+[ext_resource type="Script" uid="uid://ltdc8v6qo3i1" path="res://ui/PartSelectionScreen.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://ui/PlayerPreview.tscn" id="2_player_preview_scene"]
+
+[sub_resource type="Environment" id="environment_resource"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_energy = 3.0
+adjustment_enabled = true
+adjustment_brightness = 1.5
+
+[node name="PartSelectionScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("environment_resource")
+
+[node name="BackgroundPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EquippedPartsPanel" type="Panel" parent="."]
+modulate = Color(0.7, 0.7, 0.8, 1)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 350.0
+offset_bottom = 250.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EquippedPartsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Slot1Container" type="HBoxContainer" parent="EquippedPartsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Slot1Button" type="Button" parent="EquippedPartsPanel/VBoxContainer/Slot1Container"]
+layout_mode = 2
+text = "Slot 1"
+
+[node name="Part1Icon" type="TextureRect" parent="EquippedPartsPanel/VBoxContainer/Slot1Container"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Part1Name" type="Label" parent="EquippedPartsPanel/VBoxContainer/Slot1Container"]
+layout_mode = 2
+text = "Empty"
+
+[node name="Slot2Container" type="HBoxContainer" parent="EquippedPartsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Slot2Button" type="Button" parent="EquippedPartsPanel/VBoxContainer/Slot2Container"]
+layout_mode = 2
+text = "Slot 2"
+
+[node name="Part2Icon" type="TextureRect" parent="EquippedPartsPanel/VBoxContainer/Slot2Container"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Part2Name" type="Label" parent="EquippedPartsPanel/VBoxContainer/Slot2Container"]
+layout_mode = 2
+text = "Empty"
+
+[node name="Slot3Container" type="HBoxContainer" parent="EquippedPartsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Slot3Button" type="Button" parent="EquippedPartsPanel/VBoxContainer/Slot3Container"]
+layout_mode = 2
+text = "Slot 3"
+
+[node name="Part3Icon" type="TextureRect" parent="EquippedPartsPanel/VBoxContainer/Slot3Container"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Part3Name" type="Label" parent="EquippedPartsPanel/VBoxContainer/Slot3Container"]
+layout_mode = 2
+text = "Empty"
+
+[node name="PlayerPreviewPanel" type="Panel" parent="."]
+modulate = Color(0.7, 0.7, 0.8, 1)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 260.0
+offset_right = 350.0
+offset_bottom = 638.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PlayerPreviewPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="PlayerPreviewPanel/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(340, 378)
+render_target_update_mode = 4
+
+[node name="PlayerPreview" parent="PlayerPreviewPanel/SubViewportContainer/SubViewport" instance=ExtResource("2_player_preview_scene")]
+position = Vector2(170, 199)
+
+[node name="OwnedPartsPanel" type="Panel" parent="."]
+modulate = Color(0.7, 0.7, 0.8, 1)
+layout_mode = 0
+offset_left = 360.0
+offset_top = 10.0
+offset_right = 1142.0
+offset_bottom = 638.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="OwnedPartsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PartsListContainer" type="VBoxContainer" parent="OwnedPartsPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -40.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Back"
+
+[connection signal="pressed" from="EquippedPartsPanel/VBoxContainer/Slot1Container/Slot1Button" to="." method="_on_slot_1_button_pressed"]
+[connection signal="pressed" from="EquippedPartsPanel/VBoxContainer/Slot2Container/Slot2Button" to="." method="_on_slot_2_button_pressed"]
+[connection signal="pressed" from="EquippedPartsPanel/VBoxContainer/Slot3Container/Slot3Button" to="." method="_on_slot_3_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

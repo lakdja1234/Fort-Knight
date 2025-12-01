@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://v8fu20hlq6hq"]
+[gd_scene load_steps=7 format=3 uid="uid://v8fu20hlq6hq"]
 
-[ext_resource type="Texture2D" uid="uid://vumuqf2m6dst" path="res://쇄빙선파츠2.png" id="1_molvx"]
+[ext_resource type="Texture2D" uid="uid://c5a3o0vq5x704" path="res://파츠/쇄빙선파츠2.png" id="1_sqlwj"]
+[ext_resource type="Script" path="res://파츠/stage2reward.gd" id="2_abcde"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2qf6d"]
 bg_color = Color(0, 0, 0, 0)
@@ -46,6 +47,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_abcde")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -109,7 +111,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_molvx")
+texture = ExtResource("1_sqlwj")
 expand_mode = 1
 stretch_mode = 5
 
@@ -127,3 +129,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_kgrw7")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_hmu1p")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hmu1p")
 text = "획득하기"
+
+[connection signal="pressed" from="Panel/VBoxContainer/AcquireButton" to="." method="_on_acquire_button_pressed"]
