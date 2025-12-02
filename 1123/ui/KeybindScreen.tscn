@@ -1,0 +1,175 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6g8e5y0jq2w5"]
+
+[ext_resource type="Script" path="res://ui/KeybindScreen.gd" id="1_abcde"]
+
+[node name="KeybindScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.0
+offset_top = -200.0
+offset_right = 167.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ActionList" type="VBoxContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBox_MoveLeft" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_MoveLeft"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "왼쪽 이동"
+
+[node name="Button_MoveLeft" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_MoveLeft"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_MoveRight" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_MoveRight"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "오른쪽 이동"
+
+[node name="Button_MoveRight" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_MoveRight"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_AimUp" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_AimUp"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "위로 조준"
+
+[node name="Button_AimUp" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_AimUp"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_AimDown" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_AimDown"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "아래로 조준"
+
+[node name="Button_AimDown" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_AimDown"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_Fire" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_Fire"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "발사"
+
+[node name="Button_Fire" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_Fire"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_Skill1" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_Skill1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "스킬 1"
+
+[node name="Button_Skill1" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_Skill1"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_Skill2" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_Skill2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "스킬 2"
+
+[node name="Button_Skill2" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_Skill2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBox_Skill3" type="HBoxContainer" parent="Panel/ScrollContainer/ActionList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/ActionList/HBox_Skill3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "스킬 3"
+
+[node name="Button_Skill3" type="Button" parent="Panel/ScrollContainer/ActionList/HBox_Skill3"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 210.0
+offset_right = 50.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_MoveLeft/Button_MoveLeft" to="." method="_on_Button_MoveLeft_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_MoveRight/Button_MoveRight" to="." method="_on_Button_MoveRight_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_AimUp/Button_AimUp" to="." method="_on_Button_AimUp_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_AimDown/Button_AimDown" to="." method="_on_Button_AimDown_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_Fire/Button_Fire" to="." method="_on_Button_Fire_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_Skill1/Button_Skill1" to="." method="_on_Button_Skill1_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_Skill2/Button_Skill2" to="." method="_on_Button_Skill2_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/ActionList/HBox_Skill3/Button_Skill3" to="." method="_on_Button_Skill3_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

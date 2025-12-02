@@ -1,0 +1,142 @@
+[gd_scene load_steps=2 format=3 uid="uid://dofi0ohn80o4e"]
+
+[ext_resource type="Script" path="res://ui/OptionScreen.gd" id="1_qcyf5"]
+
+[node name="OptionScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qcyf5")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="MasterVolumeLabel" type="Label" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Master Volume"
+horizontal_alignment = 1
+
+[node name="MasterVolumeMarginContainer" type="MarginContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 67
+theme_override_constants/margin_right = 67
+
+[node name="MasterVolumeSlider" type="HSlider" parent="Panel/ScrollContainer/VBoxContainer/MasterVolumeMarginContainer"]
+layout_mode = 2
+min_value = -20.0
+max_value = 20.0
+step = 0.1
+
+[node name="MusicVolumeLabel" type="Label" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="MusicVolumeMarginContainer" type="MarginContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 67
+theme_override_constants/margin_right = 67
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Panel/ScrollContainer/VBoxContainer/MusicVolumeMarginContainer"]
+layout_mode = 2
+min_value = -20.0
+max_value = 20.0
+step = 0.1
+
+[node name="SfxVolumeLabel" type="Label" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "SFX Volume"
+horizontal_alignment = 1
+
+[node name="SfxVolumeMarginContainer" type="MarginContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 67
+theme_override_constants/margin_right = 67
+
+[node name="SfxVolumeSlider" type="HSlider" parent="Panel/ScrollContainer/VBoxContainer/SfxVolumeMarginContainer"]
+layout_mode = 2
+min_value = -20.0
+max_value = 20.0
+step = 0.1
+
+[node name="KeybindsMarginContainer" type="MarginContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 67
+theme_override_constants/margin_right = 67
+
+[node name="KeybindsButton" type="Button" parent="Panel/ScrollContainer/VBoxContainer/KeybindsMarginContainer"]
+layout_mode = 2
+text = "키보드 설정"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ResetMarginContainer" type="MarginContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 67
+theme_override_constants/margin_right = 67
+
+[node name="ResetButton" type="Button" parent="Panel/ScrollContainer/VBoxContainer/ResetMarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+text = "게임 초기화"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 210.0
+offset_right = 50.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+
+[node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "게임 초기화"
+initial_position = 1
+size = Vector2i(300, 100)
+dialog_text = "정말로 모든 설정을 초기화하시겠습니까?
+이 작업은 되돌릴 수 없습니다."
+ok_button_text = "확인"
+cancel_button_text = "취소"
+
+[connection signal="value_changed" from="Panel/ScrollContainer/VBoxContainer/MasterVolumeMarginContainer/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
+[connection signal="value_changed" from="Panel/ScrollContainer/VBoxContainer/MusicVolumeMarginContainer/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
+[connection signal="value_changed" from="Panel/ScrollContainer/VBoxContainer/SfxVolumeMarginContainer/SfxVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]
+[connection signal="pressed" from="Panel/ScrollContainer/VBoxContainer/KeybindsMarginContainer/KeybindsButton" to="." method="_on_keybinds_button_pressed"]
+[connection signal="pressed" from="Panel/ScrollContainer/VBoxContainer/ResetMarginContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="confirmed" from="ResetConfirmationDialog" to="." method="_on_reset_confirmed"]

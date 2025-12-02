@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://013k5t8auqat" path="res://스테이지2/sand.png" id="3_r81n0"]
 [ext_resource type="Script" uid="uid://vqvurpqtxk0f" path="res://스테이지2/tile_map.gd" id="4_0f3da"]
 [ext_resource type="PackedScene" uid="uid://bf8bw4agvcrxp" path="res://스테이지2/Heater.tscn" id="6_r81n0"]
-[ext_resource type="PackedScene" uid="uid://pxqgegm6a54e" path="res://스테이지3/Player.tscn" id="8_7o5j8"]
+[ext_resource type="PackedScene" uid="uid://pxqgegm6a54e" path="res://스테이지3/player.tscn" id="8_7o5j8"]
 [ext_resource type="PackedScene" uid="uid://d318hu7yjxo2e" path="res://스테이지2/GameUI.tscn" id="9_14p8l"]
 [ext_resource type="Script" uid="uid://b7b6croqgtwjx" path="res://스테이지2/MainCamera.gd" id="9_j6p7f"]
 [ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="9_xr71h"]
