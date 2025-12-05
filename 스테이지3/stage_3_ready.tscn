@@ -1,0 +1,123 @@
+[gd_scene load_steps=6 format=3 uid="uid://dflc7w7vj3g8v"]
+
+[ext_resource type="Script" uid="uid://dwc1ti4jb3dfk" path="res://스테이지3/stage_3_ready.gd" id="1_xqo1x"]
+[ext_resource type="Texture2D" uid="uid://c4frpn34kmkip" path="res://스테이지3/Img/pages/3ready.png" id="2_ytrdo"]
+
+[sub_resource type="Animation" id="Animation_overlay_fade_in"]
+resource_name = "overlay_fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_description_fade_in"]
+resource_name = "description_fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DescriptionLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ready"]
+_data = {
+&"description_fade_in": SubResource("Animation_description_fade_in"),
+&"overlay_fade_in": SubResource("Animation_overlay_fade_in")
+}
+
+[node name="Stage3Ready" type="Node2D"]
+script = ExtResource("1_xqo1x")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ytrdo")
+expand_mode = 1
+
+[node name="Overlay" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="DescriptionLabel" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 200.0
+offset_right = 1150.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
+text = "- 종유석을 맞춰 보스에게 강력한 데미지를 입히세요!
+- 주기적으로 횃불을 밝혀 시야를 확보하세요!
+- 보스가 은신할 시 빨갛게 빛나는 곳을 타격해 회복을 멈추세요!
+- 보스 체력이 얼마 남지 않으면, 동굴이 붕괴하기 시작합니다..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="StartPromptLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 426.0
+offset_top = 550.0
+offset_right = 726.0
+offset_bottom = 573.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "--PRESS SPACE TO START--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InitialWaitTimer" type="Timer" parent="."]
+wait_time = 1.0
+one_shot = true
+
+[node name="DescriptionWaitTimer" type="Timer" parent="."]
+wait_time = 1.0
+one_shot = true
+
+[node name="BlinkTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ready")
+}
+
+[connection signal="timeout" from="InitialWaitTimer" to="." method="_on_initial_wait_timer_timeout"]
+[connection signal="timeout" from="DescriptionWaitTimer" to="." method="_on_description_wait_timer_timeout"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

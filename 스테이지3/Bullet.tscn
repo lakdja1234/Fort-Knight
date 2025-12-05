@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://fgwbejfhbulb"]
+
+[ext_resource type="Script" uid="uid://vhinakad8wid" path="res://스테이지3/bullet.gd" id="1_4s4u5"]
+[ext_resource type="Texture2D" uid="uid://dqyx26x27bsfo" path="res://캐릭터/tank_bullet3.png" id="2_78vyt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u8st5"]
+size = Vector2(55.13577, 36.89536)
+
+[sub_resource type="Gradient" id="Gradient_7281b"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u8st5"]
+gradient = SubResource("Gradient_7281b")
+fill = 1
+fill_from = Vector2(0.4906542, 0.49532712)
+fill_to = Vector2(0.87383175, 0.23364486)
+
+[node name="Bullet" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 105
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_4s4u5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -1)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("2_78vyt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.4533598, -0.6321161)
+scale = Vector2(0.63648844, 0.25109476)
+shape = SubResource("RectangleShape2D_u8st5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-19, -13, 38, 26)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = SubResource("GradientTexture2D_u8st5")
+texture_scale = 2.9
+
+[node name="CollisionEnableTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="CollisionEnableTimer" to="." method="_on_collision_enable_timer_timeout"]
