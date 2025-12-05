@@ -132,7 +132,8 @@ size = Vector2i(340, 378)
 render_target_update_mode = 4
 
 [node name="PlayerPreview" parent="PlayerPreviewPanel/SubViewportContainer/SubViewport" instance=ExtResource("2_player_preview_scene")]
-position = Vector2(170, 199)
+position = Vector2(170, 250)
+scale = Vector2(5, 5)
 
 [node name="OwnedPartsPanel" type="Panel" parent="."]
 modulate = Color(0.7, 0.7, 0.8, 1)
