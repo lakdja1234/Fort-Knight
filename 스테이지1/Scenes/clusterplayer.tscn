@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmbb1qaggbmpg"]
+
+[ext_resource type="Script" uid="uid://dehdgp53jrv0i" path="res://스테이지1/Scenes/clusterplayer.gd" id="1_newscript"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="3_submunition"]
+[ext_resource type="Texture2D" uid="uid://dqyx26x27bsfo" path="res://캐릭터/tank_bullet3.png" id="4_07q43"]
+[ext_resource type="PackedScene" uid="uid://bxm52f32mesfo" path="res://스테이지3/stalactiteExplosion.tscn" id="4_explosion"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_07q43"]
+size = Vector2(75, 52)
+
+[node name="ClusterPlayer" type="RigidBody2D"]
+script = ExtResource("1_newscript")
+submunition_scene = ExtResource("3_submunition")
+explosion_scene = ExtResource("4_explosion")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+scale = Vector2(0.44936195, 0.19600241)
+shape = SubResource("RectangleShape2D_07q43")
+
+[node name="SplitTimer" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -1)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("4_07q43")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="SplitTimer" to="." method="_on_split_timer_timeout"]

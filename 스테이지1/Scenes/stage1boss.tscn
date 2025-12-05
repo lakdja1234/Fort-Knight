@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3 uid="uid://c5cpcr1vn7hmy"]
+
+[ext_resource type="Script" uid="uid://xyxthxnihgbn" path="res://스테이지1/Scenes/Stage1boss.gd" id="1_7r65e"]
+[ext_resource type="Texture2D" uid="uid://bukhtr1t363nh" path="res://스테이지1/1stageboss.png" id="1_mv7mu"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="2_os032"]
+[ext_resource type="Texture2D" uid="uid://btmck14teqboj" path="res://스테이지1/bossttack.png" id="2_ygbg5"]
+[ext_resource type="PackedScene" uid="uid://ciw4b26xie7bs" path="res://스테이지1/Scenes/HitboxIndicator.tscn" id="3_7r65e"]
+[ext_resource type="PackedScene" uid="uid://befyjavmkf8n2" path="res://스테이지1/Scenes/BigBullet.tscn" id="4_0ojar"]
+[ext_resource type="PackedScene" uid="uid://dps8a0g862a0c" path="res://스테이지1/Scenes/cluster_shell.tscn" id="5_vick5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mv7mu"]
+size = Vector2(1076.9597, 629.8399)
+
+[sub_resource type="Animation" id="Animation_os032"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boss:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.033333335),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_mv7mu")]
+}
+
+[sub_resource type="Animation" id="Animation_d5nm4"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boss:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("1_mv7mu"), ExtResource("2_ygbg5"), ExtResource("1_mv7mu")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7r65e"]
+_data = {
+&"RESET": SubResource("Animation_os032"),
+&"attack": SubResource("Animation_d5nm4")
+}
+
+[node name="boss" type="Node2D"]
+
+[node name="bosstank" type="CharacterBody2D" parent="."]
+collision_layer = 8
+collision_mask = 255
+script = ExtResource("1_7r65e")
+basic_bullet_scene = ExtResource("2_os032")
+warning_scene = ExtResource("3_7r65e")
+big_bullet_scene = ExtResource("4_0ojar")
+cluster_bullet_scene = ExtResource("5_vick5")
+burst_bullet_scene = ExtResource("2_os032")
+
+[node name="boss" type="Sprite2D" parent="bosstank"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_mv7mu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bosstank"]
+position = Vector2(1.4999981, -0.7560583)
+scale = Vector2(0.10306792, 0.10556315)
+shape = SubResource("RectangleShape2D_mv7mu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="bosstank"]
+libraries = {
+&"": SubResource("AnimationLibrary_7r65e")
+}
+
+[node name="MuzzlePosition" type="Marker2D" parent="bosstank"]
+position = Vector2(-70, -23)
+
+[node name="AttackTimer" type="Timer" parent="bosstank"]
+wait_time = 7.0
+
+[node name="BurstTimer" type="Timer" parent="bosstank"]
