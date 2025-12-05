@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://rvltydsqoe5h"
-path="res://.godot/imported/ParallaxCave3.png-750c7220b86b1f436ffa4cda3978bd7f.ctex"
+path="res://.godot/imported/ParallaxCave3.png-0845ea2f919098038cc6d4f0d079f110.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/mapImages/ParallaxCave3.png"
-dest_files=["res://.godot/imported/ParallaxCave3.png-750c7220b86b1f436ffa4cda3978bd7f.ctex"]
+source_file="res://스테이지3/Img/mapImages/ParallaxCave3.png"
+dest_files=["res://.godot/imported/ParallaxCave3.png-0845ea2f919098038cc6d4f0d079f110.ctex"]
 
 [params]
 

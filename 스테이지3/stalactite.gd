@@ -3,7 +3,7 @@ extends Area2D
 signal destroyed
 @export var explosion_scene: PackedScene
 
-const WarningScene = preload("res://HitboxIndicator.tscn")
+const WarningScene = preload("res://스테이지3/HitboxIndicator.tscn")
 var warning_indicator = null
 
 var is_falling = false
@@ -14,7 +14,7 @@ func _ready():
 	$Sprite2D.light_mask = 1
 	$AnimationPlayer.play("blink")
 	if explosion_scene == null:
-		explosion_scene = load("res://stalactiteExplosion.tscn")
+		explosion_scene = load("res://스테이지3/stalactiteExplosion.tscn")
 
 func explode():
 	if is_instance_valid(warning_indicator):

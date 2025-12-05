@@ -1,7 +1,8 @@
 extends Node2D
 
-# 인스펙터에서 폭발 피해량을 설정할 수 있도록 export
-@export var damage: int = 10 # 폭발 데미지
+# 포탄으로부터 데미지 값을 전달받을 변수
+var damage: int = 10 # 기본 데미지 10
+var damaged_targets: Array[Node] = [] # 데미지를 입은 대상 저장
 
 # 노드 참조 (씬 구조에 맞게 경로 수정 필요)
 @onready var animation_player: AnimatedSprite2D = $AnimatedSprite2D # AnimatedSprite2D 사용 시
@@ -9,15 +10,17 @@ extends Node2D
 @onready var damage_area: Area2D = $Area2D
 # Area2D의 CollisionShape2D 노드 참조 추가
 @onready var damage_shape: CollisionShape2D = $Area2D/CollisionShape2D
+@onready var damage_timer = $DamageTimer # 새로 추가한 타이머 참조
 # TileMap 노드를 찾아서 저장할 변수
 @onready var tilemap = get_tree().get_first_node_in_group("ground_tilemap")
 
 func _ready():
 	# 1. 폭발 애니메이션/파티클 시작
-	animation_player.play("default") # AnimatedSprite2D 사용 시
+	animation_player.play("default")
 
-	# 2. 폭발 범위 내 객체들에게 데미지 주기
-	apply_area_damage()
+	# 2. 타이머의 timeout 시그널에 데미지 적용 함수를 연결하고 타이머 시작
+	damage_timer.timeout.connect(apply_area_damage)
+	damage_timer.start()
 
 	# 3. 애니메이션/파티클 재생이 끝나면 스스로 소멸
 	animation_player.animation_finished.connect(queue_free)
@@ -40,7 +43,7 @@ func set_radius(radius: float):
 	if tilemap and tilemap.has_method("melt_ice_in_area"):
 		tilemap.melt_ice_in_area(self.global_position, radius)
 	else:
-		printerr("Explosion: 'ground_tilemap' 그룹에서 TileMap을 찾지 못했거나 melt_ice_in_area 함수가 없습니다.")
+		pass # 'ground_tilemap' 그룹에서 TileMap을 찾지 못했거나 melt_ice_in_area 함수가 없습니다.
 	# --- 3. 얼음 녹이기 로직 끝 ---
 
 # 폭발 범위 내의 객체들에게 데미지를 주는 함수
@@ -49,7 +52,21 @@ func apply_area_damage():
 	var overlapping_bodies = damage_area.get_overlapping_bodies()
 
 	for body in overlapping_bodies:
-		# 대상에게 'take_damage' 함수가 있는지 확인하고 호출
-		if body.has_method("take_damage"):
-			body.take_damage(damage)
-			print(body.name + "에게 폭발 데미지 " + str(damage) + " 적용!")
+		var target_node: Node = body # 기본적으로 감지된 body를 타겟으로 설정
+
+		# 감지된 body가 Area2D(예: 플레이어의 Hitbox)라면, 그 부모 노드(플레이어 CharacterBody2D)를 가져옴
+		if body is Area2D:
+			if body.owner != null:
+				target_node = body.owner
+			else:
+				target_node = body.get_parent()
+				
+		# 동일한 최상위 노드에 대해 한 번만 데미지를 적용
+		if not damaged_targets.has(target_node):
+			if target_node.has_method("take_damage"):
+				target_node.take_damage(damage)
+				damaged_targets.append(target_node) # 데미지를 입힌 대상을 기록
+			else:
+				pass
+		else:
+			pass

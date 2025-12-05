@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7s5w5g5g5g5"]
 
-[ext_resource type="Texture2D" uid="uid://cvtekje15yj4b" path="res://Img/driller.png" id="2_1"]
+[ext_resource type="Texture2D" uid="uid://cvtekje15yj4b" path="res://스테이지3/Img/driller.png" id="2_1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(344, 158.07422)

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ckuybkhj76utn"
-path="res://.godot/imported/tanks_tankGreen_body3.png-4a5c7f587dfbd5e1e9419414d16cae5e.ctex"
+path="res://.godot/imported/tanks_tankGreen_body3.png-095aee3cfa873995aa559961bc52ef8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/tankImages/tanks_tankGreen_body3.png"
-dest_files=["res://.godot/imported/tanks_tankGreen_body3.png-4a5c7f587dfbd5e1e9419414d16cae5e.ctex"]
+source_file="res://스테이지3/Img/tankImages/tanks_tankGreen_body3.png"
+dest_files=["res://.godot/imported/tanks_tankGreen_body3.png-095aee3cfa873995aa559961bc52ef8f.ctex"]
 
 [params]
 

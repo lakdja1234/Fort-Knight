@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://prq8tihuec6q"
-path="res://.godot/imported/경고real-Photoroom.png-2476fe15c8f999089a2f9c08578cb49d.ctex"
+path="res://.godot/imported/경고real-Photoroom.png-b3a008067d655ba442822fa5ce00ba6c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/경고real-Photoroom.png"
-dest_files=["res://.godot/imported/경고real-Photoroom.png-2476fe15c8f999089a2f9c08578cb49d.ctex"]
+source_file="res://스테이지3/Img/경고real-Photoroom.png"
+dest_files=["res://.godot/imported/경고real-Photoroom.png-b3a008067d655ba442822fa5ce00ba6c.ctex"]
 
 [params]
 

@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://fgwbejfhbulb"]
+[gd_scene load_steps=6 format=3 uid="uid://fgwbejfhbulb"]
 
-[ext_resource type="Script" uid="uid://vhinakad8wid" path="res://bullet.gd" id="1_4s4u5"]
-[ext_resource type="Texture2D" uid="uid://b5leus2rgc4kb" path="res://Img/tankImages/tank_bullet3.png" id="2_7281b"]
-[ext_resource type="PackedScene" uid="uid://bxm52f32mesfo" path="res://explosion.tscn" id="2_u8st5"]
+[ext_resource type="Script" uid="uid://vhinakad8wid" path="res://스테이지3/bullet.gd" id="1_4s4u5"]
+[ext_resource type="Texture2D" uid="uid://b5leus2rgc4kb" path="res://스테이지3/Img/tankImages/tank_bullet3.png" id="2_7281b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8st5"]
 size = Vector2(38, 26)

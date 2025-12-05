@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bodn3snawyfja"
-path="res://.godot/imported/title.png-9ad6d6a11df6a914d85894ec7de512bb.ctex"
+path="res://.godot/imported/title.png-dbcbc0595dd51db5225f96028347303d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/pages/title.png"
-dest_files=["res://.godot/imported/title.png-9ad6d6a11df6a914d85894ec7de512bb.ctex"]
+source_file="res://스테이지3/Img/pages/title.png"
+dest_files=["res://.godot/imported/title.png-dbcbc0595dd51db5225f96028347303d.ctex"]
 
 [params]
 

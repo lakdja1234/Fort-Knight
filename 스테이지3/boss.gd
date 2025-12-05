@@ -5,9 +5,9 @@ signal boss_died
 @export var bullet_scene: PackedScene
 @export var hitbox_indicator_scene: PackedScene
 
-const ProjectileScene = preload("res://Bullet.tscn") # 보스 포탄 씬
-const WarningScene = preload("res://HitboxIndicator.tscn") # 경고 표시 씬
-const BrightSpotScene = preload("res://BrightSpot.tscn")
+const ProjectileScene = preload("res://스테이지3/Bullet.tscn") # 보스 포탄 씬
+const WarningScene = preload("res://스테이지3/HitboxIndicator.tscn") # 경고 표시 씬
+const BrightSpotScene = preload("res://스테이지3/BrightSpot.tscn")
 
 var max_hp = 300
 var hp = 300

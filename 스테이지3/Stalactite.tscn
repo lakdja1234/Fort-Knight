@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bciw81w2gq2e5"]
 
-[ext_resource type="Texture2D" uid="uid://cllikxm5tm0se" path="res://Img/종유석.png" id="1_1"]
-[ext_resource type="Script" uid="uid://btv2kdc0inru0" path="res://stalactite.gd" id="2_1"]
+[ext_resource type="Texture2D" uid="uid://cllikxm5tm0se" path="res://스테이지3/Img/종유석.png" id="1_1"]
+[ext_resource type="Script" uid="uid://btv2kdc0inru0" path="res://스테이지3/stalactite.gd" id="2_1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(41, 61)

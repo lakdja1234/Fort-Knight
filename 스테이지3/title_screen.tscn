@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dchvj3w5drwuc"]
 
-[ext_resource type="Script" path="res://title_screen.gd" id="1_w8jve"]
-[ext_resource type="Texture2D" uid="uid://dpg00j3v64t32" path="res://Img/pages/title.png" id="2_v1x7k"]
+[ext_resource type="Script" uid="uid://clptlrmij0p0y" path="res://스테이지3/title_screen.gd" id="1_w8jve"]
+[ext_resource type="Texture2D" uid="uid://bodn3snawyfja" path="res://스테이지3/Img/pages/title.png" id="2_v1x7k"]
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_w8jve")
@@ -33,7 +33,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 1.0
 autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d1vfb8d7w1w7x"]
 
-[ext_resource type="Script" path="res://stage_selection.gd" id="1_abcde"]
-[ext_resource type="Texture2D" uid="uid://dkh2a8h2y7x7x" path="res://Img/pages/stageSelect.png" id="2_fghij"]
+[ext_resource type="Script" uid="uid://b0jpascotmah3" path="res://스테이지3/stage_selection.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://70b7dfxwwmay" path="res://스테이지3/Img/pages/stageSelect.png" id="2_fghij"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
 bg_color = Color(1, 1, 1, 0.2)
@@ -42,7 +42,6 @@ focus_mode = 0
 mouse_filter = 1
 theme = SubResource("Theme_buttons")
 theme_override_font_sizes/font_size = 32
-text = ""
 flat = true
 
 [node name="Stage2Button" type="Button" parent="."]
@@ -54,7 +53,6 @@ focus_mode = 0
 mouse_filter = 1
 theme = SubResource("Theme_buttons")
 theme_override_font_sizes/font_size = 32
-text = ""
 flat = true
 
 [node name="Stage3Button" type="Button" parent="."]
@@ -66,9 +64,34 @@ focus_mode = 0
 mouse_filter = 1
 theme = SubResource("Theme_buttons")
 theme_override_font_sizes/font_size = 32
-text = ""
+flat = true
+
+[node name="PartSelectionButton" type="Button" parent="."]
+offset_left = 476.0
+offset_top = 500.0
+offset_right = 676.0
+offset_bottom = 700.0
+focus_mode = 0
+mouse_filter = 1
+theme = SubResource("Theme_buttons")
+theme_override_font_sizes/font_size = 32
+text = "파츠 선택"
+flat = true
+
+[node name="OptionButton" type="Button" parent="."]
+offset_left = 696.0
+offset_top = 500.0
+offset_right = 896.0
+offset_bottom = 700.0
+focus_mode = 0
+mouse_filter = 1
+theme = SubResource("Theme_buttons")
+theme_override_font_sizes/font_size = 32
+text = "옵션"
 flat = true
 
 [connection signal="gui_input" from="Stage1Button" to="." method="_on_stage_1_button_gui_input"]
 [connection signal="gui_input" from="Stage2Button" to="." method="_on_stage_2_button_gui_input"]
 [connection signal="gui_input" from="Stage3Button" to="." method="_on_stage_3_button_gui_input"]
+[connection signal="pressed" from="PartSelectionButton" to="." method="_on_part_selection_button_pressed"]
+[connection signal="pressed" from="OptionButton" to="." method="_on_option_button_pressed"]

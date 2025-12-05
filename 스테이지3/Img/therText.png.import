@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjt8lrsvcvw5w"
-path="res://.godot/imported/therText.png-e0ac9cc7626a668f32fad23bb71f2cec.ctex"
+path="res://.godot/imported/therText.png-22a7afc44747bd1ef7fddc7f0635c28e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Img/therText.png"
-dest_files=["res://.godot/imported/therText.png-e0ac9cc7626a668f32fad23bb71f2cec.ctex"]
+source_file="res://스테이지3/Img/therText.png"
+dest_files=["res://.godot/imported/therText.png-22a7afc44747bd1ef7fddc7f0635c28e.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bxm52f32mesfo"]
 
-[ext_resource type="Script" path="res://stalactiteExplosion.gd" id="1_q7epf"]
+[ext_resource type="Script" path="res://스테이지3/stalactiteExplosion.gd" id="1_q7epf"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l8jgs"]
 light_mode = 1

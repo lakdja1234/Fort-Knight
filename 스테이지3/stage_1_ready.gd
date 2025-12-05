@@ -33,5 +33,4 @@ func _on_blink_timer_timeout():
 
 func _unhandled_input(event):
 	if can_start and event is InputEventKey and event.keycode == KEY_SPACE and event.pressed:
-		# Do nothing, as per instructions
-		print("Stage 1 not implemented yet.")
+		SceneTransition.change_scene("res://스테이지1/Scenes/stage1.tscn")

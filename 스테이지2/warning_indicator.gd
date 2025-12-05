@@ -9,15 +9,13 @@ extends Node2D
 @export var base_size: float = 1024.0
 
 func _ready():
-	# Timer의 timeout 시그널을 _on_timer_timeout 함수에 연결
-	timer.timeout.connect(_on_timer_timeout)
 	
 	# 시작 시 투명도 설정 (예: 50% 반투명)
 	visual_node.modulate.a = 0.5
 
 # ✅ 1. 외부에서 반경 값을 받아 크기를 조절하는 함수 추가
 func set_radius(radius: float):
-	print("set_radius 호출됨! 전달받은 radius:", radius) # <-- 디버깅용 print 추가
+	# print("set_radius 호출됨! 전달받은 radius:", radius)
 	if base_size <= 0:
 		printerr("경고 표시의 base_size는 0보다 커야 합니다!")
 		return

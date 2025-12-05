@@ -34,4 +34,4 @@ func _on_blink_timer_timeout():
 func _unhandled_input(event):
 	if can_start and event is InputEventKey and event.keycode == KEY_SPACE and event.pressed:
 		# Transition to the main game scene for stage 3
-		SceneTransition.change_scene("res://map.tscn")
+		SceneTransition.change_scene("res://스테이지3/map.tscn")
