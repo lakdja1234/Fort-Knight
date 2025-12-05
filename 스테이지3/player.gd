@@ -1,4 +1,4 @@
-# player.gd (Refactored for Ammo Type Toggle)
+# player.gd (Merged)
 extends CharacterBody2D
 
 # --- Signals ---
@@ -44,14 +44,11 @@ var next_shot_skill_data: Dictionary = {} # Stores {scene: PackedScene, power: f
 @onready var part_icon_sprite: Sprite2D = $PartIconSprite
 
 # --- Movement Variables ---
-const SPEED_ORIGINAL = 400.0
-const ACCELERATION_NORMAL_ORIGINAL = 1000.0
+const MAX_SPEED = 300.0
+const ACCELERATION = 1000.0
+const FRICTION = 1000.0
 const ACCELERATION_ICE_ORIGINAL = 500.0
-const FRICTION_NORMAL = 1000.0
 const FRICTION_ICE = 0.001
-var current_speed = SPEED_ORIGINAL
-var current_accel_normal = ACCELERATION_NORMAL_ORIGINAL
-var current_accel_ice = ACCELERATION_ICE_ORIGINAL
 var is_on_ice = false
 var current_floor_type: String = "NORMAL"
 
@@ -162,14 +159,14 @@ func _physics_process(delta):
 
 	# --- Movement ---
 	var direction = Input.get_axis("move_left", "move_right")
-	var accel = ACCELERATION_NORMAL_ORIGINAL
-	var friction = FRICTION_NORMAL
-	var speed = SPEED_ORIGINAL
+	var accel = ACCELERATION
+	var friction = FRICTION
+	var speed = MAX_SPEED
 
 	# Apply debuffs if frozen
 	if is_frozen:
-		speed = SPEED_ORIGINAL * 0.5
-		accel = ACCELERATION_NORMAL_ORIGINAL * 0.5
+		speed = MAX_SPEED * 0.5
+		accel = ACCELERATION * 0.5
 
 	# Apply ice physics if on ice
 	if is_on_ice:
@@ -213,7 +210,8 @@ func _physics_process(delta):
 		charge_bar.value = cooldown_timer.time_left
 
 	# --- Stage 3: Shader Update ---
-	if is_instance_valid(background) and background.material:
+	var game_manager = get_node_or_null("/root/TitleMap/GameManager")
+	if background and background.material and game_manager and not game_manager.is_darkness_active:
 		update_shader_lights()
 
 

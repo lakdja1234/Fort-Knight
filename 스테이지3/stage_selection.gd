@@ -6,7 +6,10 @@ var last_click_time_1 = 0
 var last_click_time_2 = 0
 var last_click_time_3 = 0
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> KimWooJoo
 func _on_stage_1_button_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		var current_time = Time.get_ticks_msec()
@@ -30,6 +33,7 @@ func _on_stage_3_button_gui_input(event):
 			SceneTransition.change_scene("res://스테이지3/stage_3_ready.tscn")
 		else:
 			last_click_time_3 = current_time
+<<<<<<< HEAD
 
 func _on_part_selection_button_pressed():
 	SceneTransition.change_scene("res://ui/PartSelectionScreen.tscn")
@@ -37,3 +41,5 @@ func _on_part_selection_button_pressed():
 func _on_option_button_pressed():
 	SceneTransition.change_scene("res://ui/OptionScreen.tscn")
 
+=======
+>>>>>>> KimWooJoo

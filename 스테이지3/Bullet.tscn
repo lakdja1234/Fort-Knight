@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://fgwbejfhbulb"]
 
 [ext_resource type="Script" uid="uid://vhinakad8wid" path="res://스테이지3/bullet.gd" id="1_4s4u5"]
-[ext_resource type="Texture2D" uid="uid://b5leus2rgc4kb" path="res://스테이지3/Img/tankImages/tank_bullet3.png" id="2_7281b"]
+[ext_resource type="Texture2D" uid="uid://dqyx26x27bsfo" path="res://캐릭터/tank_bullet3.png" id="2_78vyt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8st5"]
-size = Vector2(38, 26)
+size = Vector2(55.13577, 36.89536)
 
 [sub_resource type="Gradient" id="Gradient_7281b"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -24,9 +24,13 @@ max_contacts_reported = 5
 script = ExtResource("1_4s4u5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_7281b")
+position = Vector2(2, -1)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("2_78vyt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.4533598, -0.6321161)
+scale = Vector2(0.63648844, 0.25109476)
 shape = SubResource("RectangleShape2D_u8st5")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

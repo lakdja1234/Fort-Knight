@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://barfpt5fu2uye"]
+
+[ext_resource type="Script" uid="uid://bmotqpb8hbiby" path="res://스테이지1/Scenes/bigbulletplayer.gd" id="1_newscript"]
+[ext_resource type="Texture2D" uid="uid://dqyx26x27bsfo" path="res://캐릭터/tank_bullet3.png" id="2_0dw0a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(7.5, 5)
+
+[node name="BigBulletPlayer" type="RigidBody2D" groups=["player_bullets"]]
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_newscript")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-9.536743e-07, 0)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("2_0dw0a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(9.53478, 4.0747614)
+shape = SubResource("RectangleShape2D_1")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(7, 7)
+rect = Rect2(-10, -10, 7, 6)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]

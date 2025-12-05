@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ot0wlnpbe54q"]
 
-[ext_resource type="Script" path="res://Scenes/warning_indicator.gd" id="1_rivtk"]
-[ext_resource type="Texture2D" uid="uid://btk35j7fs0jol" path="res://warningsign.png" id="2_5fnhy"]
+[ext_resource type="Script" uid="uid://bomgtgqokx6ul" path="res://스테이지2/warning_indicator.gd" id="1_rivtk"]
+[ext_resource type="Texture2D" uid="uid://du2t6rykiryoe" path="res://스테이지1/경고-Photoroom.png" id="2_5fnhy"]
 
 [node name="WarningIndicator" type="Node2D"]
 script = ExtResource("1_rivtk")

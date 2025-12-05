@@ -1,25 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://dps8a0g862a0c"]
+[gd_scene load_steps=5 format=3 uid="uid://dps8a0g862a0c"]
 
-[ext_resource type="Script" path="res://Scenes/cluster_shell.gd" id="1_abcde"]
-[ext_resource type="Texture2D" uid="uid://b5leus2rgc4kb" path="res://tank_bullet3.png" id="2_fghij"]
-[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://Scenes/bullet.tscn" id="3_klmno"]
+[ext_resource type="Script" path="res://스테이지1/Scenes/cluster_shell.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://스테이지1/Scenes/bullet.tscn" id="2_submunition"]
+[ext_resource type="PackedScene" path="res://스테이지1/explosion.tscn" id="3_explosion"]
+[ext_resource type="Texture2D" uid="uid://dqyx26x27bsfo" path="res://캐릭터/tank_bullet3.png" id="4_texture"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h16hn"]
 
 [node name="ClusterShell" type="RigidBody2D"]
-gravity_scale = 0.0
-script = ExtResource("1_abcde")
-submunition_scene = ExtResource("3_klmno")
+collision_layer = 16
+collision_mask = 3
+script = ExtResource("1_script")
+submunition_scene = ExtResource("2_submunition")
+explosion_scene = ExtResource("3_explosion")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("2_fghij")
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("4_texture")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-# This shape is not used for collision but is often required for RigidBody2D.
-# The script disables collision anyway.
-disabled = true
+scale = Vector2(-1.9217364, 0.67390615)
+shape = SubResource("RectangleShape2D_h16hn")
 
 [node name="SplitTimer" type="Timer" parent="."]
 wait_time = 0.75
 one_shot = true
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="SplitTimer" to="." method="_on_split_timer_timeout"]

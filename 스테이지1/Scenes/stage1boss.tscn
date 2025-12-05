@@ -1,12 +1,12 @@
 [gd_scene load_steps=12 format=3 uid="uid://c5cpcr1vn7hmy"]
 
-[ext_resource type="Script" uid="uid://xyxthxnihgbn" path="res://Scenes/Stage1boss.gd" id="1_7r65e"]
-[ext_resource type="Texture2D" uid="uid://bukhtr1t363nh" path="res://1stageboss.png" id="1_mv7mu"]
-[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://Scenes/bullet.tscn" id="2_os032"]
-[ext_resource type="Texture2D" uid="uid://btmck14teqboj" path="res://bossttack.png" id="2_ygbg5"]
-[ext_resource type="PackedScene" uid="uid://ciw4b26xie7bs" path="res://Scenes/HitboxIndicator.tscn" id="3_7r65e"]
-[ext_resource type="PackedScene" uid="uid://befyjavmkf8n2" path="res://Scenes/BigBullet.tscn" id="4_0ojar"]
-[ext_resource type="PackedScene" path="res://Scenes/cluster_shell.tscn" id="5_ud1ao"]
+[ext_resource type="Script" uid="uid://xyxthxnihgbn" path="res://스테이지1/Scenes/Stage1boss.gd" id="1_7r65e"]
+[ext_resource type="Texture2D" uid="uid://bukhtr1t363nh" path="res://스테이지1/1stageboss.png" id="1_mv7mu"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="2_os032"]
+[ext_resource type="Texture2D" uid="uid://btmck14teqboj" path="res://스테이지1/bossttack.png" id="2_ygbg5"]
+[ext_resource type="PackedScene" uid="uid://ciw4b26xie7bs" path="res://스테이지1/Scenes/HitboxIndicator.tscn" id="3_7r65e"]
+[ext_resource type="PackedScene" uid="uid://befyjavmkf8n2" path="res://스테이지1/Scenes/BigBullet.tscn" id="4_0ojar"]
+[ext_resource type="PackedScene" uid="uid://dps8a0g862a0c" path="res://스테이지1/Scenes/cluster_shell.tscn" id="5_vick5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mv7mu"]
 size = Vector2(1076.9597, 629.8399)
@@ -51,12 +51,12 @@ _data = {
 
 [node name="bosstank" type="CharacterBody2D" parent="."]
 collision_layer = 8
-collision_mask = 7
+collision_mask = 255
 script = ExtResource("1_7r65e")
 basic_bullet_scene = ExtResource("2_os032")
 warning_scene = ExtResource("3_7r65e")
 big_bullet_scene = ExtResource("4_0ojar")
-cluster_bullet_scene = ExtResource("5_ud1ao")
+cluster_bullet_scene = ExtResource("5_vick5")
 burst_bullet_scene = ExtResource("2_os032")
 
 [node name="boss" type="Sprite2D" parent="bosstank"]

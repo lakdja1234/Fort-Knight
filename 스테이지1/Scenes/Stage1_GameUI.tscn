@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqbft258va02s"]
+
+[ext_resource type="Script" uid="uid://domkdoll6u24t" path="res://스테이지1/Scenes/Stage1_GameUI.gd" id="1_osyby"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_osyby")
+
+[node name="PlayerHealthLabel" type="Label" parent="."]
+offset_left = 3.0
+offset_top = 11.0
+offset_right = 43.0
+offset_bottom = 34.0
+
+[node name="FreezeGaugeLabel" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 31.0
+offset_right = 41.0
+offset_bottom = 54.0

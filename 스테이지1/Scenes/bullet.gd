@@ -2,17 +2,20 @@
 extends RigidBody2D
 
 @export var explosion_scene: PackedScene
-@onready var light = $PointLight2D
 @onready var collision_enable_timer = $CollisionEnableTimer
 @onready var collision_shape = $CollisionShape2D
 
 var can_collide = false
 var owner_node: Node = null
+var explosion_radius: float = 80.0
+
+func set_explosion_radius(radius: float):
+	explosion_radius = radius
 
 func _ready():
 	if explosion_scene == null:
-		printerr("Bullet: explosion_scene was not exported correctly. Loading manually.")
-		explosion_scene = load("res://스테이지1/explosion.tscn")
+		printerr("Bullet: CRITICAL - explosion_scene is not assigned in the editor!")
+		return
 
 	add_to_group("bullets")
 	collision_shape.disabled = true
@@ -39,21 +42,21 @@ func explode():
 
 	remove_from_group("bullets")
 
-	if light:
-		var light_global_pos = light.global_position
-		var main_scene = get_tree().root
-		light.get_parent().remove_child(light)
-		main_scene.add_child(light)
-		light.global_position = light_global_pos
-		var tween = get_tree().create_tween()
-		tween.tween_property(light, "energy", 0.0, 2.0).set_trans(Tween.TRANS_LINEAR)
-		tween.tween_callback(light.queue_free)
 
 	if explosion_scene:
 		var explosion = explosion_scene.instantiate()
+		
+		# 폭발 씬에 반경 값을 지연 호출로 전달합니다.
+		if explosion.has_method("set_radius_and_apply_effects"):
+			explosion.call_deferred("set_radius_and_apply_effects", explosion_radius)
+		
 		explosion.global_position = self.global_position
-		get_parent().add_child(explosion)
-	
+		# 포탄의 부모(보통 get_tree().root)에 폭발을 추가합니다.
+		var parent = get_parent()
+		if parent:
+			parent.add_child(explosion)
+		else:
+			get_tree().root.add_child(explosion)
 	queue_free()
 
 func _on_collision_enable_timer_timeout():

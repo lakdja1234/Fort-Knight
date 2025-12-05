@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://5axutm051yq0"]
+
+[ext_resource type="Script" uid="uid://d3u5g4eirogxu" path="res://스테이지1/Scenes/burstplayer.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="3_submunition"]
+[ext_resource type="Texture2D" uid="uid://dqyx26x27bsfo" path="res://캐릭터/tank_bullet3.png" id="4_e1ykc"]
+[ext_resource type="PackedScene" uid="uid://bxm52f32mesfo" path="res://스테이지3/stalactiteExplosion.tscn" id="4_explosion"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1ykc"]
+size = Vector2(39, 26)
+
+[node name="BurstPlayer" type="RigidBody2D" groups=["player_bullets"]]
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_script")
+submunition_scene = ExtResource("3_submunition")
+explosion_scene = ExtResource("4_explosion")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("4_e1ykc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 1)
+scale = Vector2(0.94767195, 0.4221765)
+shape = SubResource("RectangleShape2D_e1ykc")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(1.9168131, 0.6048838)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
