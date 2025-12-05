@@ -3,21 +3,12 @@
 [ext_resource type="Script" uid="uid://dqobiwt3l1vlc" path="res://스테이지3/stage_2_ready.gd" id="1_xyzde"]
 [ext_resource type="Texture2D" uid="uid://cphgvwr1sqo5f" path="res://스테이지3/Img/pages/2ready.png" id="2_pqrst"]
 
-<<<<<<< HEAD
 [sub_resource type="Animation" id="Animation_description_fade_in"]
 resource_name = "description_fade_in"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("DescriptionLabel:modulate")
-=======
-[sub_resource type="Animation" id="Animation_overlay_fade_in"]
-resource_name = "overlay_fade_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Overlay:modulate")
->>>>>>> KimWooJoo
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -27,21 +18,12 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-<<<<<<< HEAD
 [sub_resource type="Animation" id="Animation_overlay_fade_in"]
 resource_name = "overlay_fade_in"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Overlay:modulate")
-=======
-[sub_resource type="Animation" id="Animation_description_fade_in"]
-resource_name = "description_fade_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("DescriptionLabel:modulate")
->>>>>>> KimWooJoo
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -97,11 +79,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "- 7초마다 한 번씩 유도미사일을 발사합니다!
-<<<<<<< HEAD
 - 체력이 30% 감소할 때마다 방어벽을 생성합니다!
-=======
-- 체력이 30% 감소할 때마다 방여벽을 생성합니다!
->>>>>>> KimWooJoo
 - 끊임없이 움직이지 않으면 얼어붙습니다!
 - 온열장치를 타격해 활성화하세요!"
 horizontal_alignment = 1
@@ -126,17 +104,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="InitialWaitTimer" type="Timer" parent="."]
-<<<<<<< HEAD
-one_shot = true
-
-[node name="DescriptionWaitTimer" type="Timer" parent="."]
-=======
 wait_time = 1.0
 one_shot = true
 
 [node name="DescriptionWaitTimer" type="Timer" parent="."]
-wait_time = 1.0
->>>>>>> KimWooJoo
 one_shot = true
 
 [node name="BlinkTimer" type="Timer" parent="."]

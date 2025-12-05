@@ -24,22 +24,22 @@ var next_shot_skill_data: Dictionary = {} # Stores {scene: PackedScene, power: f
 										  # to tell fire_projectile what to use for next shot
 
 # --- HUD & Node References ---
-@onready var health_bar = $PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/HealthBar
-@onready var charge_bar = $PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/ChargeBar
+@onready var health_bar = get_node_or_null("PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/HealthBar")
+@onready var charge_bar = get_node_or_null("PlayerHUD/HUDContainer/PlayerInfoUI/VBoxContainer/ChargeBar")
 @onready var cooldown_timer = $CooldownTimer
 @onready var cannon_pivot = $CannonPivot
 @onready var fire_point = $CannonPivot/FirePoint
 @onready var ice_map_layer: TileMapLayer = null # For Stage 2
 @onready var background = get_node_or_null("/root/TitleMap/Background") # For Stage 3
 @onready var skill_cooldown_progress_bars: Array[ProgressBar] = [
-	get_node("PlayerHUD/HUDContainer/SlotUI/Slot1/ProgressBar"),
-	get_node("PlayerHUD/HUDContainer/SlotUI/Slot2/ProgressBar"),
-	get_node("PlayerHUD/HUDContainer/SlotUI/Slot3/ProgressBar")
+	get_node_or_null("PlayerHUD/HUDContainer/SlotUI/Slot1/ProgressBar"),
+	get_node_or_null("PlayerHUD/HUDContainer/SlotUI/Slot2/ProgressBar"),
+	get_node_or_null("PlayerHUD/HUDContainer/SlotUI/Slot3/ProgressBar")
 ]
 @onready var skill_icon_textures: Array[TextureRect] = [
-	get_node("PlayerHUD/HUDContainer/SlotUI/Slot1/TextureRect"),
-	get_node("PlayerHUD/HUDContainer/SlotUI/Slot2/TextureRect"),
-	get_node("PlayerHUD/HUDContainer/SlotUI/Slot3/TextureRect")
+	get_node_or_null("PlayerHUD/HUDContainer/SlotUI/Slot1/TextureRect"),
+	get_node_or_null("PlayerHUD/HUDContainer/SlotUI/Slot2/TextureRect"),
+	get_node_or_null("PlayerHUD/HUDContainer/SlotUI/Slot3/TextureRect")
 ]
 @onready var part_icon_sprite: Sprite2D = $PartIconSprite
 
@@ -205,7 +205,8 @@ func _physics_process(delta):
 			fire_bullet(current_power)
 			if cooldown_timer: 
 				cooldown_timer.start()
-				setup_bar_for_cooldown()
+				if charge_bar:
+					setup_bar_for_cooldown()
 	elif charge_bar and cooldown_timer:
 		charge_bar.value = cooldown_timer.time_left
 
@@ -239,7 +240,7 @@ func equip_part(new_part: Part, slot_index: int):
 		_update_part_icon_display(equipped_parts[0])
 	
 	# Handle icon display
-	if slot_index < skill_icon_textures.size() and is_instance_valid(skill_icon_textures[slot_index]):
+	if skill_icon_textures.size() > slot_index and is_instance_valid(skill_icon_textures[slot_index]):
 		if is_instance_valid(new_part) and is_instance_valid(new_part.part_texture):
 			skill_icon_textures[slot_index].texture = new_part.part_texture
 			skill_icon_textures[slot_index].visible = true
@@ -379,25 +380,22 @@ func take_damage(amount):
 
 # --- Skill Cooldown UI Handlers ---
 func _on_skill_cooldown_started(duration: float, slot_index: int):
-	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size(): return
+	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size() or not is_instance_valid(skill_cooldown_progress_bars[slot_index]): return
 	var progress_bar = skill_cooldown_progress_bars[slot_index]
-	if is_instance_valid(progress_bar):
-		progress_bar.max_value = duration
-		progress_bar.value = duration
-		progress_bar.visible = true
+	progress_bar.max_value = duration
+	progress_bar.value = duration
+	progress_bar.visible = true
 
 func _on_skill_cooldown_progress(time_left: float, slot_index: int):
-	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size(): return
+	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size() or not is_instance_valid(skill_cooldown_progress_bars[slot_index]): return
 	var progress_bar = skill_cooldown_progress_bars[slot_index]
-	if is_instance_valid(progress_bar):
-		progress_bar.value = time_left
+	progress_bar.value = time_left
 
 func _on_skill_cooldown_finished(slot_index: int):
-	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size(): return
+	if slot_index < 0 or slot_index >= skill_cooldown_progress_bars.size() or not is_instance_valid(skill_cooldown_progress_bars[slot_index]): return
 	var progress_bar = skill_cooldown_progress_bars[slot_index]
-	if is_instance_valid(progress_bar):
-		progress_bar.value = 0
-		progress_bar.visible = false # Hide when cooldown is finished
+	progress_bar.value = 0
+	progress_bar.visible = false # Hide when cooldown is finished
 # ==============================================================================
 #  HUD AND VISUALS
 # ==============================================================================

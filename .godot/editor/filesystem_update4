@@ -1,0 +1,7 @@
+res://스테이지3/stage_selection.gd
+res://스테이지3/player.gd
+res://스테이지3/stage_1_ready.gd
+res://스테이지3/GlobalPhysics.gd
+res://스테이지1/README.md
+res://스테이지3/map.tscn
+res://스테이지1/Scenes/player.gd

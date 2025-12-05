@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d0tqitblj46ty"]
+[gd_scene load_steps=14 format=3 uid="uid://d0tqitblj46ty"]
 
 [ext_resource type="Texture2D" uid="uid://bcm8vy4livc0e" path="res://스테이지3/Img/mapImages/CaveBG.png" id="1_p5pve"]
 [ext_resource type="PackedScene" uid="uid://cmsb6o148rkke" path="res://스테이지3/Torch.tscn" id="1_torch_scene"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://bciw81w2gq2e5" path="res://스테이지3/Stalactite.tscn" id="8_abcde"]
 [ext_resource type="PackedScene" uid="uid://c7s5w5g5g5g5" path="res://스테이지3/Boss.tscn" id="9_boss"]
 [ext_resource type="Script" uid="uid://dqr3y6f644otn" path="res://스테이지3/game_manager.gd" id="10_game_manager"]
-[ext_resource type="PackedScene" uid="uid://d3j4k3l3j4k3" path="res://스테이지3/HitboxIndicator.tscn" id="11_0t07s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iw27f"]
 texture = ExtResource("1_p5pve")
@@ -2575,8 +2574,6 @@ texture = ExtResource("5_urblq")
 
 [node name="Boss" parent="." instance=ExtResource("9_boss")]
 position = Vector2(965, 409)
-bullet_scene = ExtResource("2_e0an3")
-hitbox_indicator_scene = ExtResource("11_0t07s")
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("10_game_manager")

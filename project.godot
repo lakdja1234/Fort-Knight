@@ -21,6 +21,7 @@ SceneTransition="*res://스테이지3/fade_layer.tscn"
 GlobalPhysics="*res://스테이지3/GlobalPhysics.gd"
 PlayerData="*res://player_data.gd"
 SettingsManager="*res://ui/SettingsManager.gd"
+GlobalSignals="*res://GlobalSignals.gd"
 
 [importer_defaults]
 
