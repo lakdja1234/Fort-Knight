@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1h2j3k4l5m6"]
+
+[ext_resource type="Script" uid="uid://dhy5w72wgcbdh" path="res://스테이지3/BossHealthBar.gd" id="1_vyr0k"]
+[ext_resource type="Texture2D" uid="uid://cbwpjtdu36vwu" path="res://스테이지3/Img/bossHealthbar.png" id="2_frame_img"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rounded_red"]
+bg_color = Color(0.7, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="BossHealthBar" type="CanvasLayer"]
+script = ExtResource("1_vyr0k")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -288.0
+offset_top = -43.0
+offset_right = 212.0
+offset_bottom = 57.0
+grow_horizontal = 2
+
+[node name="Frame" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 64.0
+offset_right = 65.85809
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_frame_img")
+expand_mode = 1
+
+[node name="PrimaryHealthBar" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.0
+offset_top = 116.0
+offset_right = 269.0
+offset_bottom = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_rounded_red")
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 189.0
+offset_right = 136.0
+offset_bottom = 220.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 16
+text = "500 / 500"
+horizontal_alignment = 1
+vertical_alignment = 1

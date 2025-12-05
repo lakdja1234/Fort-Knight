@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1h2j3k4l5m6q"]
+
+[ext_resource type="Script" path="res://스테이지3/DebugUI.gd" id="1_abcde"]
+
+[node name="DebugUI" type="CanvasLayer"]
+script = ExtResource("1_abcde")
+
+[node name="SetBossHealthButton" type="Button" parent="."]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 170.0
+offset_bottom = 51.0
+text = "Set Boss HP to 20"
+
+[connection signal="pressed" from="SetBossHealthButton" to="." method="_on_set_boss_health_button_pressed"]

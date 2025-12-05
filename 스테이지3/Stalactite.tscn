@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bciw81w2gq2e5"]
+
+[ext_resource type="Script" path="res://스테이지3/stalactite.gd" id="1_abcde"]
+[ext_resource type="Texture2D" path="res://스테이지3/Img/종유석.png" id="2_fghij"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(40, 60)
+
+[node name="Stalactite" type="Area2D" groups=["hazard"]]
+monitorable = true
+script = ExtResource("1_abcde")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_fghij")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
