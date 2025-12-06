@@ -14,6 +14,16 @@ const WindEffectScene = preload("res://스테이지2/ColdWindEffect.tscn")
 # 15초짜리 '얼어붙는 바람' 타이머 노드 참조
 @onready var refreeze_wind_timer = $RefreezeWindTimer
 
+# 일회성 사운드를 재생하는 헬퍼 함수 (추가)
+func _play_sound(sound_path, volume_db = 0):
+	var sfx_player = AudioStreamPlayer.new()
+	sfx_player.stream = load(sound_path)
+	sfx_player.volume_db = volume_db
+	sfx_player.bus = "SFX" # SFX 버스로 라우팅
+	add_child(sfx_player)
+	sfx_player.play()
+	sfx_player.finished.connect(sfx_player.queue_free)
+
 func _ready():
 	# 15초 타이머의 timeout 시그널을 새 함수에 연결
 	refreeze_wind_timer.timeout.connect(_on_refreeze_wind_timeout)
@@ -67,6 +77,7 @@ func _melt_individual_tile(coords: Vector2i):
 		
 # '전역 얼리기' 함수
 func _on_refreeze_wind_timeout():
+	_play_sound("res://스테이지2/sound/SFX_Skill_IceWind_Cast_Burst.mp3", -15) # 바람 불 때 소리 추가
 	GlobalMessageBox.add_message("한파 경보 발령!")
 	GlobalMessageBox.add_message("모든 지형이 다시 얼어붙습니다!")
 	# --- 차가운 바람 이펙트 생성 (최종 수정) ---

@@ -43,7 +43,7 @@ collision_layer = 8
 collision_mask = 7
 script = ExtResource("1_a0gi5")
 
-[node name="온열장치_앞" type="StaticBody2D" parent="." groups=["heaters"]]
+[node name="온열장치_앞" type="StaticBody2D" parent="." groups=["boss_weak_points"]]
 position = Vector2(-409.33334, 24.666668)
 scale = Vector2(0.06666668, 0.06666668)
 collision_layer = 64
@@ -62,7 +62,7 @@ position = Vector2(0, 5)
 scale = Vector2(4.9999986, 4.9999986)
 shape = SubResource("CircleShape2D_h2aor")
 
-[node name="온열장치_뒤" type="StaticBody2D" parent="." groups=["heaters"]]
+[node name="온열장치_뒤" type="StaticBody2D" parent="." groups=["boss_weak_points"]]
 position = Vector2(-590, 150)
 scale = Vector2(1.97531e-05, 1.97531e-05)
 collision_layer = 64

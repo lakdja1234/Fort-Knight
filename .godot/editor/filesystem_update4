@@ -1,2 +1,12 @@
 res://스테이지3/stage_2_ready.gd
 res://스테이지3/stage_2_ready.tscn
+res://스테이지2/tile_map.gd
+res://스테이지3/player.gd
+res://스테이지2/homing_missile.gd
+res://스테이지2/player_homing_missile.gd
+res://스테이지2/쇄빙선.gd
+res://스테이지3/boss.gd
+res://스테이지3/stalactite.gd
+res://스테이지3/torch.gd
+res://스테이지2/BossHeaterUI.gd
+res://스테이지2/DebugUI.gd

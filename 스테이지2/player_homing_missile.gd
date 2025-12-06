@@ -15,6 +15,17 @@ var target: Node2D = null
 # 방향 꺾기를 한 번만 하도록 체크하는 변수
 var homing_turn_done: bool = false
 
+# 일회성 사운드를 재생하는 헬퍼 함수
+func _play_sound(sound_path, volume_db = 0, pitch_scale = 1.0):
+	var sfx_player = AudioStreamPlayer.new()
+	sfx_player.stream = load(sound_path)
+	sfx_player.volume_db = volume_db
+	sfx_player.pitch_scale = pitch_scale
+	sfx_player.bus = "SFX" # SFX 버스로 라우팅
+	add_child(sfx_player)
+	sfx_player.play()
+	sfx_player.finished.connect(sfx_player.queue_free)
+
 # --- 시각/물리 노드 참조 추가 ---
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -48,7 +59,7 @@ func _physics_process(_delta):
 
 	# --- Proximity-Based Target Acquisition ---
 	# While flying in a parabola (before homing), constantly check for nearby targets.
-	var potential_targets = get_tree().get_nodes_in_group("heaters")
+	var potential_targets = get_tree().get_nodes_in_group("boss_weak_points") # <-- "boss_weak_points" 그룹을 대상으로 합니다.
 	var closest_target_in_range = null
 	var min_distance_sq = INF # Use squared distance for efficiency
 	
@@ -72,6 +83,7 @@ func _physics_process(_delta):
 	# --- Homing Activation ---
 	# If we found a valid target within range, start homing.
 	if is_instance_valid(closest_target_in_range):
+		_play_sound("res://스테이지2/sound/SFX_Missile_Turn_Fast.mp3", -30, 0.7) # 플레이어 미사일 감지 사운드
 		target = closest_target_in_range # Lock the target
 		homing_turn_done = true
 		gravity_scale = 0.0 # Turn off gravity

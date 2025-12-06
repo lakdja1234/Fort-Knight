@@ -11,7 +11,7 @@ func _ready():
 	await get_tree().process_frame
 	
 	# 온열장치 노드를 찾고 시그널에 연결합니다.
-	var heaters = get_tree().get_nodes_in_group("heaters")
+	var heaters = get_tree().get_nodes_in_group("boss_weak_points")
 	
 
 	for heater in heaters:

@@ -43,7 +43,7 @@ func _on_spawn_wall_pressed():
 # --- 새 디버그 기능 ---
 func _on_damage_heaters_pressed():
 	# print("디버그: 모든 온열장치에 50 데미지")
-	var heaters = get_tree().get_nodes_in_group("heaters")
+	var heaters = get_tree().get_nodes_in_group("boss_weak_points")
 	for heater in heaters:
 		if heater.has_method("take_damage"):
 			heater.take_damage(50)

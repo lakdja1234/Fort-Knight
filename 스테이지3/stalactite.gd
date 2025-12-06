@@ -61,7 +61,7 @@ func _on_body_entered(body):
 func _play_sound(sound_path, volume_db = 0):
 	var sfx_player = AudioStreamPlayer.new()
 	sfx_player.stream = load(sound_path)
-	sfx_player.volume_db = volume_db
+	sfx_player.volume_player.bus = "SFX" # SFX 버스로 라우팅
 	add_child(sfx_player)
 	sfx_player.play()
 	sfx_player.finished.connect(sfx_player.queue_free)

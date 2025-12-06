@@ -15,6 +15,17 @@ var target: Node2D = null
 # 방향 꺾기를 한 번만 하도록 체크하는 변수
 var homing_turn_done: bool = false
 
+# 일회성 사운드를 재생하는 헬퍼 함수
+func _play_sound(sound_path, volume_db = 0, pitch_scale = 1.0):
+	var sfx_player = AudioStreamPlayer.new()
+	sfx_player.stream = load(sound_path)
+	sfx_player.volume_db = volume_db
+	sfx_player.pitch_scale = pitch_scale
+	sfx_player.bus = "SFX" # SFX 버스로 라우팅
+	add_child(sfx_player)
+	sfx_player.play()
+	sfx_player.finished.connect(sfx_player.queue_free)
+
 # --- 시각/물리 노드 참조 추가 ---
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -52,6 +63,7 @@ func _physics_process(_delta):
 		
 		# 거리가 설정한 범위 안으로 들어왔다면
 		if distance <= homing_activation_range:
+			_play_sound("res://스테이지2/sound/SFX_Missile_Turn_Fast.mp3", -30, 0.7) # 보스 미사일 감지 사운드
 			homing_turn_done = true # 플래그를 true로 바꿔서 다시는 실행 안 되게 함
 			
 			# 중력을 끄고, 그 순간의 타겟 위치로 방향을 "즉시" 꺾음

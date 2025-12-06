@@ -48,13 +48,21 @@ var is_returning: bool = false
 @onready var collision_shape = $CollisionShape2D
 var second_attack_timer: Timer
 
-
+# 일회성 사운드를 재생하는 헬퍼 함수
+func _play_sound(sound_path, volume_db = 0):
+	var sfx_player = AudioStreamPlayer.new()
+	sfx_player.stream = load(sound_path)
+	sfx_player.volume_db = volume_db
+	sfx_player.bus = "SFX" # SFX 버스로 라우팅
+	add_child(sfx_player)
+	sfx_player.play()
+	sfx_player.finished.connect(sfx_player.queue_free)
 
 func _ready():
 	original_position = global_position
 	player = get_tree().get_first_node_in_group("player")
 	overheat_timer.timeout.connect(_on_overheat_timer_timeout)
-	var heaters = get_tree().get_nodes_in_group("heaters")
+	var heaters = get_tree().get_nodes_in_group("boss_weak_points") # 그룹 이름 변경
 	total_heat_sinks = heaters.size()
 	if total_heat_sinks == 0:
 		pass # printerr("경고: 'heaters' 그룹에 온열장치가 없습니다!")
@@ -464,6 +472,7 @@ func _on_spawn_wall_requested():
 
 # 방어벽 생성 함수 (spawn_position 인자 받도록 수정)
 func spawn_ice_wall(spawn_position: Vector2):
+	_play_sound("res://스테이지2/sound/SFX_Skill_IceWall_Spawn_Impact.wav", -10) # 얼음벽 생성 소리
 	GlobalMessageBox.add_message("보스가 방어 태세를 갖춥니다!")
 	GlobalMessageBox.add_message("거대 얼음벽 생성 중.")
 	# print("보스: 방어벽 생성 시도 (충돌 지점):", spawn_position)

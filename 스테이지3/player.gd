@@ -368,7 +368,8 @@ func fire_bullet(power: float):
 	
 	if projectile_scene_to_use == bullet_scene:
 		bullet.set_collision_layer_value(3, true)
-		bullet.collision_mask = (1 << 0) | (1 << 3) | (1 << 7) | (1 << 31)
+		# collision_mask에 (1 << 6)을 추가하여 boss_gimmick 레이어와 충돌하도록 함
+		bullet.collision_mask = (1 << 0) | (1 << 3) | (1 << 6) | (1 << 7)
 
 	if bullet.has_method("set_explosion_radius"):
 		if get_tree().current_scene.scene_file_path.contains("스테이지2"):
@@ -480,6 +481,7 @@ func _play_sound(sound_path, volume_db = 0):
 	var sfx_player = AudioStreamPlayer.new()
 	sfx_player.stream = load(sound_path)
 	sfx_player.volume_db = volume_db
+	sfx_player.bus = "SFX" # SFX 버스로 라우팅
 	add_child(sfx_player)
 	sfx_player.play()
 	sfx_player.finished.connect(sfx_player.queue_free)
@@ -611,6 +613,7 @@ func update_freeze_gauge(delta: float):
 	
 	if current_freeze_gauge >= max_freeze_gauge and not is_frozen:
 		is_frozen = true
+		_play_sound("res://스테이지2/sound/SFX_Skill_IceWind_Cast_Burst_[cut_1sec].mp3", -10) # 냉동 게이지 얼어붙는 소리
 		GlobalMessageBox.add_message("시스템 동결!")
 		GlobalMessageBox.add_message("기동력이 50%로 제한됩니다.")
 		apply_freeze_debuff(true)
