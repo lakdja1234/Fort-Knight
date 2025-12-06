@@ -1,16 +1,38 @@
+# explosion.gd (Merged by Gemini)
 extends Node2D
 
-@onready var animated_explosion = $AnimatedExplosion # AnimatedSprite2D 노드의 이름
-
 func _ready():
-	# 애니메이션 재생이 끝나면 _on_animation_finished 함수를 호출하도록 연결
-	animated_explosion.animation_finished.connect(_on_animation_finished)
-	animated_explosion.play("explode") # 또는 설정한 애니메이션 이름 (예: "explode")
+	add_to_group("explosions")
+	
+	# 애니메이션 플레이어가 있다면 "explosion" 애니메이션을 재생합니다.
+	if has_node("AnimationPlayer"):
+		$AnimationPlayer.play("explosion")
+	# AnimatedSprite2D가 있다면 "explode" 애니메이션을 재생합니다.
+	elif has_node("AnimatedExplosion"):
+		$AnimatedExplosion.play("explode")
 
-func _on_animation_finished():
-	# 애니메이션이 끝나면 이 씬(폭발)을 제거합니다.
+	# --- 폭발 사운드 재생 ---
+	var sfx_player = AudioStreamPlayer.new()
+	sfx_player.stream = load("res://스테이지3/sound/explosionSound.mp3")
+	sfx_player.volume_db = -2
+	add_child(sfx_player)
+	sfx_player.play()
+	sfx_player.finished.connect(sfx_player.queue_free)
+
+	# 카메라 흔들림 효과
+	var camera = get_tree().get_first_node_in_group("camera")
+	if is_instance_valid(camera) and camera.has_method("shake"):
+		camera.shake(15.0, 0.3)
+	
+	# 애니메이션이 끝나면 씬을 제거합니다.
+	if has_node("AnimationPlayer"):
+		await $AnimationPlayer.animation_finished
+	elif has_node("AnimatedExplosion"):
+		await $AnimatedExplosion.animation_finished
+		
 	queue_free()
 
+# 총알 스크립트에서 폭발 반경(크기)을 설정하기 위한 함수
 func set_radius(new_radius: float):
-	# AnimatedExplosion 스프라이트의 스케일을 조절하여 시각적인 폭발 반경을 나타냅니다.
-	animated_explosion.scale = Vector2(new_radius, new_radius)
+	# 이 노드 자체의 스케일을 조절하여 전체 폭발 효과의 크기를 변경합니다.
+	self.scale = Vector2(new_radius, new_radius)

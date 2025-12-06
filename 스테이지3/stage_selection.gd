@@ -29,6 +29,7 @@ func _on_stage_3_button_gui_input(event):
 			SceneTransition.change_scene("res://스테이지3/stage_3_ready.tscn")
 		else:
 			last_click_time_3 = current_time
+
 func _on_part_selection_button_pressed():
 	SceneTransition.change_scene("res://ui/PartSelectionScreen.tscn")
 

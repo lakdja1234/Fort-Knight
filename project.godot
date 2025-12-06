@@ -22,6 +22,7 @@ GlobalPhysics="*res://스테이지3/GlobalPhysics.gd"
 PlayerData="*res://player_data.gd"
 SettingsManager="*res://ui/SettingsManager.gd"
 GlobalSignals="*res://GlobalSignals.gd"
+GlobalMessageBox="*res://스테이지3/MessageBox.tscn"
 
 [importer_defaults]
 

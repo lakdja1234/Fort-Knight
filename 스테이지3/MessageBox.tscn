@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6fioj2wqlqf8"]
+
+[ext_resource type="Script" uid="uid://6ru1h2cnqk6j" path="res://스테이지3/MessageBox.gd" id="1_xcy0a"]
+
+[node name="GlobalMessageBox" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_xcy0a")
+
+[node name="MessageBox" type="PanelContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -75.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MessageBox"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MessageBox/MarginContainer"]
+layout_mode = 2
+alignment = 2

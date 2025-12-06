@@ -33,4 +33,4 @@ func _on_blink_timer_timeout():
 
 func _unhandled_input(event):
 	if can_start and event is InputEventKey and event.keycode == KEY_SPACE and event.pressed:
-		get_tree().change_scene_to_file("res://스테이지1/Scenes/stage1.tscn")
+		SceneTransition.change_scene("res://스테이지1/Scenes/stage1.tscn")

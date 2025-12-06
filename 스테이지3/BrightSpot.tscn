@@ -1,6 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8t7p7e5g6f7g"]
+[gd_scene load_steps=7 format=3 uid="uid://b8t7p7e5g6f7g"]
 
-[ext_resource type="Script" uid="uid://c2h45uy2t0yrx" path="res://BrightSpot.gd" id="1_1"]
+[ext_resource type="Script" uid="uid://c2h45uy2t0yrx" path="res://스테이지3/BrightSpot.gd" id="1_1"]
+
+[sub_resource type="Gradient" id="Gradient_o5fgi"]
+offsets = PackedFloat32Array(0, 0.013333334, 1)
+colors = PackedColorArray(1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fmxqj"]
+gradient = SubResource("Gradient_o5fgi")
+fill = 1
+fill_from = Vector2(0.49532712, 0.5046729)
+fill_to = Vector2(0.7943925, 0.19626169)
 
 [sub_resource type="Gradient" id="Gradient_nqfcl"]
 offsets = PackedFloat32Array(0, 0.9066667)
@@ -12,19 +22,21 @@ fill = 1
 fill_from = Vector2(0.4906542, 0.48598132)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
-radius = 156.70673
+radius = 38.118233
 
-[node name="BrightSpot" type="Area2D"]
+[node name="BrightSpot" type="CharacterBody2D"]
 collision_layer = 64
-collision_mask = 36
+collision_mask = 37
 script = ExtResource("1_1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
+position = Vector2(-6.67572e-06, 1.499999)
+scale = Vector2(1.7812498, 1.92)
+texture = SubResource("GradientTexture2D_fmxqj")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0.5000019, -0.5000019)
-scale = Vector2(3.015625, 2.984375)
+position = Vector2(-1.9073486e-06, 1)
+scale = Vector2(2.3671875, 2.4453125)
 color = Color(0.8377939, 0.041324668, 0, 1)
 energy = 1.5
 texture = SubResource("GradientTexture2D_4443j")
@@ -33,5 +45,3 @@ texture = SubResource("GradientTexture2D_4443j")
 position = Vector2(0, -2.3841858e-07)
 scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("CircleShape2D_1")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

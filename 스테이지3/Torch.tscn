@@ -16,7 +16,7 @@ fill_to = Vector2(0.87383175, 0.23364486)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_torch_shape"]
 size = Vector2(27, 74)
 
-[node name="Torch" type="Area2D"]
+[node name="Torch" type="Area2D" groups=["torch"]]
 collision_layer = 128
 collision_mask = 4
 script = ExtResource("1_torch_script")
@@ -31,12 +31,14 @@ texture = SubResource("GradientTexture2D_torch_light_tex")
 texture_scale = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-light_mask = 2
+light_mask = 1
+texture_filter = 1
+position = Vector2(1.90735e-06, -26)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_torch_off")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 1)
+position = Vector2(0, -29)
 shape = SubResource("RectangleShape2D_torch_shape")
 
 [node name="LightTimer" type="Timer" parent="."]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://mgscb257lvwq"]
+
+[ext_resource type="Script" uid="uid://3vpmyirdj25n" path="res://스테이지3/PlayerBrightSpot.gd" id="1_1"]
+
+[sub_resource type="Gradient" id="Gradient_o5fgi"]
+offsets = PackedFloat32Array(0, 0.0133333, 1)
+colors = PackedColorArray(0, 0.5, 1, 0, 0, 0.5, 1, 1, 0, 0.5, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fmxqj"]
+gradient = SubResource("Gradient_o5fgi")
+fill = 1
+fill_from = Vector2(0.495327, 0.504673)
+fill_to = Vector2(0.794393, 0.196262)
+
+[sub_resource type="Gradient" id="Gradient_nqfcl"]
+offsets = PackedFloat32Array(0, 0.906667)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4443j"]
+gradient = SubResource("Gradient_nqfcl")
+fill = 1
+fill_from = Vector2(0.490654, 0.485981)
+fill_to = Vector2(0.864486, 0.1588785)
+
+[node name="PlayerBrightSpot" type="CharacterBody2D"]
+script = ExtResource("1_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -2.0000029)
+scale = Vector2(2.5625, 2.3584375)
+texture = SubResource("GradientTexture2D_fmxqj")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-1, 0)
+scale = Vector2(3.1464846, 3.2503223)
+color = Color(0.0431373, 0.47451, 0.843137, 1)
+energy = 1.5
+texture = SubResource("GradientTexture2D_4443j")

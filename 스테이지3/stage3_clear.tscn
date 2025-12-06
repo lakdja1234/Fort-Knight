@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://dajq7a8b9c0d"]
+
+[ext_resource type="Script" path="res://스테이지3/stage3_clear.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://xyz123abc456" path="res://스테이지3/Img/pages/stage3Clear.png" id="2_xyz12"]
+
+[node name="Stage3Clear" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_xyz12")
+expand_mode = 1
+
+[node name="AcquireButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="TransitionRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
