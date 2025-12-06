@@ -1,13 +1,13 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1764992650
+::res://::1765001666
 default_bus_layout.tres::AudioBusLayout::-1::1764927550::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1764927545::0::1::::<><><>0<>0<><>::
 GlobalSignals.gd::GDScript::6807771569628890967::1764936733::0::1::::<>Node<><>0<>0<><>::
 icon.svg::CompressedTexture2D::1068338843696736138::1764926450::1764927552::1::::<><><>0<>0<>2e99977f5c680996cba634641f8b2418<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 player_data.gd::GDScript::-1::1764927545::0::1::::<>Node<><>0<>0<><>::
-::res://parts/::1764927545
-Godot 프로젝트에 새로운 파트를 추가하는 방법 가이드.txt::TextFile::-1::1764927545::0::1::::<><><>0<>0<><>::
-HomingMissilePart.gd::GDScript::2225105219973444354::1764927545::0::1::::<>Node<><>0<>0<><>::
+::res://parts/::1764994567
+Godot 프로젝트에 새로운 파트를 추가하는 방법 가이드.txt::TextFile::-1::1764994567::0::1::::<><><>0<>0<><>::
+HomingMissilePart.gd::GDScript::2225105219973444354::1764998283::0::1::::<>Node<><>0<>0<><>::
 HomingMissilePart.tscn::PackedScene::1085334222057617270::1764927545::0::1::::<><><>0<>0<><>::uid://6x4fmrmdffn3::::res://parts/HomingMissilePart.gd
 homing_missile_part.tres::Resource/Part::6811515068463822056::1764927545::0::1::::<><><>0<>0<><>::uid://b7yovahwqm2p0::::res://parts/part.gd<>uid://c5a3o0vq5x704::::res://파츠/쇄빙선파츠2.png<>uid://pp0kciwj7vj7::::res://parts/HomingMissilePart.tscn
 part.gd::GDScript::4682896297613400291::1764927545::0::1::::Part<>Resource<><>0<>0<><>::
@@ -96,7 +96,7 @@ stage2reward.tscn::PackedScene::1542430940208559818::1764927545::0::1::::<><><>0
 tank.gd::GDScript::6595447250376264776::1764927545::0::1::::<>CharacterBody2D<><>0<>0<><>::
 warning_indicator.gd::GDScript::3394235600222434887::1764927545::0::1::::<>Node2D<><>0<>0<><>::
 warning_indicator.tscn::PackedScene::1023424799067028018::1764930611::0::1::::<><><>0<>0<><>::uid://bomgtgqokx6ul::::res://스테이지2/warning_indicator.gd<>uid://du2t6rykiryoe::::res://스테이지1/경고-Photoroom.png
-::res://스테이지2/::1764992648
+::res://스테이지2/::1765004292
 bossHealthbar.png::CompressedTexture2D::6941494963770585815::1764927545::1764927552::1::::<><><>0<>0<>00944e0b567add867f0f19eaa1237beb<>res://.godot/imported/bossHealthbar.png-1851365ef65dd31e7aabdc3cf6fa2922.ctex::
 BossHeaterUI.gd::GDScript::-1::1764927545::0::1::::<>Control<><>0<>0<><>::
 BossHeaterUI.tscn::PackedScene::-1::1764927551::0::1::::<><><>0<>0<><>::
@@ -111,7 +111,7 @@ GameUI.gd::GDScript::-1::1764927545::0::1::::<>CanvasLayer<><>0<>0<><>::
 GameUI.tscn::PackedScene::-1::1764927551::0::1::::<><><>0<>0<><>::
 HealthBar.gd::GDScript::-1::1764927545::0::1::::<>Control<><>0<>0<><>::
 heater.gd::GDScript::-1::1764927545::0::1::::<>StaticBody2D<><>0<>0<><>::
-Heater.tscn::PackedScene::2805590895703838593::1764992648::0::1::::<><><>0<>0<><>::uid://b4pmiw2gvbvyj::::res://스테이지2/heater.gd<>uid://dhkma8wjhq68n::::res://스테이지2/온열-Photoroom.png<>uid://dpes6b57ixr5p::::res://스테이지2/온열(꺼짐)-Photoroom.png<>uid://cae7qpypped5s::::res://스테이지2/RangeVisual.gd
+Heater.tscn::PackedScene::2805590895703838593::1764999522::0::1::::<><><>0<>0<><>::uid://b4pmiw2gvbvyj::::res://스테이지2/heater.gd<>uid://dhkma8wjhq68n::::res://스테이지2/온열-Photoroom.png<>uid://dpes6b57ixr5p::::res://스테이지2/온열(꺼짐)-Photoroom.png<>uid://cae7qpypped5s::::res://스테이지2/RangeVisual.gd
 HomingMissile.gdshader::Shader::-1::1764927545::0::1::::<><><>0<>0<><>::
 homing_missile.gd::GDScript::-1::1764927545::0::1::::<>RigidBody2D<><>0<>0<><>::
 homing_missile.tscn::PackedScene::2796273140628534489::1764927551::0::1::::<><><>0<>0<><>::uid://b0ov31qgockb0::::res://스테이지2/homing_missile.gd<>uid://dyhocu162sq1s::::res://스테이지2/유도미사일.png<>uid://yu424pqsiygl::::res://스테이지2/HomingMissile.gdshader
@@ -128,15 +128,15 @@ sand.png::CompressedTexture2D::1810114452844835539::1764926451::1764927527::1:::
 sheet.png::CompressedTexture2D::6295834684786141463::1764926451::1764927527::1::::<><><>0<>0<>dd29555b4f3e3a79738b6c164ecedaf9<>res://.godot/imported/sheet.png-65d40f588dc433cc0e548d6164e44b21.ctex::
 snow_effect.gd::GDScript::-1::1764927545::0::1::::<>CPUParticles2D<><>0<>0<><>::
 snow_effect.tscn::PackedScene::-1::1764927551::0::1::::<><><>0<>0<><>::
-tile_map.gd::GDScript::1508307450012122407::1764927545::0::1::::<>TileMapLayer<><>0<>0<><>::
+tile_map.gd::GDScript::1508307450012122407::1764999682::0::1::::<>TileMapLayer<><>0<>0<><>::
 warning_indicator.gd::GDScript::3394235600222434887::1764927545::0::1::::<>Node2D<><>0<>0<><>::
 warning_indicator.tscn::PackedScene::8735186790977661925::1764926451::0::1::::<><><>0<>0<><>::uid://bomgtgqokx6ul::::res://스테이지2/warning_indicator.gd<>uid://dra3uubuqqdkq::::res://캐릭터/경고-Photoroom.png
 냉동게이지ui(얼어붙음).png::CompressedTexture2D::9011413330403864943::1764927545::1764927552::1::::<><><>0<>0<>66a48c924f255418a5daa09628748aae<>res://.godot/imported/냉동게이지ui(얼어붙음).png-f2a1f80749a2bc41f1f938d0e60a1eae.ctex::
 냉동게이지ui.png::CompressedTexture2D::3221032405467592453::1764927545::1764927552::1::::<><><>0<>0<>fccc43e2f522858448bb210c4ef4d214<>res://.godot/imported/냉동게이지ui.png-18d8dcc29d5a3cb1d6500328f62dc98c.ctex::
-쇄빙선.gd::GDScript::3682284368893593753::1764927545::0::1::::<>CharacterBody2D<><>0<>0<><>::
+쇄빙선.gd::GDScript::3682284368893593753::1764999640::0::1::::<>CharacterBody2D<><>0<>0<><>::
 쇄빙선.tscn::PackedScene::2406604408527418386::1764927545::0::1::::<><><>0<>0<><>::uid://bspyxkrsell0d::::res://스테이지2/쇄빙선.gd<>uid://dmmamr5c8sdat::::res://캐릭터/쇄빙선-Photoroom.png<>uid://b77v4l88eee7d::::res://스테이지2/온열장치.gd<>uid://dpes6b57ixr5p::::res://스테이지2/온열(꺼짐)-Photoroom.png<>uid://dhkma8wjhq68n::::res://스테이지2/온열-Photoroom.png
-스테이지2.gd::GDScript::-1::1764927545::0::1::::<>Node2D<><>0<>0<><>::
-스테이지2.tscn::PackedScene::6196171669746432464::1764927545::0::1::::<><><>0<>0<><>::uid://baj1om8s8mxju::::res://스테이지2/쇄빙선.tscn<>uid://cvx0qh5y3ugmh::::res://스테이지2/sheet.png<>uid://013k5t8auqat::::res://스테이지2/sand.png<>uid://vqvurpqtxk0f::::res://스테이지2/tile_map.gd<>uid://b3pvmx7jf58ma::::res://캐릭터/Player.tscn
+스테이지2.gd::GDScript::2136508037901118115::1764998418::0::1::::<>Node2D<><>0<>0<><>::
+스테이지2.tscn::PackedScene::6196171669746432464::1764997231::0::1::::<><><>0<>0<><>::uid://bmwhid2ntfoue::::res://스테이지2/배경화면/배경화면.tscn<>uid://baj1om8s8mxju::::res://스테이지2/쇄빙선.tscn<>uid://cvx0qh5y3ugmh::::res://스테이지2/sheet.png<>uid://013k5t8auqat::::res://스테이지2/sand.png<>uid://vqvurpqtxk0f::::res://스테이지2/tile_map.gd<>uid://bf8bw4agvcrxp::::res://스테이지2/Heater.tscn<>res://스테이지3/Player.tscn<>res://스테이지2/GameUI.tscn<>res://스테이지2/MainCamera.gd<>uid://fgwbejfhbulb::::res://스테이지3/Bullet.tscn<>res://스테이지2/DebugUI.gd<>uid://b7yovahwqm2p0::::res://parts/part.gd<>uid://c4bswmwe25oaq::::res://parts/homing_missile_part.tres<>res://스테이지2/snow_effect.tscn<>res://스테이지2/HealthBar.gd<>uid://c55rn4rvxc71d::::res://스테이지2/bossHealthbar.png<>res://스테이지2/스테이지2.gd<>res://스테이지2/FreezeGaugeUI.tscn<>res://스테이지2/BossHeaterUI.tscn
 얼음 방어벽(1단계).png::CompressedTexture2D::3448298284407905447::1764927545::1764927552::1::::<><><>0<>0<>f831314e0a4a2ec7323c9c9585f61ef0<>res://.godot/imported/얼음 방어벽(1단계).png-c7cf3fbb7485d7f3f0a9b8c226e359da.ctex::
 얼음 방어벽(2단계).png::CompressedTexture2D::4555829680936837123::1764927545::1764927553::1::::<><><>0<>0<>e2d380bdf211f58a42624982e4ea5ce3<>res://.godot/imported/얼음 방어벽(2단계).png-544a9d5503c619dd8b73abfb3a20ea43.ctex::
 얼음 방어벽(3단계).png::CompressedTexture2D::7391916431298752130::1764927545::1764927553::1::::<><><>0<>0<>b63ab0b1f8021c04d46f78262f6486ae<>res://.godot/imported/얼음 방어벽(3단계).png-c8f3efb35d286b38548522ef614c700b.ctex::
@@ -146,22 +146,24 @@ warning_indicator.tscn::PackedScene::8735186790977661925::1764926451::0::1::::<>
 온열장치 체력바.png::CompressedTexture2D::5502748092930805534::1764927545::1764927553::1::::<><><>0<>0<>ea8fa10cd7478803f40fd71cf0c661da<>res://.godot/imported/온열장치 체력바.png-15737876679af3fda7917ef1b0c1ffeb.ctex::
 온열장치.gd::GDScript::4699851243351662483::1764927545::0::1::::<>StaticBody2D<><>0<>0<><>::
 유도미사일.png::CompressedTexture2D::8859099644234262886::1764927545::1764927552::1::::<><><>0<>0<>ba762fc42f25824e55ced59b3993fd80<>res://.godot/imported/유도미사일.png-02c95e34ee7e9ebd1d058e69176d537e.ctex::
+튜토리얼_냉동게이지.png::CompressedTexture2D::7158590499809508831::1765004292::1765004293::1::::<><><>0<>0<>7bd242394d14a89aeb2217f955a1959c<>res://.godot/imported/튜토리얼_냉동게이지.png-8ca39873f97254715c3c6d8f0d123e8e.ctex::
+튜토리얼_보스 약점.png::CompressedTexture2D::6602044007583955554::1765004167::1765004168::1::::<><><>0<>0<>67a1087eb5ec4678aa34f0b87ce8f412<>res://.godot/imported/튜토리얼_보스 약점.png-f95d3fbae5038574f701c02347192624.ctex::
 포탄.gd::GDScript::8298636537934391833::1764927545::0::1::::<>RigidBody2D<><>0<>0<><>::
 포탄.tscn::PackedScene::6798285708017143490::1764927545::0::1::::<><><>0<>0<><>::uid://dqh6lja0ka7rx::::res://스테이지2/포탄.gd<>uid://disgi4hpjraym::::res://캐릭터/tank_bullet2.png<>uid://yu424pqsiygl::::res://스테이지2/HomingMissile.gdshader
 ::res://스테이지2/배경화면/::1764927545
 Gemini_Generated_Image_redo96redo96redo.png::CompressedTexture2D::5324339001496419635::1764927545::1764927545::1::::<><><>0<>0<>b742675ef4ee3ce912069704b5460df0<>res://.godot/imported/Gemini_Generated_Image_redo96redo96redo.png-998ba02a2b0096a289b2c4a3663ee9e2.ctex::
 image.png::CompressedTexture2D::7379590868841007466::1764927545::1764927545::1::::<><><>0<>0<>6c2a94100ea4184907a2277bed36699c<>res://.godot/imported/image.png-80c10e17383d0d51086c76f73ae340fc.ctex::
 배경화면.tscn::PackedScene::3274542623135443100::1764927545::0::1::::<><><>0<>0<><>::uid://ddey1vwir5nfm::::res://스테이지2/배경화면/image.png
-::res://스테이지3/::1764993910
+::res://스테이지3/::1765003740
 background_light.gdshader::Shader::1073423503852755311::1764926452::0::1::::<><><>0<>0<><>::
-boss.gd::GDScript::2031017441381331544::1764993072::0::1::::<>StaticBody2D<><>0<>0<><>::
-Boss.tscn::PackedScene::207585457263729842::1764993759::0::1::::<><><>0<>0<><>::uid://363tb73wf8j1::::res://스테이지3/boss.gd<>uid://cvtekje15yj4b::::res://스테이지3/Img/driller.png<>uid://fgwbejfhbulb::::res://스테이지3/Bullet.tscn<>uid://d3j4k3l3j4k3::::res://스테이지3/HitboxIndicator.tscn
+boss.gd::GDScript::2031017441381331544::1764997174::0::1::::<>StaticBody2D<><>0<>0<><>::
+Boss.tscn::PackedScene::207585457263729842::1764995651::0::1::::<><><>0<>0<><>::uid://363tb73wf8j1::::res://스테이지3/boss.gd<>uid://cvtekje15yj4b::::res://스테이지3/Img/driller.png
 BossHealthBar.gd::GDScript::-1::1764992649::0::1::::<>CanvasLayer<><>0<>0<><>::
 BossHealthBar.tscn::PackedScene::-1::1764992660::0::1::::<><><>0<>0<><>::
-BrightSpot.gd::GDScript::6684206245294335889::1764993181::0::1::::<>Area2D<><>0<>0<><>::
+BrightSpot.gd::GDScript::6684206245294335889::1764993181::0::1::::<>CharacterBody2D<><>0<>0<><>::
 BrightSpot.tscn::PackedScene::4743847120051134066::1764993713::0::1::::<><><>0<>0<><>::uid://c2h45uy2t0yrx::::res://스테이지3/BrightSpot.gd
 bullet.gd::GDScript::1488925327393369763::1764993124::0::1::::<>RigidBody2D<><>0<>0<><>::
-Bullet.tscn::PackedScene::-1::1764993879::0::1::::<><><>0<>0<><>::
+Bullet.tscn::PackedScene::364668268582522271::1764993879::0::1::::<><><>0<>0<><>::uid://vhinakad8wid::::res://스테이지3/bullet.gd<>uid://dqyx26x27bsfo::::res://캐릭터/tank_bullet3.png
 Camera.gd::GDScript::-1::1764992649::0::1::::<>Camera2D<><>0<>0<><>::
 cooldown_shader.gdshader::Shader::-1::1764992649::0::1::::<><><>0<>0<><>::
 DebugUI.gd::GDScript::-1::1764992649::0::1::::<>CanvasLayer<><>0<>0<><>::
@@ -177,11 +179,11 @@ healthbar_shader.gdshader::Shader::-1::1764992650::0::1::::<><><>0<>0<><>::
 HitboxIndicator.tscn::PackedScene::268967918011530828::1764993803::0::1::::<><><>0<>0<><>::res://스테이지3/hitbox_indicator.gd
 hitbox_indicator.gd::GDScript::5923372849944670203::1764993410::0::1::::<>Node2D<><>0<>0<><>::
 icon.svg::CompressedTexture2D::677397466910258121::1764926452::1764927527::1::::<><><>0<>0<>196a17b08fd6fca47678368a148ccb61<>res://.godot/imported/icon.svg-3fe57f0c3d66e37f2e5d1e9c8b5cd2a5.ctex::
-map.tscn::PackedScene::8954193077594201266::1764993895::0::1::::<><><>0<>0<><>::uid://bcm8vy4livc0e::::res://스테이지3/Img/mapImages/CaveBG.png<>uid://cmsb6o148rkke::::res://스테이지3/Torch.tscn<>uid://pxqgegm6a54e::::res://스테이지3/Player.tscn<>uid://fgwbejfhbulb::::res://스테이지3/Bullet.tscn<>uid://ovbo8irkapmy::::res://스테이지3/Img/mapImages/CaveG.png<>uid://vtwj1vhdfswa::::res://스테이지3/Img/background.png<>uid://bw122sdvbpc8g::::res://스테이지3/Stalactites.gd<>uid://bciw81w2gq2e5::::res://스테이지3/Stalactite.tscn<>uid://c7s5w5g5g5g5::::res://스테이지3/Boss.tscn<>uid://dqr3y6f644otn::::res://스테이지3/game_manager.gd
-MessageBox.gd::GDScript::-1::1764992649::0::1::::<>CanvasLayer<><>0<>0<><>::
-MessageBox.tscn::PackedScene::-1::1764992660::0::1::::<><><>0<>0<><>::
-player.gd::GDScript::7959316035503731166::1764992926::0::1::::<>RefCounted<><>0<>0<><>::
-Player.tscn::PackedScene::-1::1764993744::0::1::::<><><>0<>0<><>::
+map.tscn::PackedScene::8954193077594201266::1764998433::0::1::::<><><>0<>0<><>::uid://bcm8vy4livc0e::::res://스테이지3/Img/mapImages/CaveBG.png<>uid://cmsb6o148rkke::::res://스테이지3/Torch.tscn<>res://스테이지3/Player.tscn<>uid://fgwbejfhbulb::::res://스테이지3/Bullet.tscn<>uid://ovbo8irkapmy::::res://스테이지3/Img/mapImages/CaveG.png<>uid://vtwj1vhdfswa::::res://스테이지3/Img/background.png<>uid://bw122sdvbpc8g::::res://스테이지3/Stalactites.gd<>uid://bciw81w2gq2e5::::res://스테이지3/Stalactite.tscn<>uid://c7s5w5g5g5g5::::res://스테이지3/Boss.tscn<>uid://dqr3y6f644otn::::res://스테이지3/game_manager.gd
+MessageBox.gd::GDScript::2212209754576931615::1764998902::0::1::::<>CanvasLayer<><>0<>0<><>::
+MessageBox.tscn::PackedScene::7817967840088640720::1764995382::0::1::::<><><>0<>0<><>::uid://6ru1h2cnqk6j::::res://스테이지3/MessageBox.gd
+player.gd::GDScript::7959316035503731166::1764999662::0::1::::<>CharacterBody2D<><>0<>0<><>::
+player.tscn::PackedScene::1101295749510467654::1764994585::0::1::::<><><>0<>0<><>::uid://dlns1ix5ixjpe::::res://스테이지3/player.gd<>uid://ckuybkhj76utn::::res://스테이지3/Img/tankImages/tanks_tankGreen_body3.png<>uid://dcir4ux0jsoml::::res://스테이지3/Img/tankImages/tanks_turret2.png<>uid://vwd0yrf5pwj7::::res://스테이지3/Img/partSlot.png<>uid://c5a3o0vq5x704::::res://파츠/쇄빙선파츠2.png<>res://스테이지3/TrajectoryDrawer.gd
 PlayerBrightSpot.gd::GDScript::-1::1764992649::0::1::::<>CharacterBody2D<><>0<>0<><>::
 PlayerBrightSpot.tscn::PackedScene::-1::1764992660::0::1::::<><><>0<>0<><>::
 PlayerUI.tscn::PackedScene::-1::1764992660::0::1::::<><><>0<>0<><>::
@@ -193,19 +195,19 @@ stage3_clear.gd::GDScript::-1::1764992650::0::1::::<>Control<><>0<>0<><>::
 stage3_clear.tscn::PackedScene::-1::1764992660::0::1::::<><><>0<>0<><>::
 stage_1_ready.gd::GDScript::7234702254054975370::1764993446::0::1::::<>Node2D<><>0<>0<><>::
 stage_1_ready.tscn::PackedScene::2760252842483134111::1764926452::0::1::::<><><>0<>0<><>::uid://dbcsqvoocv61s::::res://스테이지3/stage_1_ready.gd<>uid://dgtm62i07cy5w::::res://스테이지3/Img/pages/1ready.png
-stage_2_ready.gd::GDScript::8311261027341589004::1764926452::0::1::::<>Node2D<><>0<>0<><>::
-stage_2_ready.tscn::PackedScene::7533094209869336258::1764993910::0::1::::<><><>0<>0<><>::uid://dqobiwt3l1vlc::::res://스테이지3/stage_2_ready.gd<>uid://cphgvwr1sqo5f::::res://스테이지3/Img/pages/2ready.png
+stage_2_ready.gd::GDScript::8311261027341589004::1765004216::0::1::::<>Node2D<><>0<>0<><>::
+stage_2_ready.tscn::PackedScene::7533094209869336258::1765003911::0::1::::<><><>0<>0<><>::uid://dqobiwt3l1vlc::::res://스테이지3/stage_2_ready.gd<>uid://cphgvwr1sqo5f::::res://스테이지3/Img/pages/2ready.png
 stage_3_ready.gd::GDScript::8709158403917744784::1764926452::0::1::::<>Node2D<><>0<>0<><>::
 stage_3_ready.tscn::PackedScene::7533094209869336223::1764926452::0::1::::<><><>0<>0<><>::uid://dwc1ti4jb3dfk::::res://스테이지3/stage_3_ready.gd<>uid://c4frpn34kmkip::::res://스테이지3/Img/pages/3ready.png
 stage_selection.gd::GDScript::4160632878493815258::1764993544::0::1::::<>Node2D<><>0<>0<><>::
-stage_selection.tscn::PackedScene::9027831028650487071::1764993857::0::1::::<><><>0<>0<><>::uid://b0jpascotmah3::::res://스테이지3/stage_selection.gd<>uid://70b7dfxwwmay::::res://스테이지3/Img/pages/stageSelect.png
-stalactite.gd::GDScript::3765018024201481997::1764993619::0::1::::<>Area2D<><>0<>0<><>::
-Stalactite.tscn::PackedScene::-1::1764993818::0::1::::<><><>0<>0<><>::
+stage_selection.tscn::PackedScene::9027831028650487071::1764999383::0::1::::<><><>0<>0<><>::uid://b0jpascotmah3::::res://스테이지3/stage_selection.gd<>uid://70b7dfxwwmay::::res://스테이지3/Img/pages/stageSelect.png
+stalactite.gd::GDScript::3765018024201481997::1764994807::0::1::::<>Area2D<><>0<>0<><>::
+Stalactite.tscn::PackedScene::2544709498869603410::1764993818::0::1::::<><><>0<>0<><>::uid://cllikxm5tm0se::::res://스테이지3/Img/종유석.png<>uid://btv2kdc0inru0::::res://스테이지3/stalactite.gd
 stalactiteExplosion.gd::GDScript::3487475910852752374::1764926452::0::1::::<>GPUParticles2D<><>0<>0<><>::
 stalactiteExplosion.tscn::PackedScene::4027406653749234368::1764926452::0::1::::<><><>0<>0<><>::res://스테이지3/stalactiteExplosion.gd
 Stalactites.gd::GDScript::3985937591586283480::1764993359::0::1::::<>Node2D<><>0<>0<><>::
 title_screen.gd::GDScript::5577058492122088318::1764926452::0::1::::<>Node2D<><>0<>0<><>::
-title_screen.tscn::PackedScene::7315383017634293370::1764935835::0::1::::<><><>0<>0<><>::uid://clptlrmij0p0y::::res://스테이지3/title_screen.gd<>uid://bodn3snawyfja::::res://스테이지3/Img/pages/title.png
+title_screen.tscn::PackedScene::7315383017634293370::1764994807::0::1::::<><><>0<>0<><>::uid://clptlrmij0p0y::::res://스테이지3/title_screen.gd<>uid://bodn3snawyfja::::res://스테이지3/Img/pages/title.png
 torch.gd::GDScript::163640279759932401::1764993665::0::1::::<>Area2D<><>0<>0<><>::
 Torch.tscn::PackedScene::5652383144073708216::1764993834::0::1::::<><><>0<>0<><>::uid://cljeqaprvnqf::::res://스테이지3/torch.gd<>uid://x07vwv13cuf3::::res://스테이지3/Img/torch_off.png<>uid://dvasw57l60dec::::res://스테이지3/Img/torch_on.png
 TrajectoryDrawer.gd::GDScript::-1::1764992649::0::1::::<>Node2D<><>0<>0<><>::
@@ -247,10 +249,9 @@ tank_bullet3.png::CompressedTexture2D::4515073719888448409::1764927546::17649275
 ::res://시작화면/::1764993932
 desktop.ini::TextFile::-1::1764992650::0::1::::<><><>0<>0<><>::
 시작화면.gd::GDScript::6956879523082728736::1764992650::0::1::::<>Control<><>0<>0<><>::
-::res://캐릭터/::1764992650
+::res://캐릭터/::1764997853
 desktop.ini::TextFile::-1::1764992650::0::1::::<><><>0<>0<><>::
-player.gd::GDScript::4990521425757124453::1764926453::0::1::::<>CharacterBody2D<><>0<>0<><>::
-Player.tscn::PackedScene::4383971716131471740::1764926452::0::1::::<><><>0<>0<><>::uid://cddpfnr26fpwf::::res://캐릭터/player.gd<>uid://hcltopdtubgk::::res://icon.svg
+Player.tscn::PackedScene::285910085050296621::1764997853::0::1::::<><><>0<>0<><>::uid://phrncxburfnu::::res://icon.svg
 tank3body.png::CompressedTexture2D::3651287988610482000::1764927672::1764927751::1::::<><><>0<>0<>19b9d6c480cf1bc2c3fff06e299964bf<>res://.godot/imported/tank3body.png-be2b3bbf4d7d77e33850c97590ce05e3.ctex::
 tank3cannon.png::CompressedTexture2D::8227386884765720146::1764927672::1764927750::1::::<><><>0<>0<>c30de874f07e576e5fb3828027c5d12f<>res://.godot/imported/tank3cannon.png-65ed3d00ace23d5e7595fa762846165b.ctex::
 tank3head.png::CompressedTexture2D::2722799737953050959::1764927672::1764927751::1::::<><><>0<>0<>31067c67c3dc3f754841fc33f92e36bb<>res://.godot/imported/tank3head.png-ac09ef761c443945e48f55888216dd09.ctex::
@@ -266,8 +267,8 @@ tank_explosion4.png::CompressedTexture2D::7644840060493080463::1764926453::17649
 쇄빙선 사망모션3-Photoroom.png::CompressedTexture2D::2530590837822072397::1764927546::1764927553::1::::<><><>0<>0<>8cf50914863c29ce29dc36b344a599f5<>res://.godot/imported/쇄빙선 사망모션3-Photoroom.png-05f9ad42aeb236a294b6462526ca757b.ctex::
 쇄빙선-Photoroom.png::CompressedTexture2D::8026323076688033663::1764926453::1764927527::1::::<><><>0<>0<>fee4ec4675fa1d06c3afe6564855b6fe<>res://.godot/imported/쇄빙선-Photoroom.png-a292b4e982c8576266d549e78d2aa522.ctex::
 탱크 시안-Photoroom.png::CompressedTexture2D::2564811235622349294::1764926453::1764927527::1::::<><><>0<>0<>6fc25925c871cc06676560d401d13777<>res://.godot/imported/탱크 시안-Photoroom.png-e4feaa36c49f13a80e08dadc6cb0882a.ctex::
-::res://파츠/::1764994037
+::res://파츠/::1764998743
 desktop.ini::TextFile::-1::1764992650::0::1::::<><><>0<>0<><>::
-stage2reward.gd::GDScript::-1::1764927546::0::1::::<>Control<><>0<>0<><>::
-stage2reward.tscn::PackedScene::1542430940208559818::1764993941::0::1::::<><><>0<>0<><>::uid://vumuqf2m6dst::::res://쇄빙선파츠2.png
-쇄빙선파츠2.png::CompressedTexture2D::6880233099731948231::1764994037::1764994078::1::::<><><>0<>0<>cda1c277206bf7803a79d26e10038965<>res://.godot/imported/쇄빙선파츠2.png-d5f137be6ca79732f133ac34aebd776f.ctex::
+stage2reward.gd::GDScript::7537764180149658463::1764997853::0::1::::<>Control<><>0<>0<><>::
+stage2reward.tscn::PackedScene::1542430940208559818::1764997362::0::1::::<><><>0<>0<><>::uid://vumuqf2m6dst::::res://쇄빙선파츠2.png
+쇄빙선파츠2.png::CompressedTexture2D::6880233099731948231::1764998734::1764998743::1::::<><><>0<>0<>cda1c277206bf7803a79d26e10038965<>res://.godot/imported/쇄빙선파츠2.png-d5f137be6ca79732f133ac34aebd776f.ctex::

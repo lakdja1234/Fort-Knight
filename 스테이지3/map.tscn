@@ -1,11 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://d0tqitblj46ty"]
+[gd_scene load_steps=14 format=3 uid="uid://d0tqitblj46ty"]
 
 [ext_resource type="Texture2D" uid="uid://bcm8vy4livc0e" path="res://스테이지3/Img/mapImages/CaveBG.png" id="1_p5pve"]
 [ext_resource type="PackedScene" uid="uid://cmsb6o148rkke" path="res://스테이지3/Torch.tscn" id="1_torch_scene"]
 [ext_resource type="PackedScene" path="res://스테이지3/Player.tscn" id="1_wijl4"]
 [ext_resource type="PackedScene" uid="uid://fgwbejfhbulb" path="res://스테이지3/Bullet.tscn" id="2_e0an3"]
 [ext_resource type="Texture2D" uid="uid://ovbo8irkapmy" path="res://스테이지3/Img/mapImages/CaveG.png" id="2_urblq"]
-[ext_resource type="Script" uid="uid://363tb73wf8j1" path="res://스테이지3/boss.gd" id="5_hdwvb"]
 [ext_resource type="Texture2D" uid="uid://vtwj1vhdfswa" path="res://스테이지3/Img/background.png" id="5_urblq"]
 [ext_resource type="Script" uid="uid://bw122sdvbpc8g" path="res://스테이지3/Stalactites.gd" id="7_dsvx2"]
 [ext_resource type="PackedScene" uid="uid://bciw81w2gq2e5" path="res://스테이지3/Stalactite.tscn" id="8_abcde"]
@@ -2575,7 +2574,6 @@ texture = ExtResource("5_urblq")
 
 [node name="Boss" parent="." instance=ExtResource("9_boss")]
 position = Vector2(965, 409)
-script = ExtResource("5_hdwvb")
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("10_game_manager")

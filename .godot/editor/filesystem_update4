@@ -1,23 +1,2 @@
-res://스테이지2/Heater.tscn
+res://스테이지3/stage_2_ready.gd
 res://스테이지3/stage_2_ready.tscn
-res://스테이지3/bullet.gd
-res://스테이지3/Bullet.tscn
-res://스테이지3/game_manager.gd
-res://스테이지3/HitboxIndicator.tscn
-res://스테이지3/hitbox_indicator.gd
-res://스테이지3/player.gd
-res://스테이지3/Player.tscn
-res://스테이지3/stage_1_ready.gd
-res://스테이지3/stage_selection.gd
-res://스테이지3/stalactite.gd
-res://스테이지3/Stalactite.tscn
-res://스테이지3/Stalactites.gd
-res://스테이지3/torch.gd
-res://parts/Godot 프로젝트에 새로운 파트를 추가하는 방법 가이드.txt
-res://스테이지3/player.tscn
-res://스테이지3/MessageBox.gd
-res://스테이지3/title_screen.tscn
-res://스테이지3/stage_selection.tscn
-res://스테이지3/MessageBox.tscn
-res://스테이지3/map.tscn
-res://스테이지3/Boss.tscn

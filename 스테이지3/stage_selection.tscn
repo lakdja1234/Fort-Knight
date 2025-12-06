@@ -1,7 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1vfb8d7w1w7x"]
+[gd_scene load_steps=8 format=3 uid="uid://d1vfb8d7w1w7x"]
 
 [ext_resource type="Script" uid="uid://b0jpascotmah3" path="res://스테이지3/stage_selection.gd" id="1_abcde"]
 [ext_resource type="Texture2D" uid="uid://70b7dfxwwmay" path="res://스테이지3/Img/pages/stageSelect.png" id="2_fghij"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+bg_color = Color(1, 1, 1, 0.2)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.5)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_buttons"]
+Button/styles/hover = SubResource("StyleBoxFlat_hover")
+Button/styles/normal = null
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
 bg_color = Color(0.15, 0.15, 0.15, 0.8)
@@ -10,22 +26,6 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.5, 0.5, 0.5, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
-bg_color = Color(0.25, 0.25, 0.25, 0.8)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.7, 0.7, 0.7, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -51,21 +51,21 @@ expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
-bg_color = Color(1, 1, 1, 0.2)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.25, 0.25, 0.25, 0.8)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.5)
+border_color = Color(0.7, 0.7, 0.7, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-
-[sub_resource type="Theme" id="Theme_buttons"]
-Button/styles/hover = SubResource("StyleBoxFlat_hover")
-Button/styles/normal = null
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
 
 [node name="StageSelection" type="Node2D"]
 script = ExtResource("1_abcde")
@@ -120,19 +120,20 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -340.0
-offset_top = -70.0
-offset_right = -190.0
-offset_bottom = -20.0
+offset_left = 809.0
+offset_top = 568.0
+offset_right = 959.0
+offset_bottom = 618.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
 mouse_filter = 1
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 text = "파츠 선택"
+metadata/_edit_use_anchors_ = true
 
 [node name="OptionButton" type="Button" parent="."]
 anchors_preset = 3
@@ -140,19 +141,20 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -170.0
-offset_top = -70.0
-offset_right = -20.0
-offset_bottom = -20.0
+offset_left = 979.0
+offset_top = 568.0
+offset_right = 1129.0
+offset_bottom = 618.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
 mouse_filter = 1
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 text = "옵션"
+metadata/_edit_use_anchors_ = true
 
 [connection signal="gui_input" from="Stage1Button" to="." method="_on_stage_1_button_gui_input"]
 [connection signal="gui_input" from="Stage2Button" to="." method="_on_stage_2_button_gui_input"]

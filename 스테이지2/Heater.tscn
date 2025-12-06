@@ -11,7 +11,7 @@ radius = 293.6818
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jo7i"]
 radius = 3000.0
 
-[node name="Heater" type="StaticBody2D" groups=["map_heaters"]]
+[node name="Heater" type="StaticBody2D" groups=["heaters"]]
 collision_layer = 128
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_2yqpf")
