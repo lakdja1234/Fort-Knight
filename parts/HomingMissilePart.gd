@@ -28,8 +28,8 @@ func _initialize_player_reference():
 	if not is_instance_valid(player):
 		printerr("HomingMissilePart Error: Player reference is invalid after deferred initialization.")
 		return
-	if not player.has_method("fire_projectile"):
-		printerr("HomingMissilePart Error: Parent Player node does not have 'fire_projectile' method.")
+	if not player.has_method("set_next_projectile"):
+		printerr("HomingMissilePart Error: Parent Player node does not have 'set_next_projectile' method.")
 
 func _physics_process(_delta):
 	if is_on_cooldown:

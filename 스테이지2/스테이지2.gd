@@ -23,6 +23,9 @@ func _ready():
 		if not is_instance_valid(player):
 			printerr("스테이지2 Error: 'Player' 노드를 찾을 수 없습니다.")
 	
+	# 스테이지 2 시작 메시지 추가 (GlobalMessageBox 사용)
+	GlobalMessageBox.add_message("얼음 동굴에 진입했습니다! 동상에 조심하세요!", 5.0)
+
 	# Defer the connection to the next frame to ensure nodes are ready
 	call_deferred("setup_boss_health_bar")
 

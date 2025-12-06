@@ -350,6 +350,8 @@ func _on_heat_sink_destroyed():
 
 	# 첫 번째 온열장치가 파괴되면 추가 기본 공격 패턴 활성화
 	if heat_sinks_destroyed == 1:
+		GlobalMessageBox.add_message("[전술 분석] 타겟 온열 장치 파괴 확인.")
+		GlobalMessageBox.add_message("타겟의 공격 패턴이 변경됩니다. 주의하십시오.")
 		# print("보스: 첫 온열장치 파괴! 5초마다 기본 공격을 추가로 발사합니다.")
 		second_attack_timer.start()
 	
@@ -359,6 +361,8 @@ func _on_heat_sink_destroyed():
 
 # 과열(행동 불능) 상태 시작 함수
 func start_overheating():
+	GlobalMessageBox.add_message("타겟 코어 온도 급하강!")
+	GlobalMessageBox.add_message("적 기체의 동결이 시작되었습니다.")
 	# print("!!! 보스 과열! 행동 불능 상태 돌입 !!!")
 	sprite.play("freeze")
 	
@@ -460,6 +464,8 @@ func _on_spawn_wall_requested():
 
 # 방어벽 생성 함수 (spawn_position 인자 받도록 수정)
 func spawn_ice_wall(spawn_position: Vector2):
+	GlobalMessageBox.add_message("보스가 방어 태세를 갖춥니다!")
+	GlobalMessageBox.add_message("거대 얼음벽 생성 중.")
 	# print("보스: 방어벽 생성 시도 (충돌 지점):", spawn_position)
 	var wall = IceWallScene.instantiate()
 	

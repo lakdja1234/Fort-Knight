@@ -1,9 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6fioj2wqlqf8"]
+[gd_scene load_steps=2 format=3 uid="uid://djnc12b0trfqe"]
 
 [ext_resource type="Script" uid="uid://6ru1h2cnqk6j" path="res://스테이지3/MessageBox.gd" id="1_xcy0a"]
 
 [node name="GlobalMessageBox" type="CanvasLayer"]
 layer = 10
+visible = false
 script = ExtResource("1_xcy0a")
 
 [node name="MessageBox" type="PanelContainer" parent="."]

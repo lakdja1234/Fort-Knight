@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dajq7a8b9c0d"]
+[gd_scene load_steps=3 format=3 uid="uid://dajq7a8cac0d"]
 
 [ext_resource type="Script" path="res://스테이지3/stage3_clear.gd" id="1_abcde"]
 [ext_resource type="Texture2D" uid="uid://xyz123abc456" path="res://스테이지3/Img/pages/stage3Clear.png" id="2_xyz12"]

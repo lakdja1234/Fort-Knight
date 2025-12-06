@@ -13,14 +13,26 @@ extends CanvasLayer
 @onready var message_box_panel = $MessageBox
 
 func _process(_delta):
-	# 현재 씬에 "player" 그룹에 속한 노드가 있는지 확인합니다.
-	var player = get_tree().get_first_node_in_group("player")
+	# 현재 씬이 유효한지 확인합니다.
+	if get_tree().current_scene == null:
+		self.visible = false # 씬이 없으면 CanvasLayer 자체를 숨김
+		return
+
+	var current_scene_path = get_tree().current_scene.scene_file_path
 	
-	# 플레이어 노드가 존재하면 메시지 박스 패널을 보이게 하고, 그렇지 않으면 숨깁니다.
-	if is_instance_valid(player):
-		message_box_panel.visible = true
+	# 메시지 박스를 보여줄 특정 씬 경로들의 화이트리스트
+	var whitelist_scenes = [
+		"res://스테이지1/Scenes/stage1.tscn",
+		"res://스테이지2/스테이지2.tscn",
+		"res://스테이지3/map.tscn"
+	]
+	
+	if current_scene_path in whitelist_scenes:
+		self.visible = true # 화이트리스트에 있으면 CanvasLayer를 보이게 함
+		message_box_panel.visible = true # 패널도 보이게 함
 	else:
-		message_box_panel.visible = false
+		self.visible = false # 화이트리스트에 없으면 CanvasLayer 자체를 숨김
+		message_box_panel.visible = false # 패널도 숨김
 
 # add_message: 새로운 메시지를 메시지 박스에 추가하는 핵심 함수입니다.
 # text: 표시할 메시지 문자열

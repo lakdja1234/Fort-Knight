@@ -611,9 +611,13 @@ func update_freeze_gauge(delta: float):
 	
 	if current_freeze_gauge >= max_freeze_gauge and not is_frozen:
 		is_frozen = true
+		GlobalMessageBox.add_message("시스템 동결!")
+		GlobalMessageBox.add_message("기동력이 50%로 제한됩니다.")
 		apply_freeze_debuff(true)
 	elif current_freeze_gauge == 0 and is_frozen:
 		is_frozen = false
+		GlobalMessageBox.add_message("시스템 정상화.")
+		GlobalMessageBox.add_message("기동력이 복구되었습니다.")
 		apply_freeze_debuff(false)
 
 func apply_freeze_debuff(frozen: bool):

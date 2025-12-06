@@ -67,6 +67,8 @@ func _melt_individual_tile(coords: Vector2i):
 		
 # '전역 얼리기' 함수
 func _on_refreeze_wind_timeout():
+	GlobalMessageBox.add_message("한파 경보 발령!")
+	GlobalMessageBox.add_message("모든 지형이 다시 얼어붙습니다!")
 	# --- 차가운 바람 이펙트 생성 (최종 수정) ---
 	if WindEffectScene:
 		var wind_effect = WindEffectScene.instantiate()

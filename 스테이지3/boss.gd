@@ -346,6 +346,18 @@ func _fire_projectile(velocity: Vector2):
 	projectile.global_position = fire_point.global_position
 	if "owner_node" in projectile: projectile.owner_node = self
 	projectile.is_boss_bullet = true
+	
+	# Set collision layer and mask for boss projectiles
+	# From project.godot:
+	# layer_5="boss_projectile" (1 << 4) = 16
+	# layer_8="interactable"   (1 << 7) = 128 (This is what we want to avoid colliding with)
+	projectile.collision_layer = (1 << 4) # Set to boss_projectile layer
+	projectile.collision_mask = (1 << 0) | (1 << 1) | (1 << 5) # Collide with world, player, hazard
+	# (1 << 0) = world (1)
+	# (1 << 1) = player (2)
+	# (1 << 5) = hazard (32)
+	# Total mask = 1 + 2 + 32 = 35
+
 	projectile.add_to_group("boss_bullets")
 	projectile.linear_velocity = velocity
 
